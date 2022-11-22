@@ -1,0 +1,25 @@
+server:
+  port: 8083
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        show_sql: true
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db.cbzal1dkehzy.ap-northeast-2.rds.amazonaws.com:3306/insuranceDB
+    username: admin
+    password: thwjddldi210.
+
+logging:
+  level:
+    com.example.insuranceSystem: DEBUG
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: ERROR

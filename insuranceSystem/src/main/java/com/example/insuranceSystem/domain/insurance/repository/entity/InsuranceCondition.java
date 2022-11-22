@@ -1,0 +1,47 @@
+package com.example.insuranceSystem.domain.insurance.repository.entity;
+
+import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
+import com.example.insuranceSystem.global.enumerations.Grade;
+import lombok.*;
+
+import javax.persistence.*;
+
+@AllArgsConstructor
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@Setter(AccessLevel.PROTECTED)
+@Getter
+@Entity
+public class InsuranceCondition extends DateBaseEntity{
+
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "insurance_condition_id")
+    private Long insuranceConditionId;
+    private int maxAge;
+    private int minAge;
+    @Enumerated(EnumType.STRING)
+    private Grade smoke;
+    @Enumerated(EnumType.STRING)
+    private Grade alcohol;
+    @Enumerated(EnumType.STRING)
+    private Grade cancer;
+    @OneToOne
+    @JoinColumn(name = "insurance_id")
+    private Insurance insurance;
+
+    public void addInsurance(Insurance insurance){
+        this.insurance = insurance;
+    }
+
+    @Builder
+    public InsuranceCondition(int maxAge,
+                              int minAge,
+                              Grade smoke,
+                              Grade alcohol,
+                              Grade cancer) {
+        this.maxAge = maxAge;
+        this.minAge = minAge;
+        this.smoke = smoke;
+        this.alcohol = alcohol;
+        this.cancer = cancer;
+    }
+}
