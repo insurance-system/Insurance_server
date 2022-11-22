@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.insurance.service;
+package com.example.insuranceSystem.domain.insurance.repository.service;
 
 import com.example.insuranceSystem.domain.insurance.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.web.dto.response.InsuranceResponse;

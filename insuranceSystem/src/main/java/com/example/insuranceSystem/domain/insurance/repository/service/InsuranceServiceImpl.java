@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.insurance.service;
+package com.example.insuranceSystem.domain.insurance.repository.service;
 
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;

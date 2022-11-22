@@ -1,6 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.web.controller;
 
-import com.example.insuranceSystem.domain.insurance.service.InsuranceService;
+import com.example.insuranceSystem.domain.insurance.repository.service.InsuranceService;
 import com.example.insuranceSystem.domain.insurance.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.global.exception.NeedMoreInformationException;

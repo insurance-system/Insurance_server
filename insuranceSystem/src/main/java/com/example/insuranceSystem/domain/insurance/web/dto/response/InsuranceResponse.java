@@ -2,8 +2,6 @@ package com.example.insuranceSystem.domain.insurance.web.dto.response;
 
 
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
-import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
-import com.example.insuranceSystem.global.enumerations.Grade;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

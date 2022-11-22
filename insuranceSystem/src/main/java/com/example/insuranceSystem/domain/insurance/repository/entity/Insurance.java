@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter(AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Insurance extends DateBaseEntity{
+public class Insurance extends DateBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
