@@ -14,7 +14,6 @@
 
 # AWS User-specific
 .idea/**/aws.xml
-.idea
 
 # Generated files
 .idea/**/contentModel.xml
@@ -33,9 +32,7 @@
 .idea/**/libraries
 
 .gradle/
-/gradle
-/build
-
+build/
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
