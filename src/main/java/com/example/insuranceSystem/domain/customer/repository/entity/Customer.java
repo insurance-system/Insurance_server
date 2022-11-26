@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.customer.repository.entity;
 
+import com.example.insuranceSystem.domain.common.entity.Address;
 import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
@@ -19,15 +21,16 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 public class Customer extends DateBaseEntity {
     @Id @GeneratedValue
+    @Column(name = "customer_id")
     private Long id;
     private String password;
     private String name;
     private String email;
-    private String address;
-    private String detailAddress;
-    private String zipcode;
     private String phoneNumber;
     private String ssn;
+
+    @Embedded
+    private Address address;
 
     @Enumerated(EnumType.STRING)
     private KindOfInsurance kindOfInsurance;
@@ -36,21 +39,22 @@ public class Customer extends DateBaseEntity {
     private KindOfJob kindOfJob;
 
     @OneToMany(mappedBy = "customer", cascade = ALL)
-    private List<Contract> contracts;
+    private List<Contract> contracts = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "health_information_id")
     private HealthInformation healthInformation;
 
     @Builder
-    public Customer(Long id, String password, String name, String email, String address, String detailAddress, String zipcode, String phoneNumber, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, String ssn, HealthInformation healthInformation) {
+    public Customer(Long id,
+                    String password,
+                    String name,
+                    String email, String address, String detailAddress, String zipcode, String phoneNumber, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, String ssn, HealthInformation healthInformation) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.email = email;
-        this.address = address;
-        this.detailAddress = detailAddress;
-        this.zipcode = zipcode;
+        this.address = new Address(address, detailAddress, zipcode);
         this.phoneNumber = phoneNumber;
         this.kindOfInsurance = kindOfInsurance;
         this.kindOfJob = kindOfJob;

@@ -24,7 +24,7 @@ public class Contract {
     private Long contractId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name="customer_id")
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
