@@ -1,12 +1,16 @@
 package com.example.insuranceSystem.domain.customer.repository.entity;
 
 import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
+import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +27,7 @@ public class Customer extends DateBaseEntity {
     private String detailAddress;
     private String zipcode;
     private String phoneNumber;
+    private String ssn;
 
     @Enumerated(EnumType.STRING)
     private KindOfInsurance kindOfInsurance;
@@ -30,7 +35,8 @@ public class Customer extends DateBaseEntity {
     @Enumerated(EnumType.STRING)
     private KindOfJob kindOfJob;
 
-    private String ssn;
+    @OneToMany(mappedBy = "customer", cascade = ALL)
+    private List<Contract> contracts;
 
     @OneToOne
     @JoinColumn(name = "health_information_id")
