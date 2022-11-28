@@ -1,6 +1,8 @@
 package com.example.insuranceSystem.domain.employee.repository.entity;
 
 import com.example.insuranceSystem.domain.common.entity.Address;
+import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
+import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,7 +19,7 @@ import static javax.persistence.CascadeType.ALL;
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Employee {
+public class Employee extends DateBaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "employee_id")
@@ -38,7 +40,6 @@ public class Employee {
     @OneToMany(mappedBy = "chargeOfEmployee", cascade = ALL)
     private List<Contract> contracts = new ArrayList<>();
 
-
-
-
+    @OneToMany(mappedBy = "employee", cascade = ALL)
+    private List<EmployeeCustomer> employeeCustomer = new ArrayList<>();
 }
