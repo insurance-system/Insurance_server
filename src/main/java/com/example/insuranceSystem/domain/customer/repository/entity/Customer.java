@@ -2,6 +2,7 @@ package com.example.insuranceSystem.domain.customer.repository.entity;
 
 import com.example.insuranceSystem.domain.common.entity.Address;
 import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
+import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;
@@ -40,6 +41,9 @@ public class Customer extends DateBaseEntity {
 
     @OneToMany(mappedBy = "customer", cascade = ALL)
     private List<Contract> contracts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = ALL)
+    private List<EmployeeCustomer> employeeCustomer = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "health_information_id")

@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.employee.repository.entity;
 
+import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import static javax.persistence.CascadeType.ALL;
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Department {
+public class Department extends DateBaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "department_id")
