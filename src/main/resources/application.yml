@@ -9,9 +9,9 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://db.cbzal1dkehzy.ap-northeast-2.rds.amazonaws.com:3306/insuranceDB
-    username: admin
-    password: thwjddldi210.
+    url: ENC(/17MP9wKdeasPLIDsq4VakVuBEJ0lfVVkZKz/xq3ZUtk7bBWWC3sJuLAn8RqbP/ekD1BX/RBtdYKlx0yKIPfucZ0WRB59Vn8UmIqctKmWf7oZNJGaDS3Mg==)
+    username: ENC(/mDZURmxFQzcZepa5RkYFw==)
+    password: ENC(YiN8Npq5eCHC8IShSP1JCW8I27YQPFIO)
 
 logging:
   level:
