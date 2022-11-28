@@ -15,7 +15,7 @@ import lombok.Getter;
 @ApiModel("고객 회원가입")
 public class JoinCustomerRequest {
 
-    @ApiModelProperty(value = "아이디", example = "11111", required = true)
+    @ApiModelProperty(value = "아이디", example = "11111", required = false)
     private Long customerId;
     @ApiModelProperty(value = "비밀번호", example = "pw", required = true)
     private String password;
@@ -55,7 +55,6 @@ public class JoinCustomerRequest {
 
     public Customer toCustomerEntity(HealthInformation healthInformation) {
         return Customer.builder()
-                .id(this.customerId)
                 .password(this.password)
                 .name(this.name)
                 .address(this.address)
