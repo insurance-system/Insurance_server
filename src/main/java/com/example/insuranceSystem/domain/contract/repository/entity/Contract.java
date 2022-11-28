@@ -1,7 +1,7 @@
 package com.example.insuranceSystem.domain.contract.repository.entity;
 
-import com.example.insuranceSystem.domain.customer.repository.entity.Customer;
-import com.example.insuranceSystem.domain.employee.repository.entity.Employee;
+import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
+import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.global.enumerations.ContractStatus;
 import lombok.AccessLevel;
@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
