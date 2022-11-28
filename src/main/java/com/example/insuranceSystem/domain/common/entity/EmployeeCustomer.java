@@ -1,8 +1,8 @@
 package com.example.insuranceSystem.domain.common.entity;
 
 
-import com.example.insuranceSystem.domain.customer.repository.entity.Customer;
-import com.example.insuranceSystem.domain.employee.repository.entity.Employee;
+import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
+import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
