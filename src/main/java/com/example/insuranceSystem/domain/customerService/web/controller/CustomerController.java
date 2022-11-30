@@ -17,9 +17,9 @@ public class CustomerController {
     private final CustomerService customerService;
 
     // 고객 회원가입
-    @PostMapping("/")
-    public Header<?> joinCustomer(@RequestBody @Valid JoinCustomerRequest joinCustmerRequest) {
-        return customerService.joinCustomer(joinCustmerRequest);
+    @PostMapping("/join")
+    public Header<?> joinCustomer(@RequestBody @Valid JoinCustomerRequest joinCustomerRequest) {
+        return customerService.joinCustomer(joinCustomerRequest);
     }
 
     // 고객 로그인
