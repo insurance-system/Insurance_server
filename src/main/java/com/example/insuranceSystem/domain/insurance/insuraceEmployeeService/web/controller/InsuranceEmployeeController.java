@@ -24,8 +24,8 @@ public class InsuranceEmployeeController {
 
     @ApiOperation(value = "보험 정보 불러오기", notes = "보험 정보 불러오기")
     @GetMapping("/")
-    public Header<InsuranceResponse> getInsurance(@PathVariable Long id, HttpServletRequest request){
-        return insuranceService.getInsurance(id, request);
+    public Header<InsuranceResponse> getInsurance(Long id){
+        return insuranceService.getInsurance(id);
     }
 
     @ApiOperation(value = "보험 생성하기", notes = "보험 생성하기")

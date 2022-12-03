@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ApplicationResponse<T> {
 
-    private boolean success;
+    private boolean isSuccess;
     private int httpCode;
     private LocalDateTime localDateTime;
     private HttpStatus httpStatus;
@@ -23,7 +23,7 @@ public class ApplicationResponse<T> {
 
     public static <T> ApplicationResponse<T> ok(){
         return (ApplicationResponse<T>) ApplicationResponse.builder()
-                .success(true)
+                .isSuccess(true)
                 .httpCode(HttpStatus.OK.value())
                 .data(null)
                 .localDateTime(LocalDateTime.now())
@@ -34,7 +34,7 @@ public class ApplicationResponse<T> {
 
     public static <T> ApplicationResponse<T> ok(T data){
         return (ApplicationResponse<T>) ApplicationResponse.builder()
-                .success(true)
+                .isSuccess(true)
                 .httpCode(HttpStatus.OK.value())
                 .data(data)
                 .localDateTime(LocalDateTime.now())

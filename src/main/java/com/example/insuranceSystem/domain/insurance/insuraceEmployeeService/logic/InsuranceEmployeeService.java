@@ -8,5 +8,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface InsuranceEmployeeService {
     Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request);
-    Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request);
+    Header<InsuranceResponse> getInsurance(Long id);
 }

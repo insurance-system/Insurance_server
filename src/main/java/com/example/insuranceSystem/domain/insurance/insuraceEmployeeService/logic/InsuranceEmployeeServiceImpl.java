@@ -23,7 +23,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final InsuranceConditionRepository insuranceConditionRepository;
 
     @Override
-    public Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request) {
+    public Header<InsuranceResponse> getInsurance(Long id) {
         Insurance insurance = insuranceRepository.findById(id)
                 .orElseThrow(InsuranceNotFoundException::new);
         return Header.OK(InsuranceResponse.create(insurance));
