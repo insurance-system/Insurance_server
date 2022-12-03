@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
@@ -24,7 +25,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request) {
         Insurance insurance = insuranceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("해당 ID의 보험을 찾을 수 없습니다."));
+                .orElseThrow(InsuranceNotFoundException::new);
         return Header.OK(InsuranceResponse.create(insurance));
     }
 
