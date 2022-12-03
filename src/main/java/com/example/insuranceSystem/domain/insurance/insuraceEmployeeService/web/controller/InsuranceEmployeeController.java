@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,15 +24,15 @@ public class InsuranceEmployeeController {
 
     @ApiOperation(value = "보험 정보 불러오기", notes = "보험 정보 불러오기")
     @GetMapping("/")
-    public Header<InsuranceResponse> findById(@PathVariable Long id, HttpServletRequest request){
-        return insuranceService.findById(id, request);
+    public Header<InsuranceResponse> getInsurance(@PathVariable Long id, HttpServletRequest request){
+        return insuranceService.getInsurance(id, request);
     }
 
     @ApiOperation(value = "보험 생성하기", notes = "보험 생성하기")
     @PostMapping("/development")
-    public Header<InsuranceResponse> develope(@RequestBody @Valid InsuranceSaveRequest insuranceSaveRequest,
-                                            BindingResult bindingResult,
-                                            HttpServletRequest request){
+    public Header<InsuranceResponse> developInsurance(@RequestBody @Valid InsuranceSaveRequest insuranceSaveRequest,
+                                                      BindingResult bindingResult,
+                                                      HttpServletRequest request){
         if(bindingResult.hasErrors()) throw new NeedMoreInformationException("보험을 만들기 위한 정보가 부족합니다.");
         return insuranceService.create(insuranceSaveRequest, request);
     }

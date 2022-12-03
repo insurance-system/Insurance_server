@@ -30,6 +30,7 @@
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
+.idea/**
 
 .gradle/
 build/

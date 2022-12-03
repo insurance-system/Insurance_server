@@ -22,7 +22,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final InsuranceConditionRepository insuranceConditionRepository;
 
     @Override
-    public Header<InsuranceResponse> findById(Long id, HttpServletRequest request) {
+    public Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request) {
         Insurance insurance = insuranceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("해당 ID의 보험을 찾을 수 없습니다."));
         return Header.OK(InsuranceResponse.create(insurance));
