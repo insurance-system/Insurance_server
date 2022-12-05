@@ -42,7 +42,7 @@ public class Customer extends DateBaseEntity {
     private List<Contract> contracts = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", cascade = ALL)
-    private List<EmployeeCustomer> employeeCustomer = new ArrayList<>();
+    private List<EmployeeCustomer> employeeCustomerList = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "health_information_id")
@@ -63,5 +63,9 @@ public class Customer extends DateBaseEntity {
         this.kindOfJob = kindOfJob;
         this.ssn = ssn;
         this.healthInformation = healthInformation;
+    }
+
+    public void addEmployeeCustomer(EmployeeCustomer employeeCustomer) {
+        this.employeeCustomerList.add(employeeCustomer);
     }
 }
