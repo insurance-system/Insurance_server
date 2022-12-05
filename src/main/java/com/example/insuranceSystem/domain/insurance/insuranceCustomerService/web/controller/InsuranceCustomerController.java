@@ -1,16 +1,16 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.controller;
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.PaymentResponse;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j
@@ -19,9 +19,17 @@ import java.util.List;
 @RestController
 public class InsuranceCustomerController {
 
+    private final InsuranceCustomerService insuranceCustomerService;
+
+    @ApiOperation(value = "상담 대기 요청", notes = "상담 대기 요청")
+    @GetMapping("/consults")
+    public Header<Void> lineUpCustomerConsult(HttpServletRequest request){
+        return insuranceCustomerService.lineUpCustomerConsult(request);
+    }
+
     @ApiOperation(value = "보험 가입하기", notes = "보험 가입하기")
     @PostMapping("/insurance")//   insurance-customer/insurance POST
-    public Header<InsuranceResponse> joinInsurance() {
+    public Header<InsuranceResponse> joinInsurance(@RequestBody JoinInsuranceRequest joinInsuranceRequest) {
         return null;
     }
 
@@ -39,7 +47,7 @@ public class InsuranceCustomerController {
 
     @ApiOperation(value = "상담사 상담 과정 평가하기", notes = "상담사 상담 과정 평가하기")
     @PostMapping("/consult/{consult_id}/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
-    public Header<?> evaluateSatisfaction(){
+    public Header<?> evaluateSatisfction(){
         return null;
     }
 

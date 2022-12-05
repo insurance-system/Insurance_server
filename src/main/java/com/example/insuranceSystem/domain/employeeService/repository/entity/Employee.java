@@ -41,5 +41,9 @@ public class Employee extends DateBaseEntity {
     private List<Contract> contracts = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", cascade = ALL)
-    private List<EmployeeCustomer> employeeCustomer = new ArrayList<>();
+    private List<EmployeeCustomer> employeeCustomerList = new ArrayList<>();
+
+    public void addEmployeeCustomer(EmployeeCustomer employeeCustomer) {
+        this.employeeCustomerList.add(employeeCustomer);
+    }
 }
