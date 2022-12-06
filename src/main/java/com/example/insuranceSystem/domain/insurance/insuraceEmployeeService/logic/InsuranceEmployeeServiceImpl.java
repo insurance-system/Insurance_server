@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
 @Service
 public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
-    private final Environment env;
     private final InsuranceRepository insuranceRepository;
     private final InsuranceConditionRepository insuranceConditionRepository;
     private final ContractRepository contractRepository;

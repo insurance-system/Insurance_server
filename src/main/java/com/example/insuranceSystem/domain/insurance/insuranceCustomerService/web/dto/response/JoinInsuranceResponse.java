@@ -1,8 +1,10 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 public class JoinInsuranceResponse {
     private String insuranceName;

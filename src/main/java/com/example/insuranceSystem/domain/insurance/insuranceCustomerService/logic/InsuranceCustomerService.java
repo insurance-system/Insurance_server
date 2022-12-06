@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -76,7 +77,7 @@ public class InsuranceCustomerService {
         Customer customer = customerRepository
                 .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
         List<Contract> contracts = contractRepository.findAllByCustomer(customer).orElseThrow(NothingJoinedInsuranceException::new);
-        List<Insurance> joinedInsurances = insuranceRepository.findAllByContracts(contracts);
+        List<Insurance> joinedInsurances = insuranceRepository.findAllByContractsIn(contracts);
         List<InsuranceResponse> insuranceResponseList = new ArrayList<>();
         joinedInsurances.forEach((i) -> insuranceResponseList.add(InsuranceResponse.toDto(i)));
         return Header.OK(insuranceResponseList);
