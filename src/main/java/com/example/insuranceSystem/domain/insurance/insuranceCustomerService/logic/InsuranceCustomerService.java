@@ -9,6 +9,7 @@ import com.example.insuranceSystem.domain.customerService.repository.entity.Cust
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.CustomerNotFoundException;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NothingJoinedInsuranceException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
@@ -62,15 +63,25 @@ public class InsuranceCustomerService {
         Contract contract = new Contract(customer, insurance);
         contractRepository.save(contract);
 
-        return Header.OK(JoinInsuranceResponse.toDto(
-                insurance.getInsuranceName(),
-                insurance.getKindOfInsurance().name(),
-                contract.getContractStatus().toString())
+        return Header.OK(
+                JoinInsuranceResponse.toDto(
+                    insurance.getInsuranceName(),
+                    insurance.getKindOfInsurance().name(),
+                    contract.getContractStatus().toString())
         );
+    }
+
+    public Header<List<InsuranceResponse>> getJoinedInsurances(HttpServletRequest request) {
+        Customer customer = customerRepository
+                .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
+        List<Contract> contracts = contractRepository.findAllByCustomer(customer).orElseThrow(NothingJoinedInsuranceException::new);
+        List<Insurance> joinedInsurances = insuranceRepository.findAllByContracts(contracts);
+        List<InsuranceResponse> insuranceResponseList = new ArrayList<>();
+        joinedInsurances.forEach((i) -> insuranceResponseList.add(InsuranceResponse.toDto(i)));
+        return Header.OK(insuranceResponseList);
     }
 
     public Long getUserId(HttpServletRequest request) {
         return Long.parseLong(request.getHeader(env.getProperty("header.userid")));
     }
-
 }

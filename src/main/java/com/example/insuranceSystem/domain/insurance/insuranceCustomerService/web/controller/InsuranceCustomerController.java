@@ -28,14 +28,26 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.lineUpCustomerConsult(request);
     }
 
+    @ApiOperation(value = "상담사 상담 과정 평가하기", notes = "상담사 상담 과정 평가하기")
+    @PostMapping("/consult/{consult_id}/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
+    public Header<?> getEndofconsultationList(@PathVariable String consult_id){
+        return null;
+    }
+
+    @ApiOperation(value = "상담사 상담 과정 평가하기", notes = "상담사 상담 과정 평가하기")
+    @PostMapping("/consult/{consult_id}/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
+    public Header<?> evaluateSatisfaction(@PathVariable String consult_id){
+        return null;
+    }
+
     @ApiOperation(value = "고객이 보험 목록 조회", notes = "고객이 보험 목록 조회하기(클라이언트가 보낸 kind_of_insurance에 따라 LIFE/NON_LIFE 보험을 보여준다.")
     @GetMapping("/insurance/{kind_of_insurance}")//   insurance-customer/insurance GET
     public Header<List<InsuranceResponse>> getInsuranceList(@PathVariable String kind_of_insurance){
         return insuranceCustomerService.getInsuranceListOf(kind_of_insurance);
     }
 
-    @ApiOperation(value = "보험 가입 신청하기", notes = "보험 가입하기 클라이언트는 가입을 하고자 하는 보험의 id를 보내준다. " +
-            "그리고 Contract를 만들어 저장하고 이때 Contract의 상태는 인수심사 대기중이다. ")
+    @ApiOperation(value = "보험 가입 신청하기", notes = "보험 가입 신청하기: 클라이언트는 가입을 하고자 하는 보험의 id를 보내준다. " +
+            "그리고 서버는 Contract를 만들어 저장하는데, 이때 Contract의 상태는 PROGRESS_UW이다. ")
     @PostMapping("/insurance")//   insurance-customer/insurance POST
     public Header<JoinInsuranceResponse> requestJoiningInsurance(@RequestBody JoinInsuranceRequest joinInsuranceRequest,
                                                                  HttpServletRequest request) {
@@ -44,21 +56,11 @@ public class InsuranceCustomerController {
 
     @ApiOperation(value = "가입된 보험 리스트 출력", notes = "가입된 보험 리스트 출력")
     @GetMapping("/insurance")//   insurance-customer/insurance GET
-    public Header<List<InsuranceResponse>> getJoinedInsurances() {
-        return null;
+    public Header<List<InsuranceResponse>> getJoinedInsurances(HttpServletRequest request) {
+        return insuranceCustomerService.getJoinedInsurances(request);
     }
 
-    @ApiOperation(value = "상담사 연결 요청", notes = "상담사 연결 요청")
-    @GetMapping("/consult")//   insurance-customer/consult GET
-    public Header<?> connectSalesEmployee(){
-        return null;
-    }
 
-    @ApiOperation(value = "상담사 상담 과정 평가하기", notes = "상담사 상담 과정 평가하기")
-    @PostMapping("/consult/{consult_id}/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
-    public Header<?> evaluateSatisfction(){
-        return null;
-    }
 
     @ApiOperation(value = "보험급 납부내역", notes = "보험급 납부내역")
     @GetMapping("/payment-history")//   insurance-customer/payment-history GET
