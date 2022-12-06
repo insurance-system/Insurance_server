@@ -68,4 +68,8 @@ public class Customer extends DateBaseEntity {
     public void addEmployeeCustomer(EmployeeCustomer employeeCustomer) {
         this.employeeCustomerList.add(employeeCustomer);
     }
+
+    public void addContract(Contract contract) {
+        this.contracts.add(contract);
+    }
 }

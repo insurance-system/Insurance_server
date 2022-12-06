@@ -22,7 +22,7 @@ public class InsuranceResponse {
     private String cancer;
     private String kindOfInsurance;
 
-    public static InsuranceResponse create(Insurance insurance) {
+    public static InsuranceResponse toDto(Insurance insurance) {
         InsuranceResponse insuranceResponse = new InsuranceResponse();
         insuranceResponse.insuranceId = insurance.getInsuranceId();
         insuranceResponse.insuranceName = insurance.getInsuranceName();

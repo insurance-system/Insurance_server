@@ -48,7 +48,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     public Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request) {
         Insurance insurance = insuranceRepository.findById(id)
                 .orElseThrow(InsuranceNotFoundException::new);
-        return Header.OK(InsuranceResponse.create(insurance));
+        return Header.OK(InsuranceResponse.toDto(insurance));
     }
 
     // 특정 id의 고객 및 가입된 보험 정보 출력
@@ -59,7 +59,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         List<InsuranceResponse> insuranceList = new ArrayList<>();
         for (Contract contract : contractList) {
             Insurance insurance = insuranceRepository.findById(contract.getInsurance().getInsuranceId()).orElseThrow(null);
-            insuranceList.add(InsuranceResponse.create(insurance));
+            insuranceList.add(InsuranceResponse.toDto(insurance));
         }
         return Header.OK(CustomerInfoResponse.create(customer, insuranceList));
     }
@@ -92,7 +92,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     public Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request){
         InsuranceCondition insuranceCondition = insuranceConditionRepository.save(insuranceSaveRequest.toInsuranceConditionEntity());
         Insurance insurance = insuranceRepository.save(insuranceSaveRequest.toEntityWith(insuranceCondition));
-        return Header.CREATED(InsuranceResponse.create(insurance));
+        return Header.CREATED(InsuranceResponse.toDto(insurance));
     }
 
     public Long getEmployeeId(HttpServletRequest request) {
