@@ -2,10 +2,12 @@ package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic.InsuranceEmployeeService;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.global.exception.NeedMoreInformationException;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -74,6 +76,7 @@ public class InsuranceEmployeeController {
         return null;
     }
 
+    // TODO 영업교육팀
     @ApiOperation(value = "강의 자료 리스트 출력", notes = "강의 자료 리스트 출력")
     @GetMapping("/education")
     public Header<?> findLectureList(){
@@ -86,25 +89,28 @@ public class InsuranceEmployeeController {
         return null;
     }
 
+    // TODO UW팀
     @ApiOperation(value = "인수심사 수행", notes = "인수심사 수행")
     @PostMapping("/uw")
     public Header<?> startUW(){
         return null;
     }
 
-    @ApiOperation(value = "특정 id의 고객 정보 출력", notes = "특정 id의 고객 정보 출력")
+    // TODO 고객정보팀
+    @Operation(summary = "특정 id의 고객 및 가입된 보험 정보 출력", description = "특정 id의 고객 및 가입된 보험 정보 출력")
     @GetMapping("/customer/{customer_id}")
-    public Header<?> getCustomerInformation(){
-        return null;
+    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id){
+        return insuranceService.getCustomerandJoinedInsurance(id);
     }
 
-    //TODO 손해접수팀
+    // TODO 손해접수팀
     @ApiOperation(value = "사고 접수", notes = "사고 접수")
     @PostMapping("/damage")
     public Header<?> manageIncidentReport(){
         return null;
     }
 
+    // TODO 보상평가팀
     @ApiOperation(value = "보상금을 심사하다", notes = "보상금을 심사하다")
     @PostMapping("/reward")
     public Header<?> evaluateReward(){
