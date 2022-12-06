@@ -44,7 +44,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final EmployeeRepository employeeRepository;
 
     @Override
-    public Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request) {
+    public Header<InsuranceResponse> getInsurance(Long id) {
         Insurance insurance = insuranceRepository.findById(id)
                 .orElseThrow(InsuranceNotFoundException::new);
         return Header.OK(InsuranceResponse.toDto(insurance));
@@ -88,7 +88,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Transactional
     @Override
-    public Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request){
+    public Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest){
         InsuranceCondition insuranceCondition = insuranceConditionRepository.save(insuranceSaveRequest.toInsuranceConditionEntity());
         Insurance insurance = insuranceRepository.save(insuranceSaveRequest.toEntityWith(insuranceCondition));
         return Header.CREATED(InsuranceResponse.toDto(insurance));

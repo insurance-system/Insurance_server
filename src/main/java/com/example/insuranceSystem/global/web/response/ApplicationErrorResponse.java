@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ApplicationErrorResponse<T>{
-    private boolean success;
+    private boolean isSuccess;
     private int httpCode;
     private String errorCode;
     private LocalDateTime localDateTime;
@@ -29,7 +29,7 @@ public class ApplicationErrorResponse<T>{
 
     public static <T> ApplicationErrorResponse<T> error(ApplicationException e){
         return (ApplicationErrorResponse<T>) ApplicationErrorResponse.builder()
-                .success(false)
+                .isSuccess(false)
                 .httpCode(e.getHttpStatus().value())
                 .errorCode(e.getErrorCode())
                 .localDateTime(LocalDateTime.now())

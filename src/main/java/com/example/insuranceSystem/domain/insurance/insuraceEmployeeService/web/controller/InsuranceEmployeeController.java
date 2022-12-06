@@ -27,19 +27,16 @@ public class InsuranceEmployeeController {
 
     private final InsuranceEmployeeService insuranceService;
 
-    @ApiOperation(value = "보험 정보 불러오기", notes = "보험 정보 불러오기")
+    @Operation(summary = "보험 정보 불러오기(완)", description = "보험 정보 불러오기")
     @GetMapping("/")
-    public Header<InsuranceResponse> getInsurance(@PathVariable Long id, HttpServletRequest request){
-        return insuranceService.getInsurance(id, request);
+    public Header<InsuranceResponse> getInsurance(Long id){
+        return insuranceService.getInsurance(id);
     }
 
     @ApiOperation(value = "보험 생성하기", notes = "보험 생성하기")
     @PostMapping("/development")
-    public Header<InsuranceResponse> developInsurance(@RequestBody @Valid InsuranceSaveRequest insuranceSaveRequest,
-                                                      BindingResult bindingResult,
-                                                      HttpServletRequest request){
-        if(bindingResult.hasErrors()) throw new NeedMoreInformationException("보험을 만들기 위한 정보가 부족합니다.");
-        return insuranceService.create(insuranceSaveRequest, request);
+    public Header<InsuranceResponse> developInsurance(@RequestBody @Valid InsuranceSaveRequest insuranceSaveRequest){
+        return insuranceService.create(insuranceSaveRequest);
     }
 
     //TODO 영업활동팀

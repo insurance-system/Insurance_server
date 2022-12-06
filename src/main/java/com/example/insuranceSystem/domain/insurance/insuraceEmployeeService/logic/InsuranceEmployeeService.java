@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface InsuranceEmployeeService {
-    Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request);
-    Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request);
+    Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest);
+    Header<InsuranceResponse> getInsurance(Long id);
     Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id);
     Header<List<LectureResponse>> getLectureList();
     Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request);
