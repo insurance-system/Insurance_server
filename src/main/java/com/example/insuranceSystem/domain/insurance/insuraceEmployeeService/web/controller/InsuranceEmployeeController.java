@@ -4,6 +4,7 @@ import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logi
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
 import com.example.insuranceSystem.global.exception.NeedMoreInformationException;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -77,10 +79,10 @@ public class InsuranceEmployeeController {
     }
 
     // TODO 영업교육팀
-    @ApiOperation(value = "강의 자료 리스트 출력", notes = "강의 자료 리스트 출력")
+    @Operation(summary = "영업 교육 강의 리스트 출력", description = "영업 교육 강의 리스트 전체를 출력한다.")
     @GetMapping("/education")
-    public Header<?> findLectureList(){
-        return null;
+    public Header<List<LectureResponse>> findLectureList(){
+        return insuranceService.getLectureList();
     }
 
     @ApiOperation(value = "영업 교육 강의 자료 업로드", notes = "영업 교육 강의 업로드")

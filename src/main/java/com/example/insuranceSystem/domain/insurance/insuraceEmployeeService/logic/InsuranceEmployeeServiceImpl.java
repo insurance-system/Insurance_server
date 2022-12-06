@@ -5,10 +5,13 @@ import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
 import com.example.insuranceSystem.domain.customerService.repository.CustomerRepository;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
+import com.example.insuranceSystem.domain.employeeService.repository.LectureRepository;
+import com.example.insuranceSystem.domain.employeeService.repository.entity.Lecture;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly=true)
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final InsuranceConditionRepository insuranceConditionRepository;
     private final ContractRepository contractRepository;
     private final CustomerRepository customerRepository;
+    private final LectureRepository lectureRepository;
 
     @Override
     public Header<InsuranceResponse> getInsurance(Long id, HttpServletRequest request) {
@@ -49,6 +54,16 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
             insuranceList.add(InsuranceResponse.create(insurance));
         }
         return Header.OK(CustomerInfoResponse.create(customer, insuranceList));
+    }
+
+    @Override
+    public Header<List<LectureResponse>> getLectureList() {
+        List<Lecture> lectureList = lectureRepository.findAll();
+        return Header.OK(lectureList.stream()
+                .map(l -> new LectureResponse(
+                        l.getLectureName(),
+                        l.getLectureUrl())
+                ).collect(Collectors.toList()));
     }
 
     @Transactional
