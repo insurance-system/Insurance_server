@@ -9,9 +9,12 @@ import com.example.insuranceSystem.domain.customerService.repository.entity.Cust
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.CustomerNotFoundException;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NoConsultException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NothingJoinedInsuranceException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.PaymentResponse;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
@@ -30,7 +33,6 @@ import java.util.List;
 @Service
 public class InsuranceCustomerService {
 
-    private final Environment env;
     private final EmployeeCustomerRepository employeeCustomerRepository;
     private final CustomerRepository customerRepository;
     private final InsuranceRepository insuranceRepository;
@@ -56,13 +58,10 @@ public class InsuranceCustomerService {
     public Header<JoinInsuranceResponse> requestJoiningInsurance(JoinInsuranceRequest joinInsuranceRequest, HttpServletRequest request){
         Customer customer = customerRepository
                 .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
-
         Insurance insurance = insuranceRepository
                 .findById(joinInsuranceRequest.getInsuranceId()).orElseThrow(InsuranceNotFoundException::new);
-
         Contract contract = new Contract(customer, insurance);
         contractRepository.save(contract);
-
         return Header.OK(
                 JoinInsuranceResponse.toDto(
                     insurance.getInsuranceName(),
@@ -81,7 +80,22 @@ public class InsuranceCustomerService {
         return Header.OK(insuranceResponseList);
     }
 
+    public Header<List<ConsultInfoResponse>> getEndOfConsultList(HttpServletRequest request){
+        Customer customer = customerRepository
+                .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
+        List<EmployeeCustomer> employeeCustomers = employeeCustomerRepository
+                .findAllByCustomer(customer).orElseThrow(NoConsultException::new);
+        List<ConsultInfoResponse> consultInfoResponseList = new ArrayList<>();
+        employeeCustomers.forEach((ec) -> consultInfoResponseList.add(ConsultInfoResponse.toDto(ec)));
+        return Header.OK(consultInfoResponseList);
+    }
+
+
     public Long getUserId(HttpServletRequest request) {
-        return Long.parseLong(request.getHeader(env.getProperty("header.userid")));
+        return Long.parseLong(request.getHeader("userId"));
+    }
+
+    public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request) {
+        return null;
     }
 }
