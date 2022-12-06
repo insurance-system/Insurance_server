@@ -94,6 +94,7 @@ public class InsuranceEmployeeController {
     }
 
     // TODO UW팀
+    // contract에서 수행중인거 가져와서 거절/승인/보류 선택하면 그에 따라 수행
     @ApiOperation(value = "인수심사 수행", notes = "인수심사 수행")
     @PostMapping("/uw")
     public Header<?> startUW(){
