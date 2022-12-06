@@ -1,8 +1,11 @@
 package com.example.insuranceSystem.global.enumerations;
 
 
+import lombok.Getter;
+
 import java.util.Objects;
 
+@Getter
 public enum KindOfJob {
 
     OFFICE_WORKER(1, "office_worker"),
