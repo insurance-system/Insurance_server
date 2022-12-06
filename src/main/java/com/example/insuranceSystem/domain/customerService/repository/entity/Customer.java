@@ -4,6 +4,7 @@ import com.example.insuranceSystem.domain.common.entity.Address;
 import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
 import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
+import com.example.insuranceSystem.domain.customerService.repository.enumeration.KindOfRole;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;
 import lombok.*;
@@ -48,11 +49,13 @@ public class Customer extends DateBaseEntity {
     @JoinColumn(name = "health_information_id")
     private HealthInformation healthInformation;
 
+    @Enumerated(EnumType.STRING)
+    private KindOfRole kindOfRole;
+
     @Builder
-    public Customer(Long id,
-                    String password,
-                    String name,
-                    String email, String address, String detailAddress, String zipcode, String phoneNumber, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, String ssn, HealthInformation healthInformation) {
+    public Customer(Long id, String password, String name, String email, String address, String detailAddress, String zipcode,
+                    String phoneNumber, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, String ssn,
+                    HealthInformation healthInformation, KindOfRole kindOfRole) {
         this.id = id;
         this.password = password;
         this.name = name;
@@ -63,6 +66,7 @@ public class Customer extends DateBaseEntity {
         this.kindOfJob = kindOfJob;
         this.ssn = ssn;
         this.healthInformation = healthInformation;
+        this.kindOfRole = kindOfRole;
     }
 
     public void addEmployeeCustomer(EmployeeCustomer employeeCustomer) {

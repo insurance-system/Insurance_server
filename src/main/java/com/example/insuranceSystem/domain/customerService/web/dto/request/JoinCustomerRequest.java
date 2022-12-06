@@ -2,6 +2,7 @@ package com.example.insuranceSystem.domain.customerService.web.dto.request;
 
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.customerService.repository.entity.HealthInformation;
+import com.example.insuranceSystem.domain.customerService.repository.enumeration.KindOfRole;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.Grade;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;
@@ -15,8 +16,6 @@ import lombok.Getter;
 @ApiModel("고객 회원가입")
 public class JoinCustomerRequest {
 
-    @ApiModelProperty(value = "아이디", example = "11111", required = false)
-    private Long customerId;
     @ApiModelProperty(value = "비밀번호", example = "pw", required = true)
     private String password;
     @ApiModelProperty(value = "이름", example = "고객님", required = true)
@@ -43,6 +42,7 @@ public class JoinCustomerRequest {
     private String smoke;
     @ApiModelProperty(value = "음주", example = "A", required = true)
     private String alcohol;
+    private KindOfRole kindOfRole;
 
 
     public HealthInformation toHealthInformationEntity() {
@@ -66,6 +66,10 @@ public class JoinCustomerRequest {
                 .kindOfJob(KindOfJob.getKindOfJobBy(this.kindOfJob))
                 .ssn(this.ssn)
                 .healthInformation(healthInformation)
+                .kindOfRole(KindOfRole.CUSTOMER)
                 .build();
+    }
+
+    public JoinCustomerRequest() {
     }
 }

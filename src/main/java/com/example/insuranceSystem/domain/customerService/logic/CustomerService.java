@@ -21,6 +21,7 @@ public class CustomerService {
     private final HealthInformationRepository healthInformationRepository;
     private final CustomerRepository customerRepository;
 
+    //고객 회원가입
     @Transactional
     public Header<?> joinCustomer(JoinCustomerRequest joinCustomerRequest) {
         HealthInformation healthInformation = healthInformationRepository.save(joinCustomerRequest.toHealthInformationEntity());
