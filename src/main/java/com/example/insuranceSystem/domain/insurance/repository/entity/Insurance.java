@@ -55,5 +55,9 @@ public class Insurance extends DateBaseEntity {
         this.insuranceCondition.addInsurance(this);
     }
 
+    public void addContract(Contract contract) {
+        this.contracts.add(contract);
+    }
+
 }
 

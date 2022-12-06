@@ -39,4 +39,22 @@ public class Contract {
 
     @Enumerated(EnumType.STRING)
     private ContractStatus contractStatus;
+
+    public void addCustomer(Customer customer){
+        this.customer = customer;
+        customer.addContract(this);
+    }
+
+    public void addChargeOfEmployee(Employee chargeOfEmployee){
+        this.chargeOfEmployee = chargeOfEmployee;
+    }
+
+    public void addInsurance(Insurance insurance){
+        this.insurance = insurance;
+    }
+
+    public Contract(Customer customer, Insurance insurance) {
+        this.addCustomer(customer);
+        this.addInsurance(insurance);
+    }
 }
