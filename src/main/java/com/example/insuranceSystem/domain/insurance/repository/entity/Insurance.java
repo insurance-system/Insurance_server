@@ -18,7 +18,8 @@ import static javax.persistence.CascadeType.ALL;
 @Setter(AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Insurance extends DateBaseEntity {
+public class
+Insurance extends DateBaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "insurance_id")
@@ -53,6 +54,10 @@ public class Insurance extends DateBaseEntity {
         this.insuranceStatus = insuranceStatus;
         this.addInsuranceCondition(insuranceCondition);
         this.insuranceCondition.addInsurance(this);
+    }
+
+    public void addContract(Contract contract) {
+        this.contracts.add(contract);
     }
 
 }

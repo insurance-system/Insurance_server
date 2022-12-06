@@ -2,10 +2,14 @@ package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic.InsuranceEmployeeService;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
 import com.example.insuranceSystem.global.exception.NeedMoreInformationException;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -74,37 +79,43 @@ public class InsuranceEmployeeController {
         return null;
     }
 
-    @ApiOperation(value = "강의 자료 리스트 출력", notes = "강의 자료 리스트 출력")
+    // TODO 영업교육팀
+    @Operation(summary = "영업 교육 강의 리스트 출력", description = "영업 교육 강의 리스트 전체를 출력한다.")
     @GetMapping("/education")
-    public Header<?> findLectureList(){
-        return null;
+    public Header<List<LectureResponse>> findLectureList(){
+        return insuranceService.getLectureList();
     }
 
-    @ApiOperation(value = "영업 교육 강의 자료 업로드", notes = "영업 교육 강의 업로드")
+    @Operation(summary = "영업 교육 강의 업로드", description = "영업 교육 강의를 업로드한다.")
     @PostMapping("/education")
-    public Header<?> uploadEducationLecture(){
-        return null;
+    public Header<Void> uploadEducationLecture(@RequestBody @Valid LectureRequest lectureRequest,
+                                               HttpServletRequest request){
+        return insuranceService.uploadEducationLecture(lectureRequest, request);
     }
 
+    // TODO UW팀
+    // contract에서 수행중인거 가져와서 거절/승인/보류 선택하면 그에 따라 수행
     @ApiOperation(value = "인수심사 수행", notes = "인수심사 수행")
     @PostMapping("/uw")
     public Header<?> startUW(){
         return null;
     }
 
-    @ApiOperation(value = "특정 id의 고객 정보 출력", notes = "특정 id의 고객 정보 출력")
+    // TODO 고객정보팀
+    @Operation(summary = "특정 id의 고객 및 가입된 보험 정보 출력", description = "특정 id의 고객 및 가입된 보험 정보 출력")
     @GetMapping("/customer/{customer_id}")
-    public Header<?> getCustomerInformation(){
-        return null;
+    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id){
+        return insuranceService.getCustomerandJoinedInsurance(id);
     }
 
-    //TODO 손해접수팀
+    // TODO 손해접수팀
     @ApiOperation(value = "사고 접수", notes = "사고 접수")
     @PostMapping("/damage")
     public Header<?> manageIncidentReport(){
         return null;
     }
 
+    // TODO 보상평가팀
     @ApiOperation(value = "보상금을 심사하다", notes = "보상금을 심사하다")
     @PostMapping("/reward")
     public Header<?> evaluateReward(){

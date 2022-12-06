@@ -3,10 +3,7 @@ package com.example.insuranceSystem.domain.common.entity;
 
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -27,5 +24,24 @@ public class EmployeeCustomer extends DateBaseEntity{
     @JoinColumn(name="customer_id")
     private Customer customer;
 
-    private int satisfaction;
+    private Integer satisfaction;
+
+    public void addEmployee(Employee employee){
+        this.employee = employee;
+        employee.addEmployeeCustomer(this);
+    }
+
+    public void addCustomer(Customer customer){
+        this.customer = customer;
+        customer.addEmployeeCustomer(this);
+    }
+
+    public EmployeeCustomer(Customer customer) {
+        EmployeeCustomer employeeCustomer = new EmployeeCustomer();
+        employeeCustomer.addCustomer(customer);
+    }
+
+    public void evaluateSatisfaction(int satisfaction) {
+        this.satisfaction = satisfaction;
+    }
 }
