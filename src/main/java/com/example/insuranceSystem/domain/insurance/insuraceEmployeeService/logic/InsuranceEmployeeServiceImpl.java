@@ -55,7 +55,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id) {
         Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
-        List<Contract> contractList = contractRepository.findByCustomer_id(id);
+        List<Contract> contractList = contractRepository.findByCustomerId(id);
         List<InsuranceResponse> insuranceList = new ArrayList<>();
         for (Contract contract : contractList) {
             Insurance insurance = insuranceRepository.findById(contract.getInsurance().getInsuranceId()).orElseThrow(null);

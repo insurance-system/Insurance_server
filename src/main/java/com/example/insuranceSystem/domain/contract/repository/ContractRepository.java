@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ContractRepository extends JpaRepository<Contract, Long> {
-    List<Contract> findByCustomer_id(Long id);
+    List<Contract> findByCustomerId(Long id);
     Optional<List<Contract>> findAllByCustomer(Customer customer);
 }
