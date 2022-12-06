@@ -3,6 +3,7 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.we
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.PaymentResponse;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiOperation;
@@ -27,10 +28,18 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.lineUpCustomerConsult(request);
     }
 
-    @ApiOperation(value = "보험 가입하기", notes = "보험 가입하기")
+    @ApiOperation(value = "고객이 보험 목록 조회", notes = "고객이 보험 목록 조회하기(클라이언트가 보낸 kind_of_insurance에 따라 LIFE/NON_LIFE 보험을 보여준다.")
+    @GetMapping("/insurance/{kind_of_insurance}")//   insurance-customer/insurance GET
+    public Header<List<InsuranceResponse>> getInsuranceList(@PathVariable String kind_of_insurance){
+        return insuranceCustomerService.getInsuranceListOf(kind_of_insurance);
+    }
+
+    @ApiOperation(value = "보험 가입 신청하기", notes = "보험 가입하기 클라이언트는 가입을 하고자 하는 보험의 id를 보내준다. " +
+            "그리고 Contract를 만들어 저장하고 이때 Contract의 상태는 인수심사 대기중이다. ")
     @PostMapping("/insurance")//   insurance-customer/insurance POST
-    public Header<InsuranceResponse> joinInsurance(@RequestBody JoinInsuranceRequest joinInsuranceRequest) {
-        return null;
+    public Header<JoinInsuranceResponse> requestJoiningInsurance(@RequestBody JoinInsuranceRequest joinInsuranceRequest,
+                                                                 HttpServletRequest request) {
+        return insuranceCustomerService.requestJoiningInsurance(joinInsuranceRequest, request);
     }
 
     @ApiOperation(value = "가입된 보험 리스트 출력", notes = "가입된 보험 리스트 출력")

@@ -6,4 +6,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class JoinInsuranceRequest {
+    private Long insuranceId;
 }
