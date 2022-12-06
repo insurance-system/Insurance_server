@@ -96,6 +96,6 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     }
 
     public Long getEmployeeId(HttpServletRequest request) {
-        return Long.parseLong(request.getHeader("employeeid"));
+        return Long.parseLong(request.getHeader("userid"));
     }
 }
