@@ -3,6 +3,7 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.we
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.PaymentResponse;
 import com.example.insuranceSystem.global.web.response.Header;
@@ -28,10 +29,10 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.lineUpCustomerConsult(request);
     }
 
-    @ApiOperation(value = "상담사 상담 과정 평가하기", notes = "상담사 상담 과정 평가하기")
-    @PostMapping("/consult/{consult_id}/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
-    public Header<?> getEndofconsultationList(@PathVariable String consult_id){
-        return null;
+    @ApiOperation(value = "상담 내용 리스트", notes = "상담 내용 리스트를 보여준다. 이는 상담 내용을 평가하기 위해 필요하다.")
+    @PostMapping("/consults/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
+    public Header<List<ConsultInfoResponse>> getEndOfConsultList(HttpServletRequest request){
+        return insuranceCustomerService.getEndOfConsultList(request);
     }
 
     @ApiOperation(value = "상담사 상담 과정 평가하기", notes = "상담사 상담 과정 평가하기")
@@ -64,8 +65,8 @@ public class InsuranceCustomerController {
 
     @ApiOperation(value = "보험급 납부내역", notes = "보험급 납부내역")
     @GetMapping("/payment-history")//   insurance-customer/payment-history GET
-    public Header<List<PaymentResponse>> printPaymentHistory(){
-        return null;
+    public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request){
+        return insuranceCustomerService.getPaymentHistory(request);
     }
 
     @ApiOperation(value = "사고 처리 접수", notes = "사고 처리 접수")

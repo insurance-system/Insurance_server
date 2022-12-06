@@ -24,7 +24,7 @@ public class EmployeeCustomer extends DateBaseEntity{
     @JoinColumn(name="customer_id")
     private Customer customer;
 
-    private int satisfaction;
+    private Integer satisfaction;
 
     public void addEmployee(Employee employee){
         this.employee = employee;

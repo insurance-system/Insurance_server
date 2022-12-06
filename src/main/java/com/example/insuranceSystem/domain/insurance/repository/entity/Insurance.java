@@ -18,7 +18,8 @@ import static javax.persistence.CascadeType.ALL;
 @Setter(AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Insurance extends DateBaseEntity {
+public class
+Insurance extends DateBaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "insurance_id")
