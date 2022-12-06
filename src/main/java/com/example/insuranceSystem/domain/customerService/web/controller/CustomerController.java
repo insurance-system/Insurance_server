@@ -21,7 +21,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     //고객 회원가입
-    @Operation(summary = "고객 회원가입", description = "고객 회원가입하기")
+    @Operation(summary = "고객 회원가입", description = "고객 회원가입하기 (email = 아이디, 비밀번호는 문자,숫자,특수문자 포함 8~16자)")
     @PostMapping("/join")
     public Header<?> joinCustomer(@RequestBody @Valid JoinCustomerRequest joinCustomerRequest) {
         return customerService.joinCustomer(joinCustomerRequest);
