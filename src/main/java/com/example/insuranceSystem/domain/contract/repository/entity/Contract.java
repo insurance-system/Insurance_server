@@ -53,8 +53,13 @@ public class Contract {
         this.insurance = insurance;
     }
 
+    public void updateContractStatus(ContractStatus contractStatus) {
+        this.contractStatus = contractStatus;
+    }
+
     public Contract(Customer customer, Insurance insurance) {
         this.addCustomer(customer);
         this.addInsurance(insurance);
+        this.updateContractStatus(ContractStatus.PROGRESS_UW);
     }
 }
