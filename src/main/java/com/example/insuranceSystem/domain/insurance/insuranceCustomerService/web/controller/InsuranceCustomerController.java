@@ -2,6 +2,7 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.we
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
@@ -36,9 +37,10 @@ public class InsuranceCustomerController {
     }
 
     @ApiOperation(value = "상담사 상담 과정 평가하기", notes = "상담사 상담 과정 평가하기")
-    @PostMapping("/consult/{consult_id}/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
-    public Header<?> evaluateSatisfaction(@PathVariable String consult_id){
-        return null;
+    @PostMapping("/consult/satisfaction")//   insurance-customer/consult/{consult_id}/satisfaction POST (score)
+    public Header<Void> evaluateSatisfaction(@RequestBody EvaluateSatisfactionRequest evaluateSatisfactionRequest,
+                                          HttpServletRequest request){
+        return insuranceCustomerService.evaluateSatisfaction(evaluateSatisfactionRequest, request);
     }
 
     @ApiOperation(value = "고객이 보험 목록 조회", notes = "고객이 보험 목록 조회하기(클라이언트가 보낸 kind_of_insurance에 따라 LIFE/NON_LIFE 보험을 보여준다.")

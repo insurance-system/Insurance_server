@@ -8,9 +8,11 @@ import com.example.insuranceSystem.domain.customerService.repository.CustomerRep
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.ConsultNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.CustomerNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NoConsultException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NothingJoinedInsuranceException;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
@@ -83,11 +85,20 @@ public class InsuranceCustomerService {
     public Header<List<ConsultInfoResponse>> getEndOfConsultList(HttpServletRequest request){
         Customer customer = customerRepository
                 .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
-        List<EmployeeCustomer> employeeCustomers = employeeCustomerRepository
-                .findAllByCustomer(customer).orElseThrow(NoConsultException::new);
+        List<EmployeeCustomer> employeeCustomers =
+                employeeCustomerRepository.findAllByCustomer(customer).orElseThrow(NoConsultException::new);
         List<ConsultInfoResponse> consultInfoResponseList = new ArrayList<>();
         employeeCustomers.forEach((ec) -> consultInfoResponseList.add(ConsultInfoResponse.toDto(ec)));
         return Header.OK(consultInfoResponseList);
+    }
+
+    @Transactional
+    public Header<Void> evaluateSatisfaction(EvaluateSatisfactionRequest evaluateSatisfactionRequest,
+                                                                  HttpServletRequest request){
+        EmployeeCustomer employeeCustomer = employeeCustomerRepository
+                .findById(evaluateSatisfactionRequest.getConsultId()).orElseThrow(ConsultNotFoundException::new);
+        employeeCustomer.evaluateSatisfaction(evaluateSatisfactionRequest.getSatisfaction());
+        return Header.OK();
     }
 
 
@@ -98,4 +109,6 @@ public class InsuranceCustomerService {
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request) {
         return null;
     }
+
+
 }
