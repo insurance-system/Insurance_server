@@ -2,6 +2,7 @@ package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic.InsuranceEmployeeService;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
@@ -85,10 +86,11 @@ public class InsuranceEmployeeController {
         return insuranceService.getLectureList();
     }
 
-    @ApiOperation(value = "영업 교육 강의 자료 업로드", notes = "영업 교육 강의 업로드")
+    @Operation(summary = "영업 교육 강의 업로드", description = "영업 교육 강의를 업로드한다.")
     @PostMapping("/education")
-    public Header<?> uploadEducationLecture(){
-        return null;
+    public Header<Void> uploadEducationLecture(@RequestBody @Valid LectureRequest lectureRequest,
+                                               HttpServletRequest request){
+        return insuranceService.uploadEducationLecture(lectureRequest, request);
     }
 
     // TODO UW팀
