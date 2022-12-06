@@ -1,6 +1,7 @@
 package com.example.insuranceSystem.domain.customerService.logic;
 
 import com.example.insuranceSystem.domain.customerService.exception.UserEmailNotFoundException;
+import com.example.insuranceSystem.domain.customerService.exception.execute.ExistCustomerException;
 import com.example.insuranceSystem.domain.customerService.repository.CustomerRepository;
 import com.example.insuranceSystem.domain.customerService.repository.HealthInformationRepository;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
@@ -24,6 +25,7 @@ public class CustomerService {
     //고객 회원가입
     @Transactional
     public Header<?> joinCustomer(JoinCustomerRequest joinCustomerRequest) {
+        checkEmailExist(joinCustomerRequest.getEmail());
         HealthInformation healthInformation = healthInformationRepository.save(joinCustomerRequest.toHealthInformationEntity());
         customerRepository.save(joinCustomerRequest.toCustomerEntity(healthInformation));
         return Header.OK();
@@ -33,5 +35,9 @@ public class CustomerService {
         Customer customer = customerRepository.findByEmail(loginCustomerRequest.getEmail())
                 .orElseThrow(() -> new UserEmailNotFoundException(loginCustomerRequest.getEmail()));
         return Header.OK(CustomerResponse.toDto(customer));
+    }
+
+    private void checkEmailExist(String email) {
+        if(customerRepository.existsByEmail(email)) throw new ExistCustomerException();
     }
 }
