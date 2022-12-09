@@ -3,12 +3,12 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.we
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.PaymentResponse;
 import com.example.insuranceSystem.global.web.response.Header;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,23 +64,21 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.getJoinedInsurances(request);
     }
 
-
-
-    @Operation(summary = "보험급 납부내역", description = "<완> 보험급 납부내역")
+    @Operation(summary = "보험급 납부 내역", description = "보험급 납부 내역")
     @GetMapping("/payment-history")
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request){
         return insuranceCustomerService.getPaymentHistory(request);
     }
 
     @Operation(summary = "사고 처리 접수", description = "사고 처리 접수")
-    @GetMapping("/incident-accept")
-    public Header<List<PaymentResponse>> acceptIncidentHandling(){
-        return null;
+    @PostMapping("/incident-accept")
+    public Header<Void> acceptIncidentHandling(@RequestBody IncidentRequest incidentRequest, HttpServletRequest request){
+        return insuranceCustomerService.acceptIncidentHandling(incidentRequest, request);
     }
 
     @Operation(summary = "보험금 청구하기", description = "보험금 청구하기")
-    @GetMapping("/insurance-claim")
-    public Header<?> claimInsurance(){
+    @PostMapping("/insurance-claim")
+    public Header<?> claimInsurance(@RequestBody ){
         return null;
     }
 }
