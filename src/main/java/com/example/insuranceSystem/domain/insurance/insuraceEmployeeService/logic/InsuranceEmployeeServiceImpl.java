@@ -1,7 +1,9 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
 import com.example.insuranceSystem.domain.common.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
 import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
+import com.example.insuranceSystem.domain.common.repository.InsuranceClaimRepository;
 import com.example.insuranceSystem.domain.contract.exception.execute.NoContractException;
 import com.example.insuranceSystem.domain.contract.exception.execute.NoContractToUwException;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
@@ -15,6 +17,7 @@ import com.example.insuranceSystem.domain.employeeService.repository.LectureRepo
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Lecture;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
@@ -47,6 +50,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final LectureRepository lectureRepository;
     private final EmployeeRepository employeeRepository;
     private final IncidentLogRepository incidentLogRepository;
+    private final InsuranceClaimRepository insuranceClaimRepository;
 
     @Override
     public Header<InsuranceResponse> getInsurance(Long id) {
@@ -146,6 +150,32 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         IncidentLog incidentLog = incidentLogRepository.findById(id).orElseThrow(); // TODO 예외처리
         incidentLog.setEmployee(employee);
         incidentLogRepository.save(incidentLog);
+        return Header.OK();
+    }
+
+    // 보험금 심사 리스트 출력
+    @Override
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList() {
+        List<InsuranceClaim> insuranceClaims = insuranceClaimRepository.findAllByEvaluateCost(-1);
+        // TODO 예외처리
+        return Header.OK(insuranceClaims.stream()
+                .map(ic -> new InsuranceClaimResponse(
+                        ic.getId(),
+                        ic.getClaimContent(),
+                        ic.getClaimCost(),
+                        ic.getCustomer().getName(),
+                        ic.getInsurance().getInsuranceName(),
+                        ic.getInsurance().getKindOfInsurance().getName()))
+                .collect(Collectors.toList()));
+    }
+
+    // 보상금 심사
+    @Transactional
+    @Override
+    public Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest) {
+        InsuranceClaim insuranceClaim = insuranceClaimRepository.findById(evaluateRewardRequest.getInsuranceClaimId()).orElseThrow(); // TODO 예외처리
+        insuranceClaim.setEvaluateCost(evaluateRewardRequest.getEvaluateFee());
+        insuranceClaimRepository.save(insuranceClaim);
         return Header.OK();
     }
 

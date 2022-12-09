@@ -3,11 +3,13 @@ package com.example.insuranceSystem.domain.common.entity;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
+@Setter
 @Getter
 @Entity
 public class InsuranceClaim {
@@ -15,10 +17,12 @@ public class InsuranceClaim {
     @Column(name = "insurance_claim_id")
     private Long id;
 
-
     private String claimContent;
 
     private int claimCost;
+
+    @ColumnDefault("-1")
+    private Integer evaluateCost;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="customer_id")

@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
@@ -19,4 +20,6 @@ public interface InsuranceEmployeeService {
     Header<Void> startUw(StartUwRequest startUwRequest);
     Header<List<IncidentLogListResponse>> getIncidentLogList();
     Header<Void> manageIncidentLog(Long id, HttpServletRequest request);
+    Header<List<InsuranceClaimResponse>> getInsuranceClaimList();
+    Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest);
 }

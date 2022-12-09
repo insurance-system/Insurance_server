@@ -1,6 +1,7 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.controller;
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic.InsuranceEmployeeService;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
@@ -89,7 +90,7 @@ public class InsuranceEmployeeController {
 
     // UW팀
     @Operation(summary = "인수심사 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
-    @GetMapping("/uw/list")
+    @GetMapping("/uw")
     public Header<List<UwListResponse>> getUwList(){
         return insuranceService.getUwList();
     }
@@ -109,7 +110,7 @@ public class InsuranceEmployeeController {
 
     // 손해접수팀
     @Operation(summary = "사고 접수 리스트 출력", description = "사고 접수된 리스트를 출력한다.")
-    @GetMapping("/damage/list")
+    @GetMapping("/damage")
     public Header<List<IncidentLogListResponse>> manageIncidentLog(){
         return insuranceService.getIncidentLogList();
     }
@@ -120,11 +121,17 @@ public class InsuranceEmployeeController {
         return insuranceService.manageIncidentLog(id, request);
     }
 
-    // TODO 보상평가팀
-    @ApiOperation(value = "보상금을 심사하다", notes = "보상금을 심사하다")
-    @PostMapping("/reward")
-    public Header<?> evaluateReward(){
-        return null;
+    // 보상평가팀
+    @Operation(summary = "보상금 심사 리스트 출력", description = "보상금 심사가 필요한 리스트를 출력한다.")
+    @GetMapping("/reward")
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(){
+        return insuranceService.getInsuranceClaimList();
+    }
+
+    @Operation(summary = "보상금 심사", description = "보상금 리스트 중 심사할 내역을 선택해 심사 비용을 등록한다.")
+    @PatchMapping("/reward")
+    public Header<Void> evaluateReward(@RequestBody EvaluateRewardRequest evaluateRewardRequest){
+        return insuranceService.evaluateReward(evaluateRewardRequest);
     }
 }
 //
