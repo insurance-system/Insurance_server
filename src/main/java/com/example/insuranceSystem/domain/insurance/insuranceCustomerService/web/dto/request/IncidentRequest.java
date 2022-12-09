@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-@ApiModel(value = "상담 정보 응답 DTO")
+@ApiModel(value = "사고 발생 정보 요청 DTO")
 public class IncidentRequest {
 
     @ApiModelProperty(value="사고 발생 시간", example = "2022-12-15-17:09")
