@@ -7,6 +7,8 @@ import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.global.web.response.Header;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class InsuranceEmployeeController {
     private final InsuranceEmployeeService insuranceService;
 
     @Operation(summary = "보험 정보 불러오기(완)", description = "보험 정보 불러오기")
+    @ApiImplicitParams({@ApiImplicitParam(name = "user_id", value = "유저 ID", required = true, dataType = "Long", paramType = "header")})
     @GetMapping("/")
     public Header<InsuranceResponse> getInsurance(Long id){
         return insuranceService.getInsurance(id);
@@ -33,8 +36,8 @@ public class InsuranceEmployeeController {
 
     @ApiOperation(value = "보험 생성하기", notes = "보험 생성하기")
     @PostMapping("/development")
-    public Header<InsuranceResponse> developInsurance(@RequestBody @Valid InsuranceSaveRequest insuranceSaveRequest){
-        return insuranceService.create(insuranceSaveRequest);
+    public Header<InsuranceResponse> developInsurance(@RequestBody @Valid InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request){
+        return insuranceService.create(insuranceSaveRequest, request);
     }
 
     //TODO 영업활동팀
