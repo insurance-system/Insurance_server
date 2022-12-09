@@ -3,10 +3,7 @@ package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.log
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.UwListResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.global.web.response.Header;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,4 +17,6 @@ public interface InsuranceEmployeeService {
     Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request);
     Header<List<UwListResponse>> getUwList();
     Header<Void> startUw(StartUwRequest startUwRequest);
+    Header<List<IncidentLogListResponse>> getIncidentLogList();
+    Header<Void> manageIncidentLog(Long id, HttpServletRequest request);
 }
