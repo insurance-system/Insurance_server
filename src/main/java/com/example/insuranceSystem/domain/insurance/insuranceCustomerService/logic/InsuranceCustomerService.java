@@ -2,7 +2,9 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.lo
 
 import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.common.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
 import com.example.insuranceSystem.domain.common.repository.EmployeeCustomerRepository;
+import com.example.insuranceSystem.domain.common.repository.InsuranceClaimRepository;
 import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
@@ -14,6 +16,7 @@ import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exc
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.CustomerNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NoConsultException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NothingJoinedInsuranceException;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
@@ -25,13 +28,11 @@ import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -43,6 +44,7 @@ public class InsuranceCustomerService {
     private final CustomerRepository customerRepository;
     private final InsuranceRepository insuranceRepository;
     private final IncidentLogRepository insuranceLogRepository;
+    private final InsuranceClaimRepository insuranceClaimRepository;
     private final ContractRepository contractRepository;
 
     @Transactional
@@ -121,7 +123,21 @@ public class InsuranceCustomerService {
         return Header.OK();
     }
 
+    @Transactional
+    public Header<Void> claimInsurance(ClaimInsuranceRequest claimInsuranceRequest, HttpServletRequest request) {
+        Customer customer = customerRepository
+                .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
+
+        Insurance insurance = insuranceRepository
+                .findById(claimInsuranceRequest.getInsuranceId()).orElseThrow(InsuranceNotFoundException::new);
+
+        InsuranceClaim insuranceClaim = new InsuranceClaim(claimInsuranceRequest.toEntity(), customer, insurance);
+        insuranceClaimRepository.save(insuranceClaim);
+        return Header.OK();
+    }
+
     public Long getUserId(HttpServletRequest request) {
         return Long.parseLong(request.getHeader("userId"));
     }
+
 }

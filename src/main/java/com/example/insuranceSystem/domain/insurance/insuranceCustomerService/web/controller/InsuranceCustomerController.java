@@ -2,6 +2,7 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.we
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
@@ -78,7 +79,7 @@ public class InsuranceCustomerController {
 
     @Operation(summary = "보험금 청구하기", description = "보험금 청구하기")
     @PostMapping("/insurance-claim")
-    public Header<?> claimInsurance(@RequestBody ){
-        return null;
+    public Header<Void> claimInsurance(@RequestBody ClaimInsuranceRequest claimInsuranceRequest, HttpServletRequest request){
+        return insuranceCustomerService.claimInsurance(claimInsuranceRequest, request);
     }
 }

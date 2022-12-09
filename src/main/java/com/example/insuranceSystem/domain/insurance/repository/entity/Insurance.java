@@ -1,6 +1,7 @@
 package com.example.insuranceSystem.domain.insurance.repository.entity;
 
 import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
+import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.InsuranceStatus;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
@@ -37,6 +38,9 @@ Insurance extends DateBaseEntity {
     @OneToMany(mappedBy = "insurance", cascade = ALL)
     private List<Contract> contracts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "insurance", cascade = ALL)
+    private List<InsuranceClaim> insuranceClaims = new ArrayList<>();
+
     public void addInsuranceCondition(InsuranceCondition insuranceCondition){
         this.insuranceCondition = insuranceCondition;
     }
@@ -58,6 +62,10 @@ Insurance extends DateBaseEntity {
 
     public void addContract(Contract contract) {
         this.contracts.add(contract);
+    }
+
+    public void addInsuranceClaim(InsuranceClaim insuranceClaim) {
+        this.insuranceClaims.add(insuranceClaim);
     }
 
 }
