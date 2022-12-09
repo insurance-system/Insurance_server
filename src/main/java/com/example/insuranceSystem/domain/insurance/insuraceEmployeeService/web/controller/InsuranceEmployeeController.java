@@ -121,6 +121,12 @@ public class InsuranceEmployeeController {
     }
 
     // TODO 보상평가팀
+    @ApiOperation(value = "보상금 심사 리스트 출력", notes = "보상금 심사가 필요한 리스트를 출력한다.")
+    @GetMapping("/reward")
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(){
+        return insuranceService.getInsuranceClaimList();
+    }
+
     @ApiOperation(value = "보상금을 심사하다", notes = "보상금을 심사하다")
     @PostMapping("/reward")
     public Header<?> evaluateReward(){

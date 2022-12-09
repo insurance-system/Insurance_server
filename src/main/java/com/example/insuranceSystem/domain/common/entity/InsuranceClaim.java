@@ -3,6 +3,8 @@ package com.example.insuranceSystem.domain.common.entity;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 
@@ -19,6 +21,9 @@ public class InsuranceClaim {
     private String claimContent;
 
     private int claimCost;
+
+    @ColumnDefault("-1")
+    private Integer evaluateCost;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="customer_id")
