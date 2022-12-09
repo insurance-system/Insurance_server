@@ -47,6 +47,7 @@ public class InsuranceEmployeeController {
         return insuranceService.getContractCustomer(request);
     }
 
+    //TODO 보험 관심자는 보험 상담 요청에 해당하는건가?
     @ApiOperation(value = "보험 관심자 배정", notes = "보험 관심자 배정")
     @GetMapping("/sales/interest")    // insurance-employee/sales
     public Header<?> assignInsuranceInterested(){
@@ -55,8 +56,8 @@ public class InsuranceEmployeeController {
 
     @ApiOperation(value = "계약 기간 만료 임박 리스트 출력", notes = "계약 기간 만료 임박 리스트 출력")
     @GetMapping("/contract/soon-expiration") // 계약 기간 만료 임박
-    public Header<?> getNearExpireContractList(){
-        return null;
+    public Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request){
+        return insuranceService.getNearExpireContractList(request);
     }
 
     @ApiOperation(value = "보험 납부 기간 만료 임박", notes = "보험 납부 기간 만료 임박")

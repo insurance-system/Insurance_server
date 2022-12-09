@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -196,6 +197,24 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                         .phoneNum(cs.getCustomer().getPhoneNumber())
                         .build())
                 .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        List<Contract> byExpiredDateAfter = contractRepository.findByExpiredDateLessThan(LocalDateTime.now().plusMonths(2));
+        List<ContractSoonExpirationResponse> collect = byExpiredDateAfter.stream().map(
+                        cs -> ContractSoonExpirationResponse.builder()
+                                .insuranceName(cs.getInsurance().getInsuranceName())
+                                .customerName(cs.getCustomer().getName())
+                                .address(cs.getCustomer().getAddress())
+                                .fee(cs.getInsurance().getFee())
+                                .healthInformation(cs.getCustomer().getHealthInformation())
+                                .kindOfJob(cs.getCustomer().getKindOfJob())
+                                .phoneNum(cs.getCustomer().getPhoneNumber())
+                                .build())
+                .collect(Collectors.toList());
+        return Header.OK(collect);
     }
 
     @Transactional
