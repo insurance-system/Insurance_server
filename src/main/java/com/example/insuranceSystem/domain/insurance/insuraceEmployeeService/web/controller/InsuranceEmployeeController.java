@@ -77,7 +77,7 @@ public class InsuranceEmployeeController {
     // 영업교육팀
     @Operation(summary = "영업 교육 강의 리스트 출력", description = "영업 교육 강의 리스트 전체를 출력한다.")
     @GetMapping("/education")
-    public Header<List<LectureResponse>> findLectureList(){
+    public Header<List<LectureResponse>> findLectureList(HttpServletRequest request){
         return insuranceService.getLectureList();
     }
 
@@ -91,28 +91,28 @@ public class InsuranceEmployeeController {
     // UW팀
     @Operation(summary = "인수심사 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
     @GetMapping("/uw")
-    public Header<List<UwListResponse>> getUwList(){
-        return insuranceService.getUwList();
+    public Header<List<UwListResponse>> getUwList(HttpServletRequest request){
+        return insuranceService.getUwList(request);
     }
 
     @Operation(summary = "인수심사 수행", description = "계약 리스트로 정보를 확인하고 contractId와 & contractStatus:정상/인수심사 거절/인수심사 진행중(보류일 때) 중 하나를 선택해 인수심사를 수행한다.")
     @PatchMapping("/uw")
-    public Header<Void> startUw(@RequestBody StartUwRequest startUwRequest){
+    public Header<Void> startUw(@RequestBody StartUwRequest startUwRequest, HttpServletRequest request){
         return insuranceService.startUw(startUwRequest);
     }
 
     // 고객정보팀
     @Operation(summary = "특정 id의 고객 및 가입된 보험 정보 출력", description = "특정 id의 고객 및 가입된 보험 정보 출력")
     @GetMapping("/customer/{customer_id}")
-    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id){
+    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id, HttpServletRequest request){
         return insuranceService.getCustomerandJoinedInsurance(id);
     }
 
     // 손해접수팀
     @Operation(summary = "사고 접수 리스트 출력", description = "사고 접수된 리스트를 출력한다.")
     @GetMapping("/damage")
-    public Header<List<IncidentLogListResponse>> manageIncidentLog(){
-        return insuranceService.getIncidentLogList();
+    public Header<List<IncidentLogListResponse>> manageIncidentLog(HttpServletRequest request){
+        return insuranceService.getIncidentLogList(request);
     }
 
     @Operation(summary = "사고 접수 담당자 배정", description = "사고 접수된 리스트 중 하나를 선택해 담당자를 배정한다.")
@@ -124,13 +124,13 @@ public class InsuranceEmployeeController {
     // 보상평가팀
     @Operation(summary = "보상금 심사 리스트 출력", description = "보상금 심사가 필요한 리스트를 출력한다.")
     @GetMapping("/reward")
-    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(){
-        return insuranceService.getInsuranceClaimList();
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request){
+        return insuranceService.getInsuranceClaimList(request);
     }
 
     @Operation(summary = "보상금 심사", description = "보상금 리스트 중 심사할 내역을 선택해 심사 비용을 등록한다.")
     @PatchMapping("/reward")
-    public Header<Void> evaluateReward(@RequestBody EvaluateRewardRequest evaluateRewardRequest){
+    public Header<Void> evaluateReward(@RequestBody EvaluateRewardRequest evaluateRewardRequest, HttpServletRequest request){
         return insuranceService.evaluateReward(evaluateRewardRequest);
     }
 }

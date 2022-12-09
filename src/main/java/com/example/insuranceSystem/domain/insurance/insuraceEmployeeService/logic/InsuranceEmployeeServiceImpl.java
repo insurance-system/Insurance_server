@@ -97,7 +97,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     // 인수심사 리스트 출력
     @Override
-    public Header<List<UwListResponse>> getUwList() {
+    public Header<List<UwListResponse>> getUwList(HttpServletRequest request) {
         List<Contract> contracts = contractRepository.findAllByContractStatus(ContractStatus.PROGRESS_UW);
         if(contracts.isEmpty()) throw new NoContractToUwException();
         return Header.OK(contracts.stream()
@@ -127,7 +127,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     // 사고 접수 리스트
     @Override
-    public Header<List<IncidentLogListResponse>> getIncidentLogList() {
+    public Header<List<IncidentLogListResponse>> getIncidentLogList(HttpServletRequest request) {
         List<IncidentLog> incidentLogs = incidentLogRepository.findAllByEmployeeNull();
         // TODO incidentLog 관련한 exception은 어디서.??
         return Header.OK(incidentLogs.stream()
@@ -155,7 +155,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     // 보험금 심사 리스트 출력
     @Override
-    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList() {
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request) {
         List<InsuranceClaim> insuranceClaims = insuranceClaimRepository.findAllByEvaluateCost(-1);
         // TODO 예외처리
         return Header.OK(insuranceClaims.stream()
