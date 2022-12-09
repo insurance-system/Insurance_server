@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "사고 발생 정보 요청 DTO")
 public class IncidentRequest {
 
-    @ApiModelProperty(value="사고 발생 시간", example = "2022-12-15-17:09")
+    @ApiModelProperty(value="사고 발생 시간", example = "2022-12-15 17:09")
     private String incidentDate;
 
     @ApiModelProperty(value="차 번호.", example = "42하-3023")
