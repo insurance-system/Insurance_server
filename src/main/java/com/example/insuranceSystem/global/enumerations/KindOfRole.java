@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.customerService.repository.enumeration;
+package com.example.insuranceSystem.global.enumerations;
 
 import lombok.Getter;
 

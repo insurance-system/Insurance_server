@@ -8,6 +8,7 @@ import com.example.insuranceSystem.domain.customerService.repository.entity.Cust
 import com.example.insuranceSystem.domain.customerService.repository.entity.HealthInformation;
 import com.example.insuranceSystem.domain.customerService.web.dto.request.JoinCustomerRequest;
 import com.example.insuranceSystem.domain.customerService.web.dto.request.LoginCustomerRequest;
+import com.example.insuranceSystem.domain.customerService.web.dto.response.CustomerLoginResponse;
 import com.example.insuranceSystem.domain.customerService.web.dto.response.CustomerResponse;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,9 @@ public class CustomerService {
 
     public Header<?> login(LoginCustomerRequest loginCustomerRequest){
         Customer customer = customerRepository.findByEmail(loginCustomerRequest.getEmail())
-                .orElseThrow(() -> new UserEmailNotFoundException(loginCustomerRequest.getEmail()));
-        return Header.OK(CustomerResponse.toDto(customer));
+                .orElseThrow(CustomerNotFoundException::new);
+        if(!loginCustomerRequest.getPassword().equals(customer.getPassword())) throw new WrongPasswordException();
+        return Header.OK(new CustomerLoginResponse(customer.getId(), customer.getKindOfRole().getName()));
     }
 
     private void checkValidation(JoinCustomerRequest joinCustomerRequest) {
@@ -59,7 +61,7 @@ public class CustomerService {
     }
 
     private void checkSsnValidation(String ssn) {
-        String SsnPattern = "\\d{2}([0]\\d|[1][0-2])([0][1-9]|[1-2]\\d|[3][0-1])[-]*[1-4]\\d{6}";
+        String SsnPattern = "^\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|[3][01])-[1-4][0-9]{6}$";
         if(!Pattern.matches(SsnPattern, ssn)) throw new InvalidSsnException();
     }
 
