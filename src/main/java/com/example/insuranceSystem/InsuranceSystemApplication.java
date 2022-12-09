@@ -15,5 +15,4 @@ public class InsuranceSystemApplication {
 		System.out.println(DateFormatter.dateToStr(localDateTime));
 
 	}
-
 }
