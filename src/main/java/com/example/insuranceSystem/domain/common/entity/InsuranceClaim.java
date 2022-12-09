@@ -9,14 +9,13 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
+@Setter
 @Getter
 @Entity
 public class InsuranceClaim {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "insurance_claim_id")
     private Long id;
-
 
     private String claimContent;
 

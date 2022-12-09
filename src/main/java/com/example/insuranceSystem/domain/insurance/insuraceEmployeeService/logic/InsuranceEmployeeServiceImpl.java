@@ -17,6 +17,7 @@ import com.example.insuranceSystem.domain.employeeService.repository.LectureRepo
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Lecture;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
@@ -166,6 +167,16 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                         ic.getInsurance().getInsuranceName(),
                         ic.getInsurance().getKindOfInsurance().getName()))
                 .collect(Collectors.toList()));
+    }
+
+    // 보상금 심사
+    @Transactional
+    @Override
+    public Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest) {
+        InsuranceClaim insuranceClaim = insuranceClaimRepository.findById(evaluateRewardRequest.getInsuranceClaimId()).orElseThrow(); // TODO 예외처리
+        insuranceClaim.setEvaluateCost(evaluateRewardRequest.getEvaluateFee());
+        insuranceClaimRepository.save(insuranceClaim);
+        return Header.OK();
     }
 
     @Transactional
