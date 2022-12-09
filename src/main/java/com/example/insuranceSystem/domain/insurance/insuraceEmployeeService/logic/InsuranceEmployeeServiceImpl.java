@@ -1,5 +1,7 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.common.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
 import com.example.insuranceSystem.domain.contract.exception.execute.NoContractException;
 import com.example.insuranceSystem.domain.contract.exception.execute.NoContractToUwException;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
@@ -16,15 +18,13 @@ import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceN
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.UwListResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.InsuranceCondition;
 import com.example.insuranceSystem.global.enumerations.ContractStatus;
+import com.example.insuranceSystem.global.util.date.DateFormatter;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,6 +46,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final CustomerRepository customerRepository;
     private final LectureRepository lectureRepository;
     private final EmployeeRepository employeeRepository;
+    private final IncidentLogRepository incidentLogRepository;
 
     @Override
     public Header<InsuranceResponse> getInsurance(Long id) {
@@ -118,6 +119,23 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         contract.setContractStatus(ContractStatus.getContractStatusByName(startUwRequest.getContractStatus()));
         contractRepository.save(contract);
         return Header.OK();
+    }
+
+    // 사고 접수 리스트
+    @Override
+    public Header<List<IncidentLogListResponse>> getIncidentLogList() {
+        List<IncidentLog> incidentLogs = incidentLogRepository.findAllByEmployeeNull();
+        // TODO incidentLog 관련한 exception은 어디서.??
+        return Header.OK(incidentLogs.stream()
+                .map(il -> new IncidentLogListResponse(
+                        il.getId(),
+                        il.getCustomer().getName(),
+                        il.getIncidentPhoneNumber(),
+                        DateFormatter.dateToStr(il.getIncidentDate()),
+                        il.getIncidentSite(),
+                        il.getCarNumber(),
+                        il.getIncidentCategory().getName()))
+                .collect(Collectors.toList()));
     }
 
     @Transactional

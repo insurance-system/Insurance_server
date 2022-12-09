@@ -4,10 +4,7 @@ import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logi
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.UwListResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,7 +73,7 @@ public class InsuranceEmployeeController {
         return null;
     }
 
-    // TODO 영업교육팀
+    // 영업교육팀
     @Operation(summary = "영업 교육 강의 리스트 출력", description = "영업 교육 강의 리스트 전체를 출력한다.")
     @GetMapping("/education")
     public Header<List<LectureResponse>> findLectureList(){
@@ -90,8 +87,7 @@ public class InsuranceEmployeeController {
         return insuranceService.uploadEducationLecture(lectureRequest, request);
     }
 
-    // TODO UW팀
-    // contract에서 수행중인거 가져와서 거절/승인/보류 선택하면 그에 따라 수행
+    // UW팀
     @Operation(summary = "인수심사 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
     @GetMapping("/uw/list")
     public Header<List<UwListResponse>> getUwList(){
@@ -104,7 +100,7 @@ public class InsuranceEmployeeController {
         return insuranceService.startUw(startUwRequest);
     }
 
-    // TODO 고객정보팀
+    // 고객정보팀
     @Operation(summary = "특정 id의 고객 및 가입된 보험 정보 출력", description = "특정 id의 고객 및 가입된 보험 정보 출력")
     @GetMapping("/customer/{customer_id}")
     public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id){
@@ -112,10 +108,10 @@ public class InsuranceEmployeeController {
     }
 
     // TODO 손해접수팀
-    @ApiOperation(value = "사고 접수", notes = "사고 접수")
-    @PostMapping("/damage")
-    public Header<?> manageIncidentReport(){
-        return null;
+    @ApiOperation(value = "사고 접수 리스트 출력", notes = "사고 접수된 리스트를 출력한다.")
+    @GetMapping("/damage/list")
+    public Header<List<IncidentLogListResponse>> manageIncidentLog(){
+        return insuranceService.getIncidentLogList();
     }
 
     // TODO 보상평가팀
