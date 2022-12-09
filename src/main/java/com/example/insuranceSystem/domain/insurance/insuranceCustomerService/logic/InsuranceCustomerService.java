@@ -1,7 +1,9 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic;
 
 import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
+import com.example.insuranceSystem.domain.common.entity.IncidentLog;
 import com.example.insuranceSystem.domain.common.repository.EmployeeCustomerRepository;
+import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.repository.CustomerRepository;
@@ -13,6 +15,7 @@ import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exc
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NoConsultException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NothingJoinedInsuranceException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
@@ -39,6 +42,7 @@ public class InsuranceCustomerService {
     private final EmployeeCustomerRepository employeeCustomerRepository;
     private final CustomerRepository customerRepository;
     private final InsuranceRepository insuranceRepository;
+    private final IncidentLogRepository insuranceLogRepository;
     private final ContractRepository contractRepository;
 
     @Transactional
@@ -102,14 +106,22 @@ public class InsuranceCustomerService {
         return Header.OK();
     }
 
-
-    public Long getUserId(HttpServletRequest request) {
-        return Long.parseLong(request.getHeader("userId"));
-    }
-
+    //TODO
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request) {
         return null;
     }
 
+    @Transactional
+    public Header<Void> acceptIncidentHandling(IncidentRequest incidentRequest,
+                                               HttpServletRequest request){
+        Customer customer = customerRepository
+                .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
+        IncidentLog incidentLog = new IncidentLog(incidentRequest.toEntity(), customer);
+        insuranceLogRepository.save(incidentLog);
+        return Header.OK();
+    }
 
+    public Long getUserId(HttpServletRequest request) {
+        return Long.parseLong(request.getHeader("userId"));
+    }
 }

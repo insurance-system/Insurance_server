@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "상담 정보 응답 DTO")
+@ApiModel(value = "보험 가입 요청 DTO")
 @NoArgsConstructor
 @Data
 public class JoinInsuranceRequest {
