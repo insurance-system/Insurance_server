@@ -1,10 +1,10 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.global.web.response.Header;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,4 +16,10 @@ public interface InsuranceEmployeeService {
     Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id);
     Header<List<LectureResponse>> getLectureList();
     Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request);
+    Header<List<UwListResponse>> getUwList(HttpServletRequest request);
+    Header<Void> startUw(StartUwRequest startUwRequest);
+    Header<List<IncidentLogListResponse>> getIncidentLogList(HttpServletRequest request);
+    Header<Void> manageIncidentLog(Long id, HttpServletRequest request);
+    Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request);
+    Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest);
 }

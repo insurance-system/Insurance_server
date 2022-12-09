@@ -6,10 +6,7 @@ import com.example.insuranceSystem.domain.customerService.web.dto.request.LoginC
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -28,7 +25,8 @@ public class CustomerController {
     }
 
     //고객 로그인
-    @PostMapping("/login")
+    @Operation(summary = "로그인", description = "email, password / 존재하지 않는 이메일 및 불일치하는 비밀번호 예외처리")
+    @GetMapping("/login")
     public Header<?> login(@RequestBody @Valid LoginCustomerRequest loginCustomerRequest){
         return customerService.login(loginCustomerRequest);
     }

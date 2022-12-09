@@ -3,6 +3,7 @@ package com.example.insuranceSystem.domain.employeeService.repository.entity;
 import com.example.insuranceSystem.domain.common.entity.Address;
 import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
 import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
+import com.example.insuranceSystem.domain.common.entity.IncidentLog;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -41,9 +42,16 @@ public class Employee extends DateBaseEntity {
     private List<Contract> contracts = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", cascade = ALL)
+    private List<IncidentLog> incidentLog = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employee", cascade = ALL)
     private List<EmployeeCustomer> employeeCustomerList = new ArrayList<>();
 
     public void addEmployeeCustomer(EmployeeCustomer employeeCustomer) {
         this.employeeCustomerList.add(employeeCustomer);
+    }
+
+    public void addIncidentLog(IncidentLog incidentLog) {
+        this.incidentLog.add(incidentLog);
     }
 }

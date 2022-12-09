@@ -1,12 +1,11 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.controller;
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic.InsuranceEmployeeService;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
-import com.example.insuranceSystem.global.exception.NeedMoreInformationException;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,7 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,10 +77,10 @@ public class InsuranceEmployeeController {
         return null;
     }
 
-    // TODO 영업교육팀
+    // 영업교육팀
     @Operation(summary = "영업 교육 강의 리스트 출력", description = "영업 교육 강의 리스트 전체를 출력한다.")
     @GetMapping("/education")
-    public Header<List<LectureResponse>> findLectureList(){
+    public Header<List<LectureResponse>> findLectureList(HttpServletRequest request){
         return insuranceService.getLectureList();
     }
 
@@ -93,33 +91,50 @@ public class InsuranceEmployeeController {
         return insuranceService.uploadEducationLecture(lectureRequest, request);
     }
 
-    // TODO UW팀
-    // contract에서 수행중인거 가져와서 거절/승인/보류 선택하면 그에 따라 수행
-    @ApiOperation(value = "인수심사 수행", notes = "인수심사 수행")
-    @PostMapping("/uw")
-    public Header<?> startUW(){
-        return null;
+    // UW팀
+    @Operation(summary = "인수심사 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
+    @GetMapping("/uw")
+    public Header<List<UwListResponse>> getUwList(HttpServletRequest request){
+        return insuranceService.getUwList(request);
     }
 
-    // TODO 고객정보팀
+    @Operation(summary = "인수심사 수행", description = "계약 리스트로 정보를 확인하고 contractId와 & contractStatus:정상/인수심사 거절/인수심사 진행중(보류일 때) 중 하나를 선택해 인수심사를 수행한다.")
+    @PatchMapping("/uw")
+    public Header<Void> startUw(@RequestBody StartUwRequest startUwRequest, HttpServletRequest request){
+        return insuranceService.startUw(startUwRequest);
+    }
+
+    // 고객정보팀
     @Operation(summary = "특정 id의 고객 및 가입된 보험 정보 출력", description = "특정 id의 고객 및 가입된 보험 정보 출력")
     @GetMapping("/customer/{customer_id}")
-    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id){
+    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id, HttpServletRequest request){
         return insuranceService.getCustomerandJoinedInsurance(id);
     }
 
-    // TODO 손해접수팀
-    @ApiOperation(value = "사고 접수", notes = "사고 접수")
-    @PostMapping("/damage")
-    public Header<?> manageIncidentReport(){
-        return null;
+    // 손해접수팀
+    @Operation(summary = "사고 접수 리스트 출력", description = "사고 접수된 리스트를 출력한다.")
+    @GetMapping("/damage")
+    public Header<List<IncidentLogListResponse>> manageIncidentLog(HttpServletRequest request){
+        return insuranceService.getIncidentLogList(request);
     }
 
-    // TODO 보상평가팀
-    @ApiOperation(value = "보상금을 심사하다", notes = "보상금을 심사하다")
-    @PostMapping("/reward")
-    public Header<?> evaluateReward(){
-        return null;
+    @Operation(summary = "사고 접수 담당자 배정", description = "사고 접수된 리스트 중 하나를 선택해 담당자를 배정한다.")
+    @PatchMapping("/damage/{incident_log_id}")
+    public Header<Void> manageIncidentLog(@PathVariable ("incident_log_id") Long id, HttpServletRequest request){
+        return insuranceService.manageIncidentLog(id, request);
+    }
+
+    // 보상평가팀
+    @Operation(summary = "보상금 심사 리스트 출력", description = "보상금 심사가 필요한 리스트를 출력한다.")
+    @GetMapping("/reward")
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request){
+        return insuranceService.getInsuranceClaimList(request);
+    }
+
+    @Operation(summary = "보상금 심사", description = "보상금 리스트 중 심사할 내역을 선택해 심사 비용을 등록한다.")
+    @PatchMapping("/reward")
+    public Header<Void> evaluateReward(@RequestBody EvaluateRewardRequest evaluateRewardRequest, HttpServletRequest request){
+        return insuranceService.evaluateReward(evaluateRewardRequest);
     }
 }
 //

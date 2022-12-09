@@ -1,10 +1,8 @@
 package com.example.insuranceSystem.domain.customerService.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.Address;
-import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
-import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
+import com.example.insuranceSystem.domain.common.entity.*;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
-import com.example.insuranceSystem.domain.customerService.repository.enumeration.KindOfRole;
+import com.example.insuranceSystem.global.enumerations.KindOfRole;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;
 import lombok.*;
@@ -43,6 +41,12 @@ public class Customer extends DateBaseEntity {
     private List<Contract> contracts = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", cascade = ALL)
+    private List<IncidentLog> incidentLog = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = ALL)
+    private List<InsuranceClaim> insuranceClaims = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = ALL)
     private List<EmployeeCustomer> employeeCustomerList = new ArrayList<>();
 
     @OneToOne
@@ -75,6 +79,14 @@ public class Customer extends DateBaseEntity {
 
     public void addContract(Contract contract) {
         this.contracts.add(contract);
+    }
+
+    public void addIncidentLog(IncidentLog incidentLog) {
+        this.incidentLog.add(incidentLog);
+    }
+
+    public void addInsuranceClaim(InsuranceClaim insuranceClaim) {
+        this.insuranceClaims.add(insuranceClaim);
     }
 }
 

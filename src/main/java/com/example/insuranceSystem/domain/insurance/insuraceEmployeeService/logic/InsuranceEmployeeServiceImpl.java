@@ -1,5 +1,11 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.common.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
+import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
+import com.example.insuranceSystem.domain.common.repository.InsuranceClaimRepository;
+import com.example.insuranceSystem.domain.contract.exception.execute.NoContractException;
+import com.example.insuranceSystem.domain.contract.exception.execute.NoContractToUwException;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
@@ -11,18 +17,19 @@ import com.example.insuranceSystem.domain.employeeService.repository.LectureRepo
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Lecture;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.InsuranceCondition;
+import com.example.insuranceSystem.global.enumerations.ContractStatus;
+import com.example.insuranceSystem.global.util.date.DateFormatter;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +49,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final CustomerRepository customerRepository;
     private final LectureRepository lectureRepository;
     private final EmployeeRepository employeeRepository;
+    private final IncidentLogRepository incidentLogRepository;
+    private final InsuranceClaimRepository insuranceClaimRepository;
 
     @Override
     public Header<InsuranceResponse> getInsurance(Long id) {
@@ -83,6 +92,90 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                 lectureRequest.getLectureName(),
                 lectureRequest.getLectureUrl(),
                 employee));
+        return Header.OK();
+    }
+
+    // 인수심사 리스트 출력
+    @Override
+    public Header<List<UwListResponse>> getUwList(HttpServletRequest request) {
+        List<Contract> contracts = contractRepository.findAllByContractStatus(ContractStatus.PROGRESS_UW);
+        if(contracts.isEmpty()) throw new NoContractToUwException();
+        return Header.OK(contracts.stream()
+                .map(c -> new UwListResponse(
+                        c.getContractId(),
+                        c.getCustomer().getHealthInformation().getCancer().getName(),
+                        c.getCustomer().getHealthInformation().getSmoke().getName(),
+                        c.getCustomer().getHealthInformation().getAlcohol().getName(),
+                        c.getInsurance().getInsuranceName(),
+                        c.getInsurance().getKindOfInsurance().getName(),
+                        c.getInsurance().getFee(),
+                        c.getInsurance().getInsuranceCondition().getCancer().getName(),
+                        c.getInsurance().getInsuranceCondition().getSmoke().getName(),
+                        c.getInsurance().getInsuranceCondition().getAlcohol().getName()))
+                .collect(Collectors.toList()));
+    }
+
+    // 인수심사 수행
+    @Transactional
+    @Override
+    public Header<Void> startUw(StartUwRequest startUwRequest) {
+        Contract contract = contractRepository.findById(startUwRequest.getContractId()).orElseThrow(NoContractException::new);
+        contract.setContractStatus(ContractStatus.getContractStatusByName(startUwRequest.getContractStatus()));
+        contractRepository.save(contract);
+        return Header.OK();
+    }
+
+    // 사고 접수 리스트
+    @Override
+    public Header<List<IncidentLogListResponse>> getIncidentLogList(HttpServletRequest request) {
+        List<IncidentLog> incidentLogs = incidentLogRepository.findAllByEmployeeNull();
+        // TODO incidentLog 관련한 exception은 어디서.??
+        return Header.OK(incidentLogs.stream()
+                .map(il -> new IncidentLogListResponse(
+                        il.getId(),
+                        il.getCustomer().getName(),
+                        il.getIncidentPhoneNumber(),
+                        DateFormatter.dateToStr(il.getIncidentDate()),
+                        il.getIncidentSite(),
+                        il.getCarNumber(),
+                        il.getIncidentCategory().getName()))
+                .collect(Collectors.toList()));
+    }
+
+    // 사고 접수 담당자 배정
+    @Transactional
+    @Override
+    public Header<Void> manageIncidentLog(Long id, HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        IncidentLog incidentLog = incidentLogRepository.findById(id).orElseThrow(); // TODO 예외처리
+        incidentLog.setEmployee(employee);
+        incidentLogRepository.save(incidentLog);
+        return Header.OK();
+    }
+
+    // 보험금 심사 리스트 출력
+    @Override
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request) {
+        List<InsuranceClaim> insuranceClaims = insuranceClaimRepository.findAllByEvaluateCost(-1);
+        // TODO 예외처리
+        return Header.OK(insuranceClaims.stream()
+                .map(ic -> new InsuranceClaimResponse(
+                        ic.getId(),
+                        ic.getClaimContent(),
+                        ic.getClaimCost(),
+                        ic.getCustomer().getName(),
+                        ic.getInsurance().getInsuranceName(),
+                        ic.getInsurance().getKindOfInsurance().getName()))
+                .collect(Collectors.toList()));
+    }
+
+    // 보상금 심사
+    @Transactional
+    @Override
+    public Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest) {
+        InsuranceClaim insuranceClaim = insuranceClaimRepository.findById(evaluateRewardRequest.getInsuranceClaimId()).orElseThrow(); // TODO 예외처리
+        insuranceClaim.setEvaluateCost(evaluateRewardRequest.getEvaluateFee());
+        insuranceClaimRepository.save(insuranceClaim);
         return Header.OK();
     }
 
