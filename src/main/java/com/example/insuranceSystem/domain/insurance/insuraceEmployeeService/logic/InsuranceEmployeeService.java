@@ -2,6 +2,7 @@ package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.log
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
@@ -18,4 +19,5 @@ public interface InsuranceEmployeeService {
     Header<List<LectureResponse>> getLectureList();
     Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request);
     Header<List<UwListResponse>> getUwList();
+    Header<Void> startUw(StartUwRequest startUwRequest);
 }

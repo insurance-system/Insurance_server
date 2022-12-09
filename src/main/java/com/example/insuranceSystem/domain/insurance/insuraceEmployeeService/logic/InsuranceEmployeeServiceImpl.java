@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.contract.exception.execute.NoContractException;
 import com.example.insuranceSystem.domain.contract.exception.execute.NoContractToUwException;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
@@ -14,6 +15,7 @@ import com.example.insuranceSystem.domain.employeeService.repository.entity.Lect
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
@@ -88,6 +90,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         return Header.OK();
     }
 
+    // 인수심사 리스트 출력
     @Override
     public Header<List<UwListResponse>> getUwList() {
         List<Contract> contracts = contractRepository.findAllByContractStatus(ContractStatus.PROGRESS_UW);
@@ -105,6 +108,16 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                         c.getInsurance().getInsuranceCondition().getSmoke().getName(),
                         c.getInsurance().getInsuranceCondition().getAlcohol().getName()))
                 .collect(Collectors.toList()));
+    }
+
+    // 인수심사 수행
+    @Transactional
+    @Override
+    public Header<Void> startUw(StartUwRequest startUwRequest) {
+        Contract contract = contractRepository.findById(startUwRequest.getContractId()).orElseThrow(NoContractException::new);
+        contract.setContractStatus(ContractStatus.getContractStatusByName(startUwRequest.getContractStatus()));
+        contractRepository.save(contract);
+        return Header.OK();
     }
 
     @Transactional

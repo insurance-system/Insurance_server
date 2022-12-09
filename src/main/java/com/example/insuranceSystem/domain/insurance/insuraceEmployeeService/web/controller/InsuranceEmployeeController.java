@@ -3,6 +3,7 @@ package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic.InsuranceEmployeeService;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
@@ -91,10 +92,16 @@ public class InsuranceEmployeeController {
 
     // TODO UW팀
     // contract에서 수행중인거 가져와서 거절/승인/보류 선택하면 그에 따라 수행
-    @Operation(summary = "인수심사 수행 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
-    @GetMapping("/uw")
+    @Operation(summary = "인수심사 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
+    @GetMapping("/uw/list")
     public Header<List<UwListResponse>> getUwList(){
         return insuranceService.getUwList();
+    }
+
+    @Operation(summary = "인수심사 수행", description = "계약 리스트로 정보를 확인하고 contractId와 & contractStatus:정상/인수심사 거절/인수심사 진행중(보류일 때) 중 하나를 선택해 인수심사를 수행한다.")
+    @PatchMapping("/uw")
+    public Header<Void> startUw(@RequestBody StartUwRequest startUwRequest){
+        return insuranceService.startUw(startUwRequest);
     }
 
     // TODO 고객정보팀
