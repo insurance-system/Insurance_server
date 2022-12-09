@@ -1,5 +1,7 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.contract.exception.execute.NoContractException;
+import com.example.insuranceSystem.domain.contract.exception.execute.NoContractToUwException;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
@@ -13,16 +15,18 @@ import com.example.insuranceSystem.domain.employeeService.repository.entity.Lect
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.UwListResponse;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.InsuranceCondition;
+import com.example.insuranceSystem.global.enumerations.ContractStatus;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,6 +87,36 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                 lectureRequest.getLectureName(),
                 lectureRequest.getLectureUrl(),
                 employee));
+        return Header.OK();
+    }
+
+    // 인수심사 리스트 출력
+    @Override
+    public Header<List<UwListResponse>> getUwList() {
+        List<Contract> contracts = contractRepository.findAllByContractStatus(ContractStatus.PROGRESS_UW);
+        if(contracts.isEmpty()) throw new NoContractToUwException();
+        return Header.OK(contracts.stream()
+                .map(c -> new UwListResponse(
+                        c.getContractId(),
+                        c.getCustomer().getHealthInformation().getCancer().getName(),
+                        c.getCustomer().getHealthInformation().getSmoke().getName(),
+                        c.getCustomer().getHealthInformation().getAlcohol().getName(),
+                        c.getInsurance().getInsuranceName(),
+                        c.getInsurance().getKindOfInsurance().getName(),
+                        c.getInsurance().getFee(),
+                        c.getInsurance().getInsuranceCondition().getCancer().getName(),
+                        c.getInsurance().getInsuranceCondition().getSmoke().getName(),
+                        c.getInsurance().getInsuranceCondition().getAlcohol().getName()))
+                .collect(Collectors.toList()));
+    }
+
+    // 인수심사 수행
+    @Transactional
+    @Override
+    public Header<Void> startUw(StartUwRequest startUwRequest) {
+        Contract contract = contractRepository.findById(startUwRequest.getContractId()).orElseThrow(NoContractException::new);
+        contract.setContractStatus(ContractStatus.getContractStatusByName(startUwRequest.getContractStatus()));
+        contractRepository.save(contract);
         return Header.OK();
     }
 
