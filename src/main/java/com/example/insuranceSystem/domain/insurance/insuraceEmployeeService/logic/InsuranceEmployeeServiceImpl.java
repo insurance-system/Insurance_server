@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.contract.exception.execute.NoContractToUwException;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
@@ -16,13 +17,14 @@ import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.UwListResponse;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.InsuranceCondition;
+import com.example.insuranceSystem.global.enumerations.ContractStatus;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,6 +86,25 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                 lectureRequest.getLectureUrl(),
                 employee));
         return Header.OK();
+    }
+
+    @Override
+    public Header<List<UwListResponse>> getUwList() {
+        List<Contract> contracts = contractRepository.findAllByContractStatus(ContractStatus.PROGRESS_UW);
+        if(contracts.isEmpty()) throw new NoContractToUwException();
+        return Header.OK(contracts.stream()
+                .map(c -> new UwListResponse(
+                        c.getContractId(),
+                        c.getCustomer().getHealthInformation().getCancer().getName(),
+                        c.getCustomer().getHealthInformation().getSmoke().getName(),
+                        c.getCustomer().getHealthInformation().getAlcohol().getName(),
+                        c.getInsurance().getInsuranceName(),
+                        c.getInsurance().getKindOfInsurance().getName(),
+                        c.getInsurance().getFee(),
+                        c.getInsurance().getInsuranceCondition().getCancer().getName(),
+                        c.getInsurance().getInsuranceCondition().getSmoke().getName(),
+                        c.getInsurance().getInsuranceCondition().getAlcohol().getName()))
+                .collect(Collectors.toList()));
     }
 
     @Transactional

@@ -5,6 +5,7 @@ import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.CustomerInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.LectureResponse;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.UwListResponse;
 import com.example.insuranceSystem.global.web.response.Header;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,4 +17,5 @@ public interface InsuranceEmployeeService {
     Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id);
     Header<List<LectureResponse>> getLectureList();
     Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request);
+    Header<List<UwListResponse>> getUwList();
 }
