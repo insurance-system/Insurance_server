@@ -61,7 +61,7 @@ public class CustomerService {
     }
 
     private void checkSsnValidation(String ssn) {
-        String SsnPattern = "\\d{2}([0]\\d|[1][0-2])([0][1-9]|[1-2]\\d|[3][0-1])[-]*[1-4]\\d{6}";
+        String SsnPattern = "^\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|[3][01])-[1-4][0-9]{6}$";
         if(!Pattern.matches(SsnPattern, ssn)) throw new InvalidSsnException();
     }
 
