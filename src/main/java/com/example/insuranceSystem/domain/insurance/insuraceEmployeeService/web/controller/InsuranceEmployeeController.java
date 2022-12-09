@@ -107,11 +107,17 @@ public class InsuranceEmployeeController {
         return insuranceService.getCustomerandJoinedInsurance(id);
     }
 
-    // TODO 손해접수팀
-    @ApiOperation(value = "사고 접수 리스트 출력", notes = "사고 접수된 리스트를 출력한다.")
+    // 손해접수팀
+    @Operation(summary = "사고 접수 리스트 출력", description = "사고 접수된 리스트를 출력한다.")
     @GetMapping("/damage/list")
     public Header<List<IncidentLogListResponse>> manageIncidentLog(){
         return insuranceService.getIncidentLogList();
+    }
+
+    @Operation(summary = "사고 접수 담당자 배정", description = "사고 접수된 리스트 중 하나를 선택해 담당자를 배정한다.")
+    @PatchMapping("/damage/{incident_log_id}")
+    public Header<Void> manageIncidentLog(@PathVariable ("incident_log_id") Long id, HttpServletRequest request){
+        return insuranceService.manageIncidentLog(id, request);
     }
 
     // TODO 보상평가팀

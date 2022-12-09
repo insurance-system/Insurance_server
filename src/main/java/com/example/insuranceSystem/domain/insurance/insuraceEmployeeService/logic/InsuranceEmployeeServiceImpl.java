@@ -138,6 +138,17 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                 .collect(Collectors.toList()));
     }
 
+    // 사고 접수 담당자 배정
+    @Transactional
+    @Override
+    public Header<Void> manageIncidentLog(Long id, HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        IncidentLog incidentLog = incidentLogRepository.findById(id).orElseThrow(); // TODO 예외처리
+        incidentLog.setEmployee(employee);
+        incidentLogRepository.save(incidentLog);
+        return Header.OK();
+    }
+
     @Transactional
     @Override
     public Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest){

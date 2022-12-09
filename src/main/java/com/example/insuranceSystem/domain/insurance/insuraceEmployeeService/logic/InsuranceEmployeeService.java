@@ -18,4 +18,5 @@ public interface InsuranceEmployeeService {
     Header<List<UwListResponse>> getUwList();
     Header<Void> startUw(StartUwRequest startUwRequest);
     Header<List<IncidentLogListResponse>> getIncidentLogList();
+    Header<Void> manageIncidentLog(Long id, HttpServletRequest request);
 }
