@@ -24,4 +24,6 @@ public interface InsuranceEmployeeService {
     Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest);
 
     Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request);
+
+    Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request);
 }
