@@ -1,7 +1,9 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.common.entity.IncidentLog;
 import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
+import com.example.insuranceSystem.domain.common.repository.EmployeeCustomerRepository;
 import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
 import com.example.insuranceSystem.domain.common.repository.InsuranceClaimRepository;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
@@ -49,6 +51,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     private final EmployeeRepository employeeRepository;
     private final IncidentLogRepository incidentLogRepository;
     private final InsuranceClaimRepository insuranceClaimRepository;
+    private final EmployeeCustomerRepository employeeCustomerRepository;
 
     @Override
     public Header<InsuranceResponse> getInsurance(Long id) {
@@ -176,6 +179,23 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         insuranceClaim.setEvaluateCost(evaluateRewardRequest.getEvaluateFee());
         insuranceClaimRepository.save(insuranceClaim);
         return Header.OK();
+    }
+
+    @Override
+    public Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        return Header.OK(employeeCustomerRepository.findByEmployee(employee).get().stream()
+                .map(cs -> ContractWaitingCustomerResponse.builder()
+                        .address(cs.getCustomer().getAddress())
+                        .customerName(cs.getCustomer().getName())
+                        .email(cs.getCustomer().getEmail())
+                        .healthInformation(cs.getCustomer().getHealthInformation())
+                        .job(cs.getCustomer().getKindOfJob())
+                        .kindOfInsurance(cs.getCustomer().getKindOfInsurance())
+                        .ssn(cs.getCustomer().getSsn())
+                        .phoneNum(cs.getCustomer().getPhoneNumber())
+                        .build())
+                .collect(Collectors.toList()));
     }
 
     @Transactional

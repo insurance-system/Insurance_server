@@ -22,4 +22,6 @@ public interface InsuranceEmployeeService {
     Header<Void> manageIncidentLog(Long id, HttpServletRequest request);
     Header<List<InsuranceClaimResponse>> getInsuranceClaimList();
     Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest);
+
+    Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request);
 }
