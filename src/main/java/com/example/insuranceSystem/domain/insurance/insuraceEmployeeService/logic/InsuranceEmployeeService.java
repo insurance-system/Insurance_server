@@ -16,10 +16,10 @@ public interface InsuranceEmployeeService {
     Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id);
     Header<List<LectureResponse>> getLectureList();
     Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request);
-    Header<List<UwListResponse>> getUwList(HttpServletRequest request);
+    Header<List<UwListResponse>> getUwList();
     Header<Void> startUw(StartUwRequest startUwRequest);
-    Header<List<IncidentLogListResponse>> getIncidentLogList(HttpServletRequest request);
+    Header<List<IncidentLogListResponse>> getIncidentLogList();
     Header<Void> manageIncidentLog(Long id, HttpServletRequest request);
-    Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request);
+    Header<List<InsuranceClaimResponse>> getInsuranceClaimList();
     Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest);
 }

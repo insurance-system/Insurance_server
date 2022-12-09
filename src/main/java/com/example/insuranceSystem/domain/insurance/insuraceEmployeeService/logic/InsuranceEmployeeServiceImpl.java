@@ -4,8 +4,6 @@ import com.example.insuranceSystem.domain.common.entity.IncidentLog;
 import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
 import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
 import com.example.insuranceSystem.domain.common.repository.InsuranceClaimRepository;
-import com.example.insuranceSystem.domain.contract.exception.execute.NoContractException;
-import com.example.insuranceSystem.domain.contract.exception.execute.NoContractToUwException;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
@@ -16,7 +14,7 @@ import com.example.insuranceSystem.domain.employeeService.repository.EmployeeRep
 import com.example.insuranceSystem.domain.employeeService.repository.LectureRepository;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Lecture;
-import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
+import com.example.insuranceSystem.domain.insurance.exception.execute.*;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
@@ -76,6 +74,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<List<LectureResponse>> getLectureList() {
         List<Lecture> lectureList = lectureRepository.findAll();
+        if(lectureList.isEmpty()) throw new NoLectureListException();
         return Header.OK(lectureList.stream()
                 .map(l -> new LectureResponse(
                         l.getLectureName(),
@@ -97,7 +96,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     // 인수심사 리스트 출력
     @Override
-    public Header<List<UwListResponse>> getUwList(HttpServletRequest request) {
+    public Header<List<UwListResponse>> getUwList() {
         List<Contract> contracts = contractRepository.findAllByContractStatus(ContractStatus.PROGRESS_UW);
         if(contracts.isEmpty()) throw new NoContractToUwException();
         return Header.OK(contracts.stream()
@@ -119,7 +118,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Transactional
     @Override
     public Header<Void> startUw(StartUwRequest startUwRequest) {
-        Contract contract = contractRepository.findById(startUwRequest.getContractId()).orElseThrow(NoContractException::new);
+        Contract contract = contractRepository.findById(startUwRequest.getContractId()).orElseThrow(NotFoundContractException::new);
         contract.setContractStatus(ContractStatus.getContractStatusByName(startUwRequest.getContractStatus()));
         contractRepository.save(contract);
         return Header.OK();
@@ -127,9 +126,9 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     // 사고 접수 리스트
     @Override
-    public Header<List<IncidentLogListResponse>> getIncidentLogList(HttpServletRequest request) {
+    public Header<List<IncidentLogListResponse>> getIncidentLogList() {
         List<IncidentLog> incidentLogs = incidentLogRepository.findAllByEmployeeNull();
-        // TODO incidentLog 관련한 exception은 어디서.??
+        if(incidentLogs.isEmpty()) throw new NoIncidentLogListException();
         return Header.OK(incidentLogs.stream()
                 .map(il -> new IncidentLogListResponse(
                         il.getId(),
@@ -147,7 +146,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<Void> manageIncidentLog(Long id, HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
-        IncidentLog incidentLog = incidentLogRepository.findById(id).orElseThrow(); // TODO 예외처리
+        IncidentLog incidentLog = incidentLogRepository.findById(id).orElseThrow(NotFoundIncidentLogException::new);
         incidentLog.setEmployee(employee);
         incidentLogRepository.save(incidentLog);
         return Header.OK();
@@ -155,9 +154,9 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     // 보험금 심사 리스트 출력
     @Override
-    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request) {
+    public Header<List<InsuranceClaimResponse>> getInsuranceClaimList() {
         List<InsuranceClaim> insuranceClaims = insuranceClaimRepository.findAllByEvaluateCost(-1);
-        // TODO 예외처리
+        if(insuranceClaims.isEmpty()) throw new NoInsuranceClaimToEvaluateException();
         return Header.OK(insuranceClaims.stream()
                 .map(ic -> new InsuranceClaimResponse(
                         ic.getId(),
@@ -173,7 +172,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Transactional
     @Override
     public Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest) {
-        InsuranceClaim insuranceClaim = insuranceClaimRepository.findById(evaluateRewardRequest.getInsuranceClaimId()).orElseThrow(); // TODO 예외처리
+        InsuranceClaim insuranceClaim = insuranceClaimRepository.findById(evaluateRewardRequest.getInsuranceClaimId()).orElseThrow(NotFoundInsuranceClaimException::new);
         insuranceClaim.setEvaluateCost(evaluateRewardRequest.getEvaluateFee());
         insuranceClaimRepository.save(insuranceClaim);
         return Header.OK();
