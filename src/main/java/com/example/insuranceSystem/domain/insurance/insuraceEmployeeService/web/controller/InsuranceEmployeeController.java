@@ -34,17 +34,17 @@ public class InsuranceEmployeeController {
         return insuranceService.getInsurance(id);
     }
 
-    @ApiOperation(value = "보험 생성하기", notes = "보험 생성하기")
+    @Operation(summary = "보험 생성하기(완)", description = "보험 생성하기")
     @PostMapping("/development")
     public Header<InsuranceResponse> developInsurance(@RequestBody @Valid InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request){
         return insuranceService.create(insuranceSaveRequest, request);
     }
 
     //TODO 영업활동팀
-    @ApiOperation(value = "상담대기 신규고객 명단 조회", notes = "상담 대기 신규 고객 명단 조회")
+    @Operation(summary = "상담대기 신규고객 명단 조회(완)", description = "상담 대기 신규 고객 명단 조회")
     @GetMapping("/sales/new-customer")
-    public Header<?> doSalesEmployeeService(){
-        return null;
+    public Header<List<ContractWaitingCustomerResponse>> doSalesEmployeeService(HttpServletRequest request){
+        return insuranceService.getContractCustomer(request);
     }
 
     @ApiOperation(value = "보험 관심자 배정", notes = "보험 관심자 배정")

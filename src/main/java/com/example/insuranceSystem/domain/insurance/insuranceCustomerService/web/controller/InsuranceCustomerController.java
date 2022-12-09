@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.controller;
 
+import com.example.insuranceSystem.domain.customerService.web.dto.request.LoginCustomerRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -82,4 +84,6 @@ public class InsuranceCustomerController {
     public Header<Void> claimInsurance(@RequestBody ClaimInsuranceRequest claimInsuranceRequest, HttpServletRequest request){
         return insuranceCustomerService.claimInsurance(claimInsuranceRequest, request);
     }
+
+
 }

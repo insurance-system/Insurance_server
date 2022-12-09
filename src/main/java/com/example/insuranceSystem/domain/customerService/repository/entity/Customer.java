@@ -49,6 +49,7 @@ public class Customer extends DateBaseEntity {
     @OneToMany(mappedBy = "customer", cascade = ALL)
     private List<EmployeeCustomer> employeeCustomerList = new ArrayList<>();
 
+
     @OneToOne
     @JoinColumn(name = "health_information_id")
     private HealthInformation healthInformation;
