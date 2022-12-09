@@ -89,7 +89,7 @@ public class InsuranceEmployeeController {
 
     // UW팀
     @Operation(summary = "인수심사 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
-    @GetMapping("/uw/list")
+    @GetMapping("/uw")
     public Header<List<UwListResponse>> getUwList(){
         return insuranceService.getUwList();
     }
@@ -109,7 +109,7 @@ public class InsuranceEmployeeController {
 
     // 손해접수팀
     @Operation(summary = "사고 접수 리스트 출력", description = "사고 접수된 리스트를 출력한다.")
-    @GetMapping("/damage/list")
+    @GetMapping("/damage")
     public Header<List<IncidentLogListResponse>> manageIncidentLog(){
         return insuranceService.getIncidentLogList();
     }
