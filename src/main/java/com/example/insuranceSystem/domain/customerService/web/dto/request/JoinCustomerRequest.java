@@ -2,7 +2,7 @@ package com.example.insuranceSystem.domain.customerService.web.dto.request;
 
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.customerService.repository.entity.HealthInformation;
-import com.example.insuranceSystem.domain.customerService.repository.enumeration.KindOfRole;
+import com.example.insuranceSystem.global.enumerations.KindOfRole;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.Grade;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum CustomerExceptionEnum {
     NOT_FOUND("C0001", HttpStatus.NOT_FOUND, "해당 고객을 찾을 수 없습니다."),
     EXIST("C0002", HttpStatus.BAD_REQUEST, "이미 존재하는 이메일입니다."),
+    WRONG_PASSWORD("C003", HttpStatus.BAD_REQUEST, "잘못된 비밀번호입니다."),
     
     INVALID_EMAIL("C1000", HttpStatus.BAD_REQUEST, "잘못된 이메일 형식입니다. 형식(mju@naver.com)"),
     INVALID_PHONE("C1001", HttpStatus.BAD_REQUEST, "잘못된 전화번호 형식입니다. 형식(010-0000-0000)"),
