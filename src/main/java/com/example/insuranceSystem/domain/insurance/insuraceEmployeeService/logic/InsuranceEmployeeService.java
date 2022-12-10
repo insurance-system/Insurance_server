@@ -13,15 +13,15 @@ import java.util.List;
 public interface InsuranceEmployeeService {
     Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request);
     Header<InsuranceResponse> getInsurance(Long id);
-    Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id);
-    Header<List<LectureResponse>> getLectureList();
+    Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id, HttpServletRequest request);
+    Header<List<LectureResponse>> getLectureList(HttpServletRequest request);
     Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request);
-    Header<List<UwListResponse>> getUwList();
-    Header<Void> startUw(StartUwRequest startUwRequest);
-    Header<List<IncidentLogListResponse>> getIncidentLogList();
+    Header<List<UwListResponse>> getUwList(HttpServletRequest request);
+    Header<Void> startUw(StartUwRequest startUwRequest, HttpServletRequest request);
+    Header<List<IncidentLogListResponse>> getIncidentLogList(HttpServletRequest request);
     Header<Void> manageIncidentLog(Long id, HttpServletRequest request);
-    Header<List<InsuranceClaimResponse>> getInsuranceClaimList();
-    Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest);
+    Header<List<InsuranceClaimResponse>> getInsuranceClaimList(HttpServletRequest request);
+    Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest, HttpServletRequest request);
 
     Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request);
 
