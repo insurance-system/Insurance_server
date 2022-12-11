@@ -108,7 +108,7 @@ public class InsuranceCustomerService {
         return Header.OK();
     }
 
-    //TODO Payment 엔티티 만들고 contract와 관련해 어떻게 보여줄 것인지
+    //TODO Payment 엔티티 만들고 contract 와 관련해 어떻게 보여줄 것인지
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request) {
         return null;
     }
@@ -137,7 +137,7 @@ public class InsuranceCustomerService {
     }
 
     public Long getUserId(HttpServletRequest request) {
-        return Long.parseLong(request.getHeader("userId"));
+        return Long.parseLong(request.getHeader("userid"));
     }
 
 }
