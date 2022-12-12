@@ -206,45 +206,36 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     }
 
     @Override
-    public Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request) {
+    public Header<List<ContractCustomerResponse>> getNearExpireContractList(HttpServletRequest request) {
         employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         List<Contract> byExpiredDateAfter = contractRepository.findByExpiredDateBetween(LocalDateTime.now(),LocalDateTime.now().plusMonths(2));
-        return Header.OK(byExpiredDateAfter.stream().map(
-                        cs -> ContractSoonExpirationResponse.builder()
-                                .insuranceName(cs.getInsurance().getInsuranceName())
-                                .customerName(cs.getCustomer().getName())
-                                .address(cs.getCustomer().getAddress())
-                                .fee(cs.getInsurance().getFee())
-                                .healthInformation(cs.getCustomer().getHealthInformation())
-                                .kindOfJob(cs.getCustomer().getKindOfJob())
-                                .phoneNum(cs.getCustomer().getPhoneNumber())
-                                .build())
-                .collect(Collectors.toList()));
+        return getContractCustomerResponse(byExpiredDateAfter);
     }
 
     @Override
-    public Header<List<ContractSoonExpirationResponse>> notifyContractStatus(HttpServletRequest request) {
+    public Header<List<ContractCustomerResponse>> notifyContractStatus(HttpServletRequest request) {
         employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         List<Contract> byExpiredDateAfter = contractRepository.findByPaymentDateBetween(LocalDateTime.now(),LocalDateTime.now().plusWeeks(1));
-        return Header.OK(byExpiredDateAfter.stream().map(
-                        cs -> ContractSoonExpirationResponse.builder()
-                                .insuranceName(cs.getInsurance().getInsuranceName())
-                                .customerName(cs.getCustomer().getName())
-                                .address(cs.getCustomer().getAddress())
-                                .fee(cs.getInsurance().getFee())
-                                .healthInformation(cs.getCustomer().getHealthInformation())
-                                .kindOfJob(cs.getCustomer().getKindOfJob())
-                                .phoneNum(cs.getCustomer().getPhoneNumber())
-                                .build())
-                .collect(Collectors.toList()));
+        return getContractCustomerResponse(byExpiredDateAfter);
     }
 
     @Override
-    public Header<List<ContractSoonExpirationResponse>> printExpirationContract(HttpServletRequest request) {
+    public Header<List<ContractCustomerResponse>> printExpirationContract(HttpServletRequest request) {
         employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         List<Contract> allByContractStatus = contractRepository.findAllByContractStatus(ContractStatus.EXPIRATION);
+        return getContractCustomerResponse(allByContractStatus);
+    }
+
+    @Override
+    public Header<List<ContractCustomerResponse>> printNonPaymentContract(HttpServletRequest request) {
+        employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        List<Contract> allByContractStatus = contractRepository.findAllByContractStatus(ContractStatus.NON_PAYMENT);
+        return getContractCustomerResponse(allByContractStatus);
+    }
+
+    private Header<List<ContractCustomerResponse>> getContractCustomerResponse(List<Contract> allByContractStatus) {
         return Header.OK(allByContractStatus.stream().map(
-                        cs -> ContractSoonExpirationResponse.builder()
+                        cs -> ContractCustomerResponse.builder()
                                 .insuranceName(cs.getInsurance().getInsuranceName())
                                 .customerName(cs.getCustomer().getName())
                                 .address(cs.getCustomer().getAddress())
@@ -254,11 +245,6 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                                 .phoneNum(cs.getCustomer().getPhoneNumber())
                                 .build())
                 .collect(Collectors.toList()));
-    }
-
-    @Override
-    public Header<List<ContractSoonExpirationResponse>> printDefaultContract(HttpServletRequest request) {
-        return null;
     }
 
     @Transactional

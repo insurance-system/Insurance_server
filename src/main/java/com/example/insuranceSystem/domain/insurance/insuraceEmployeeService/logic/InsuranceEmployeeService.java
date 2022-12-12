@@ -25,11 +25,11 @@ public interface InsuranceEmployeeService {
 
     Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request);
 
-    Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request);
+    Header<List<ContractCustomerResponse>> getNearExpireContractList(HttpServletRequest request);
 
-    Header<List<ContractSoonExpirationResponse>> notifyContractStatus(HttpServletRequest request);
+    Header<List<ContractCustomerResponse>> notifyContractStatus(HttpServletRequest request);
 
-    Header<List<ContractSoonExpirationResponse>> printExpirationContract(HttpServletRequest request);
+    Header<List<ContractCustomerResponse>> printExpirationContract(HttpServletRequest request);
 
-    Header<List<ContractSoonExpirationResponse>> printDefaultContract(HttpServletRequest request);
+    Header<List<ContractCustomerResponse>> printNonPaymentContract(HttpServletRequest request);
 }

@@ -56,26 +56,26 @@ public class InsuranceEmployeeController {
 
     @ApiOperation(value = "계약 기간 만료 임박 리스트 출력(완)", notes = "계약 기간 만료 임박 리스트 출력")
     @GetMapping("/contract/soon-expiration") // 계약 기간 만료 임박
-    public Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request){
+    public Header<List<ContractCustomerResponse>> getNearExpireContractList(HttpServletRequest request){
         return insuranceService.getNearExpireContractList(request);
     }
 
     @ApiOperation(value = "보험 납부 기간 만료 임박 조회(완)", notes = "보험 납부 기간 만료 임박")
     @GetMapping("/contract/payment-soon-expiration") //보험 납부 기간 만료 임박
-    public Header<List<ContractSoonExpirationResponse>> notifyContractStatus(HttpServletRequest request){
+    public Header<List<ContractCustomerResponse>> notifyContractStatus(HttpServletRequest request){
         return insuranceService.notifyContractStatus(request);
     }
 
     @ApiOperation(value = "보험 만기 고객 조회",notes = "보험 만기 고객 조회//건강정보 테이블에 고객 ID 들어가야함")
     @GetMapping("/followup/expiration")
-    public Header<List<ContractSoonExpirationResponse>> printExpirationContract(HttpServletRequest request){
+    public Header<List<ContractCustomerResponse>> printExpirationContract(HttpServletRequest request){
         return insuranceService.printExpirationContract(request);
     }
 
     @ApiOperation(value = "미납 고객 조회", notes = "미납 고객 조회")
     @GetMapping("/contract/non-payment")
-    public Header<List<ContractSoonExpirationResponse>> printDefaultContract(HttpServletRequest request){
-        return insuranceService.printDefaultContract(request);
+    public Header<List<ContractCustomerResponse>> printNonPaymentContract(HttpServletRequest request){
+        return insuranceService.printNonPaymentContract(request);
     }
 
     // 영업교육팀
