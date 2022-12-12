@@ -1,6 +1,5 @@
 package com.example.insuranceSystem.domain.customerService.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.*;
 import com.example.insuranceSystem.domain.common.repository.entity.*;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.global.enumerations.KindOfRole;
