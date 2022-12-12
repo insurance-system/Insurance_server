@@ -23,11 +23,11 @@ import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web
 import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.LectureRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.StartUwRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response.*;
-import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.InsuranceCondition;
 import com.example.insuranceSystem.global.enumerations.ContractStatus;
+import com.example.insuranceSystem.global.enumerations.Grade;
 import com.example.insuranceSystem.global.util.date.DateFormatter;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,6 @@ import java.util.stream.Collectors;
 public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     private final InsuranceRepository insuranceRepository;
-    private final InsuranceConditionRepository insuranceConditionRepository;
     private final ContractRepository contractRepository;
     private final CustomerRepository customerRepository;
     private final LectureRepository lectureRepository;
@@ -291,7 +290,12 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     public Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request){
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         validateRole(employee.getDepartment(),"상품개발팀");
-        InsuranceCondition insuranceCondition = insuranceConditionRepository.save(insuranceSaveRequest.toInsuranceConditionEntity());
+        InsuranceCondition insuranceCondition = new InsuranceCondition(
+                insuranceSaveRequest.getMaxAge(),
+                insuranceSaveRequest.getMinAge(),
+                Grade.getGrade(insuranceSaveRequest.getSmoke()),
+                Grade.getGrade(insuranceSaveRequest.getAlcohol()),
+                Grade.getGrade(insuranceSaveRequest.getCancer()));
         Insurance insurance = insuranceRepository.save(insuranceSaveRequest.toEntityWith(insuranceCondition));
         return Header.CREATED(InsuranceResponse.toDto(insurance));
     }

@@ -6,16 +6,13 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
+@ToString
+@NoArgsConstructor
+@Embeddable
 @Getter
-@Entity
-public class InsuranceCondition extends DateBaseEntity{
+@Setter(AccessLevel.PROTECTED)
+public class InsuranceCondition{
 
-    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "insurance_condition_id")
-    private Long insuranceConditionId;
     private int maxAge;
     private int minAge;
     @Enumerated(EnumType.STRING)
@@ -24,13 +21,6 @@ public class InsuranceCondition extends DateBaseEntity{
     private Grade alcohol;
     @Enumerated(EnumType.STRING)
     private Grade cancer;
-    @OneToOne
-    @JoinColumn(name = "insurance_id")
-    private Insurance insurance;
-
-    public void addInsurance(Insurance insurance){
-        this.insurance = insurance;
-    }
 
     @Builder
     public InsuranceCondition(int maxAge,
