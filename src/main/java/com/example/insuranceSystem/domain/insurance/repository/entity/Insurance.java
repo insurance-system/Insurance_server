@@ -1,7 +1,7 @@
 package com.example.insuranceSystem.domain.insurance.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
-import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
+import com.example.insuranceSystem.domain.common.repository.entity.DateBaseEntity;
+import com.example.insuranceSystem.domain.common.repository.entity.InsuranceClaim;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.InsuranceStatus;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;

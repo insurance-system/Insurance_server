@@ -1,10 +1,9 @@
-package com.example.insuranceSystem.domain.common.entity;
+package com.example.insuranceSystem.domain.common.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.enumerations.IncidentCategory;
+import com.example.insuranceSystem.domain.common.repository.entity.enumerations.IncidentCategory;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.global.util.date.DateFormatter;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;

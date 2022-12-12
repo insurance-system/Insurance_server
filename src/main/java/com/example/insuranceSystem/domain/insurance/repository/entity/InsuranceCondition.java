@@ -1,6 +1,5 @@
 package com.example.insuranceSystem.domain.insurance.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
 import com.example.insuranceSystem.global.enumerations.Grade;
 import lombok.*;
 

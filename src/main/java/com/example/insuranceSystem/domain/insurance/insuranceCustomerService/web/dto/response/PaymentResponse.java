@@ -1,6 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response;
 
-import com.example.insuranceSystem.domain.common.entity.Payment;
+import com.example.insuranceSystem.domain.common.repository.entity.Payment;
 import lombok.Getter;
 
 

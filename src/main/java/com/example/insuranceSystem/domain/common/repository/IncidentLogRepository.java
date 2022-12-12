@@ -1,6 +1,6 @@
 package com.example.insuranceSystem.domain.common.repository;
 
-import com.example.insuranceSystem.domain.common.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.repository.entity.IncidentLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

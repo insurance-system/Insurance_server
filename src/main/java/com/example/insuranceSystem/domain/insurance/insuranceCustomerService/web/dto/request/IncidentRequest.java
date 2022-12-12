@@ -1,7 +1,7 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request;
 
-import com.example.insuranceSystem.domain.common.entity.IncidentLog;
-import com.example.insuranceSystem.domain.common.entity.enumerations.IncidentCategory;
+import com.example.insuranceSystem.domain.common.repository.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.repository.entity.enumerations.IncidentCategory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

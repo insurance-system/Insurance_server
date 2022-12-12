@@ -1,8 +1,8 @@
 package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.logic;
 
-import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
-import com.example.insuranceSystem.domain.common.entity.IncidentLog;
-import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
+import com.example.insuranceSystem.domain.common.repository.entity.EmployeeCustomer;
+import com.example.insuranceSystem.domain.common.repository.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.repository.entity.InsuranceClaim;
 import com.example.insuranceSystem.domain.common.repository.EmployeeCustomerRepository;
 import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
 import com.example.insuranceSystem.domain.common.repository.InsuranceClaimRepository;

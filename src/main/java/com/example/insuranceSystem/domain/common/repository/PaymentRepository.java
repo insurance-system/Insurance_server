@@ -1,6 +1,6 @@
 package com.example.insuranceSystem.domain.common.repository;
 
-import com.example.insuranceSystem.domain.common.entity.Payment;
+import com.example.insuranceSystem.domain.common.repository.entity.Payment;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
