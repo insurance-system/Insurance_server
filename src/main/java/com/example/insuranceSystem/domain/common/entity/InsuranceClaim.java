@@ -5,6 +5,7 @@ import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 
@@ -22,7 +23,8 @@ public class InsuranceClaim {
 
     private int claimCost;
 
-    @Column
+    @ColumnDefault("-1")
+    @Column(nullable = false)
     private Integer evaluateCost;
 
     @ManyToOne(fetch = FetchType.LAZY)

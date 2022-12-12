@@ -1,9 +1,6 @@
 package com.example.insuranceSystem.domain.employeeService.logic;
 
-import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
 import com.example.insuranceSystem.domain.customerService.exception.execute.WrongPasswordException;
-import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
-import com.example.insuranceSystem.domain.customerService.web.dto.response.CustomerLoginResponse;
 import com.example.insuranceSystem.domain.employeeService.exception.execute.EmployeeNotFoundException;
 import com.example.insuranceSystem.domain.employeeService.repository.EmployeeRepository;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
@@ -23,6 +20,6 @@ public class EmployeeService {
     public Header<?> login(LoginEmployeeRequest loginEmployeeRequest) {
         Employee employee = employeeRepository.findByEmail(loginEmployeeRequest.getEmail()).orElseThrow(EmployeeNotFoundException::new);
         if(!loginEmployeeRequest.getPassword().equals(employee.getPassword())) throw new WrongPasswordException();
-        return Header.OK(new EmployeeLoginResponse(employee.getEmployeeId(), employee.getKindOfRole().getName()));
+        return Header.OK(new EmployeeLoginResponse(employee.getEmployeeId(), employee.getName(), employee.getKindOfRole().getName()));
     }
 }

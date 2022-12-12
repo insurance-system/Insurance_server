@@ -39,7 +39,7 @@ public class CustomerService {
         Customer customer = customerRepository.findByEmail(loginCustomerRequest.getEmail())
                 .orElseThrow(CustomerNotFoundException::new);
         if(!loginCustomerRequest.getPassword().equals(customer.getPassword())) throw new WrongPasswordException();
-        return Header.OK(new CustomerLoginResponse(customer.getId(), customer.getKindOfRole().getName()));
+        return Header.OK(new CustomerLoginResponse(customer.getId(), customer.getName(), customer.getKindOfRole().getName()));
     }
 
     private void checkValidation(JoinCustomerRequest joinCustomerRequest) {

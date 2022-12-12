@@ -7,10 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class CustomerLoginResponse {
     private Long id;
+    private String name;
     private String kindOfRole;
 
-    public CustomerLoginResponse(Long id, String kindOfRole) {
+    public CustomerLoginResponse(Long id, String name, String kindOfRole) {
         this.id = id;
+        this.name = name;
         this.kindOfRole = kindOfRole;
+
     }
 }
