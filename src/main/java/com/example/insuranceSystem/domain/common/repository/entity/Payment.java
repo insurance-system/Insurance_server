@@ -29,7 +29,7 @@ public class Payment extends DateBaseEntity{
     @JoinColumn(name="customer_id")
     private Customer customer;
 
-    public Payment(int payCost, Contract contract, Customer customer) {
+    public Payment(int payCost, Contract contract, Customer customer){
         this.payCost = payCost;
         addContract(contract);
         addCustomer(customer);
