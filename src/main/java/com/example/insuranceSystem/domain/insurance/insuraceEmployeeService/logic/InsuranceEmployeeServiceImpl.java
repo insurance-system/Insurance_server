@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
 
+import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.common.entity.IncidentLog;
 import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
 import com.example.insuranceSystem.domain.common.repository.EmployeeCustomerRepository;
@@ -13,6 +14,7 @@ import com.example.insuranceSystem.domain.customerService.repository.entity.Cust
 import com.example.insuranceSystem.domain.employeeService.exception.execute.EmployeeNotFoundException;
 import com.example.insuranceSystem.domain.employeeService.repository.EmployeeRepository;
 import com.example.insuranceSystem.domain.employeeService.repository.LectureRepository;
+import com.example.insuranceSystem.domain.employeeService.repository.entity.Department;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Lecture;
 import com.example.insuranceSystem.domain.insurance.exception.execute.*;
@@ -36,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly=true)
@@ -190,8 +193,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request) {
-        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
-        return Header.OK(employeeCustomerRepository.findByEmployee(employee).get().stream()
+        employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        return Header.OK(employeeCustomerRepository.findByEmployee(null).get().stream()
                 .map(cs -> ContractWaitingCustomerResponse.builder()
                         .address(cs.getCustomer().getAddress())
                         .customerName(cs.getCustomer().getName())
@@ -233,6 +236,20 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         return getContractCustomerResponse(allByContractStatus);
     }
 
+    @Override
+    public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, Long insuranceNum) {
+        EmployeeCustomer employeeCustomer = employeeCustomerRepository.findById(insuranceNum).get();
+        return Header.OK(InsuranceInterestedResponse.builder()
+                .customerName(employeeCustomer.getCustomer().getName())
+                .customerEmail(employeeCustomer.getCustomer().getEmail())
+                .customerPhone(employeeCustomer.getCustomer().getPhoneNumber())
+                .kindOfInsurance(employeeCustomer.getCustomer().getKindOfInsurance())
+                .address(employeeCustomer.getCustomer().getAddress())
+                .kindOfJob(employeeCustomer.getCustomer().getKindOfJob())
+                .build());
+    }
+
+
     private Header<List<ContractCustomerResponse>> getContractCustomerResponse(List<Contract> allByContractStatus) {
         return Header.OK(allByContractStatus.stream().map(
                         cs -> ContractCustomerResponse.builder()
@@ -258,5 +275,9 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     public Long getEmployeeId(HttpServletRequest request) {
         return Long.parseLong(request.getHeader("userid"));
+    }
+
+    public void validateRole(Department department, String departmentName){
+        if (department.getDepartmentName().equals(departmentName)) throw new EmployeeAuthFailException();
     }
 }
