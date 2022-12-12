@@ -12,5 +12,4 @@ public interface EmployeeCustomerRepository extends JpaRepository<EmployeeCustom
     Optional<List<EmployeeCustomer>> findAllByCustomer(Customer customer);
 
     Optional<List<EmployeeCustomer>> findByEmployee(Employee employee);
-
 }

@@ -253,11 +253,13 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         return getContractCustomerResponse(allByContractStatus);
     }
 
+    @Transactional
     @Override
     public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, Long insuranceNum) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         validateRole(employee.getDepartment(),"영업활동팀");
         EmployeeCustomer employeeCustomer = employeeCustomerRepository.findById(insuranceNum).get();
+        employeeCustomer.addEmployee(employee);
         return Header.OK(InsuranceInterestedResponse.builder()
                 .customerName(employeeCustomer.getCustomer().getName())
                 .customerEmail(employeeCustomer.getCustomer().getEmail())
@@ -298,6 +300,6 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     }
 
     public void validateRole(Department department, String departmentName){
-        if (department.getDepartmentName().equals(departmentName)) throw new EmployeeAuthFailException();
+        if (!department.getDepartmentName().equals(departmentName)) throw new EmployeeAuthFailException();
     }
 }

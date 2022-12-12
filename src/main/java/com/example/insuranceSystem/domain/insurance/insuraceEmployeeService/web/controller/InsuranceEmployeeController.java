@@ -55,8 +55,8 @@ public class InsuranceEmployeeController {
     //TODO 보험 관심자는 보험 상담 요청에 해당하는건가?
     @Operation(summary = "보험 관심자 배정()", description = "보험 관심자 배정")
     @PostMapping("/sales/interest")    // insurance-employee/sales
-    public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, @PathVariable("insuranceNum") Long insuranceNum){
-        return insuranceService.assignInsuranceInterested(request, insuranceNum);
+    public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, @PathVariable("empCusId") Long empCusId){
+        return insuranceService.assignInsuranceInterested(request, empCusId);
     }
 
     //사후관리팀
