@@ -5,10 +5,12 @@ import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
 import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.common.entity.IncidentLog;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
+import com.example.insuranceSystem.global.enumerations.KindOfRole;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,6 +35,9 @@ public class Employee extends DateBaseEntity {
 
     @Embedded
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private KindOfRole kindOfRole;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="department_id")
