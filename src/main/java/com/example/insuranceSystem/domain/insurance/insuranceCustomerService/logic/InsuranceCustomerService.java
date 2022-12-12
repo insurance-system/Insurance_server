@@ -12,10 +12,10 @@ import com.example.insuranceSystem.domain.customerService.repository.CustomerRep
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.ConsultNotFoundException;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.CustomerNotFoundException;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NoConsultException;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.exception.NothingJoinedInsuranceException;
+import com.example.insuranceSystem.domain.insurance.exception.execute.ConsultNotFoundException;
+import com.example.insuranceSystem.domain.insurance.exception.execute.CustomerNotFoundException;
+import com.example.insuranceSystem.domain.insurance.exception.execute.NoConsultException;
+import com.example.insuranceSystem.domain.insurance.exception.execute.NothingJoinedInsuranceException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
@@ -79,7 +79,7 @@ public class InsuranceCustomerService {
         );
     }
 
-    public Header<List<InsuranceResponse>> getJoinedInsurances(HttpServletRequest request) {
+    public Header<List<InsuranceResponse>> getJoinedInsurances(HttpServletRequest request){
         Customer customer = customerRepository
                 .findById(getUserId(request)).orElseThrow(() -> new CustomerNotFoundException(getUserId(request)));
         List<Contract> contracts = contractRepository.findAllByCustomer(customer).orElseThrow(NothingJoinedInsuranceException::new);
@@ -101,7 +101,7 @@ public class InsuranceCustomerService {
 
     @Transactional
     public Header<Void> evaluateSatisfaction(EvaluateSatisfactionRequest evaluateSatisfactionRequest,
-                                                                  HttpServletRequest request){
+                                             HttpServletRequest request){
         EmployeeCustomer employeeCustomer = employeeCustomerRepository
                 .findById(evaluateSatisfactionRequest.getConsultId()).orElseThrow(ConsultNotFoundException::new);
         employeeCustomer.evaluateSatisfaction(evaluateSatisfactionRequest.getSatisfaction());

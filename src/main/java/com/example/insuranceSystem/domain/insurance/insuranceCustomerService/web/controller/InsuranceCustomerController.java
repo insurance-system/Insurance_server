@@ -1,6 +1,5 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.controller;
 
-import com.example.insuranceSystem.domain.customerService.web.dto.request.LoginCustomerRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
@@ -73,17 +72,15 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.getPaymentHistory(request);
     }
 
-    @Operation(summary = "사고 처리 접수", description = "사고 처리 접수")
+    @Operation(summary = "사고 처리 접수", description = "<완> 사고 처리 접수")
     @PostMapping("/incident-accept")
     public Header<Void> acceptIncidentHandling(@RequestBody IncidentRequest incidentRequest, HttpServletRequest request){
         return insuranceCustomerService.acceptIncidentHandling(incidentRequest, request);
     }
 
-    @Operation(summary = "보험금 청구하기", description = "보험금 청구하기")
+    @Operation(summary = "보험금 청구하기", description = "<완> 보험금 청구하기")
     @PostMapping("/insurance-claim")
     public Header<Void> claimInsurance(@RequestBody ClaimInsuranceRequest claimInsuranceRequest, HttpServletRequest request){
         return insuranceCustomerService.claimInsurance(claimInsuranceRequest, request);
     }
-
-
 }
