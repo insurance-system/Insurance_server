@@ -53,7 +53,7 @@ public class InsuranceEmployeeController {
 
    //영업팀
     //TODO 보험 관심자는 보험 상담 요청에 해당하는건가?
-    @ApiOperation(value = "보험 관심자 배정", notes = "보험 관심자 배정")
+    @Operation(summary = "보험 관심자 배정()", description = "보험 관심자 배정")
     @PostMapping("/sales/interest")    // insurance-employee/sales
     public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, @PathVariable("insuranceNum") Long insuranceNum){
         return insuranceService.assignInsuranceInterested(request, insuranceNum);
@@ -62,7 +62,7 @@ public class InsuranceEmployeeController {
     //사후관리팀
     @ApiOperation(value = "계약 기간 만료 임박 리스트 출력(완)", notes = "계약 기간 만료 임박 리스트 출력")
     @GetMapping("/contract/soon-expiration") // 계약 기간 만료 임박
-    public Header<List<ContractCustomerResponse>> ㅌ(HttpServletRequest request){
+    public Header<List<ContractCustomerResponse>> getNearExpireContractList(HttpServletRequest request){
         return insuranceService.getNearExpireContractList(request);
     }
 
@@ -147,7 +147,7 @@ public class InsuranceEmployeeController {
         return insuranceService.getInsuranceClaimList(request);
     }
 
-    //보상평가팀
+    //보상ㅇ가팀
     @Operation(summary = "보상금 심사", description = "보상금 리스트 중 심사할 내역을 선택해 심사 비용을 등록한다.")
     @PatchMapping("/reward")
     public Header<Void> evaluateReward(@RequestBody EvaluateRewardRequest evaluateRewardRequest, HttpServletRequest request){

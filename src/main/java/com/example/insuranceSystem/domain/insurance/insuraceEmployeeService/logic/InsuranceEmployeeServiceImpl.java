@@ -67,6 +67,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id, HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"고객정보팀");
         Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
         List<Contract> contractList = contractRepository.findByCustomerId(id);
         List<InsuranceResponse> insuranceList = new ArrayList<>();
@@ -81,6 +82,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<List<LectureResponse>> getLectureList(HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"영업교육팀");
         List<Lecture> lectureList = lectureRepository.findAll();
         if(lectureList.isEmpty()) throw new NoLectureListException();
         return Header.OK(lectureList.stream()
@@ -95,6 +97,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<Void> uploadEducationLecture(LectureRequest lectureRequest, HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"영업교육팀");
         lectureRepository.save(new Lecture(
                 lectureRequest.getLectureName(),
                 lectureRequest.getLectureUrl(),
@@ -106,6 +109,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<List<UwListResponse>> getUwList(HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"U/W팀");
         List<Contract> contracts = contractRepository.findAllByContractStatus(ContractStatus.PROGRESS_UW);
         if(contracts.isEmpty()) throw new NoContractToUwException();
         return Header.OK(contracts.stream()
@@ -128,6 +132,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<Void> startUw(StartUwRequest startUwRequest, HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"U/W팀");
         Contract contract = contractRepository.findById(startUwRequest.getContractId()).orElseThrow(NotFoundContractException::new);
         contract.setContractStatus(ContractStatus.getContractStatusByName(startUwRequest.getContractStatus()));
         contractRepository.save(contract);
@@ -138,6 +143,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<List<IncidentLogListResponse>> getIncidentLogList(HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"손해접수팀");
         List<IncidentLog> incidentLogs = incidentLogRepository.findAllByEmployeeNull();
         if(incidentLogs.isEmpty()) throw new NoIncidentLogListException();
         return Header.OK(incidentLogs.stream()
@@ -157,6 +163,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<Void> manageIncidentLog(Long id, HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"손해접수팀");
         IncidentLog incidentLog = incidentLogRepository.findById(id).orElseThrow(NotFoundIncidentLogException::new);
         incidentLog.setEmployee(employee);
         incidentLogRepository.save(incidentLog);
@@ -185,6 +192,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Override
     public Header<Void> evaluateReward(EvaluateRewardRequest evaluateRewardRequest, HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"보상평가원");
         InsuranceClaim insuranceClaim = insuranceClaimRepository.findById(evaluateRewardRequest.getInsuranceClaimId()).orElseThrow(NotFoundInsuranceClaimException::new);
         insuranceClaim.setEvaluateCost(evaluateRewardRequest.getEvaluateFee());
         insuranceClaimRepository.save(insuranceClaim);
@@ -193,7 +201,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request) {
-        employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"영업활동팀");
         return Header.OK(employeeCustomerRepository.findByEmployee(null).get().stream()
                 .map(cs -> ContractWaitingCustomerResponse.builder()
                         .address(cs.getCustomer().getAddress())
@@ -210,6 +219,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<List<ContractCustomerResponse>> getNearExpireContractList(HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"사후관리팀");
         employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         List<Contract> byExpiredDateAfter = contractRepository.findByExpiredDateBetween(LocalDateTime.now(),LocalDateTime.now().plusMonths(2));
         return getContractCustomerResponse(byExpiredDateAfter);
@@ -217,6 +228,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<List<ContractCustomerResponse>> notifyContractStatus(HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"사후관리팀");
         employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         List<Contract> byExpiredDateAfter = contractRepository.findByPaymentDateBetween(LocalDateTime.now(),LocalDateTime.now().plusWeeks(1));
         return getContractCustomerResponse(byExpiredDateAfter);
@@ -224,6 +237,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<List<ContractCustomerResponse>> printExpirationContract(HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"계약관리팀");
         employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         List<Contract> allByContractStatus = contractRepository.findAllByContractStatus(ContractStatus.EXPIRATION);
         return getContractCustomerResponse(allByContractStatus);
@@ -231,6 +246,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<List<ContractCustomerResponse>> printNonPaymentContract(HttpServletRequest request) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"계약관리팀");
         employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         List<Contract> allByContractStatus = contractRepository.findAllByContractStatus(ContractStatus.NON_PAYMENT);
         return getContractCustomerResponse(allByContractStatus);
@@ -238,6 +255,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, Long insuranceNum) {
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"영업활동팀");
         EmployeeCustomer employeeCustomer = employeeCustomerRepository.findById(insuranceNum).get();
         return Header.OK(InsuranceInterestedResponse.builder()
                 .customerName(employeeCustomer.getCustomer().getName())
@@ -267,7 +286,8 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     @Transactional
     @Override
     public Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request){
-        employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        validateRole(employee.getDepartment(),"상품개발팀");
         InsuranceCondition insuranceCondition = insuranceConditionRepository.save(insuranceSaveRequest.toInsuranceConditionEntity());
         Insurance insurance = insuranceRepository.save(insuranceSaveRequest.toEntityWith(insuranceCondition));
         return Header.CREATED(InsuranceResponse.toDto(insurance));
