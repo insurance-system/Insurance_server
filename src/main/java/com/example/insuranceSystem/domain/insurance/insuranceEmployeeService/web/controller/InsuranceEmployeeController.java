@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.controller;
+package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.controller;
 
 
 import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.logic.InsuranceEmployeeService;

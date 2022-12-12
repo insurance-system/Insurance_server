@@ -1,11 +1,10 @@
-package com.example.insuranceSystem.domain.common.entity;
+package com.example.insuranceSystem.domain.common.repository.entity;
 
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.common.entity;
+package com.example.insuranceSystem.domain.common.repository.entity;
 
 import lombok.*;
 

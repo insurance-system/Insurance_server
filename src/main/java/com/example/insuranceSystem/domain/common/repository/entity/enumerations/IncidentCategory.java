@@ -1,6 +1,5 @@
-package com.example.insuranceSystem.domain.common.entity.enumerations;
+package com.example.insuranceSystem.domain.common.repository.entity.enumerations;
 
-import com.example.insuranceSystem.global.enumerations.ContractStatus;
 import lombok.Getter;
 
 import java.util.Arrays;

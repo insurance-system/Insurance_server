@@ -1,6 +1,6 @@
 package com.example.insuranceSystem.domain.employeeService.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
+import com.example.insuranceSystem.domain.common.repository.entity.DateBaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

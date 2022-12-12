@@ -1,16 +1,15 @@
 package com.example.insuranceSystem.domain.employeeService.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.Address;
-import com.example.insuranceSystem.domain.common.entity.DateBaseEntity;
-import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
-import com.example.insuranceSystem.domain.common.entity.IncidentLog;
+import com.example.insuranceSystem.domain.common.repository.entity.Address;
+import com.example.insuranceSystem.domain.common.repository.entity.DateBaseEntity;
+import com.example.insuranceSystem.domain.common.repository.entity.EmployeeCustomer;
+import com.example.insuranceSystem.domain.common.repository.entity.IncidentLog;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.global.enumerations.KindOfRole;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.util.ArrayList;

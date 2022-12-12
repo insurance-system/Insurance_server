@@ -1,9 +1,8 @@
-package com.example.insuranceSystem.domain.common.entity;
+package com.example.insuranceSystem.domain.common.repository.entity;
 
 
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
-import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import lombok.*;
 

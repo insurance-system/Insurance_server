@@ -1,6 +1,6 @@
 package com.example.insuranceSystem.domain.contract.repository.entity;
 
-import com.example.insuranceSystem.domain.common.entity.Payment;
+import com.example.insuranceSystem.domain.common.repository.entity.Payment;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;

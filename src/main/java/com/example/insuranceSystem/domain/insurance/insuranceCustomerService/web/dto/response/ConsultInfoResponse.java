@@ -1,6 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response;
 
-import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
+import com.example.insuranceSystem.domain.common.repository.entity.EmployeeCustomer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
