@@ -205,6 +205,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         validateRole(employee.getDepartment(),"영업활동팀");
         return Header.OK(employeeCustomerRepository.findByEmployee(null).get().stream()
                 .map(cs -> ContractWaitingCustomerResponse.builder()
+                        .empCusId(cs.getEmpCusId())
                         .address(cs.getCustomer().getAddress())
                         .customerName(cs.getCustomer().getName())
                         .email(cs.getCustomer().getEmail())
