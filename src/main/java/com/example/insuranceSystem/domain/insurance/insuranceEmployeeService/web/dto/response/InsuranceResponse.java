@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response;
+package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response;
 
 
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class InsuranceResponse {
+public class InsuranceResponse{
     private Long insuranceId;
     private String insuranceName;
     private int fee;
@@ -22,7 +22,7 @@ public class InsuranceResponse {
     private String cancer;
     private String kindOfInsurance;
 
-    public static InsuranceResponse toDto(Insurance insurance) {
+    public static InsuranceResponse toDto(Insurance insurance){
         InsuranceResponse insuranceResponse = new InsuranceResponse();
         insuranceResponse.insuranceId = insurance.getInsuranceId();
         insuranceResponse.insuranceName = insurance.getInsuranceName();

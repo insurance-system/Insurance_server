@@ -1,18 +1,11 @@
-package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response;
+package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response;
 
 import com.example.insuranceSystem.domain.common.entity.Address;
-import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.customerService.repository.entity.HealthInformation;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;
-import com.example.insuranceSystem.global.enumerations.KindOfRole;
 import lombok.Builder;
 import lombok.Getter;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 @Getter
 public class InsuranceInterestedResponse {

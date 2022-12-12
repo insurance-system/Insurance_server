@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response;
+package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response;
 
 
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;

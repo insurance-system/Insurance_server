@@ -1,13 +1,11 @@
-package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response;
+package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response;
 
 import com.example.insuranceSystem.domain.common.entity.Address;
-import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.repository.entity.HealthInformation;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import com.example.insuranceSystem.global.enumerations.KindOfJob;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Getter

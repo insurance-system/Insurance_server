@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request;
+package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

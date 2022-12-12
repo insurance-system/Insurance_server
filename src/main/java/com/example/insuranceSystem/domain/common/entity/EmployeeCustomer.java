@@ -45,9 +45,10 @@ public class EmployeeCustomer extends DateBaseEntity{
         EmployeeCustomer employeeCustomer = new EmployeeCustomer();
         employeeCustomer.addCustomer(customer);
         employeeCustomer.kindOfInsurance = kindOfInsurance;
+        employeeCustomer.satisfaction = 0;
     }
 
-    public void evaluateSatisfaction(int satisfaction) {
+    public void evaluateSatisfaction(int satisfaction){
         this.satisfaction = satisfaction;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.controller;
 
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LineUpConsultRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.LineUpConsultRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.*;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -45,14 +44,14 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.evaluateSatisfaction(evaluateSatisfactionRequest, request);
     }
 
-    /*1-3*/
+    /*1-4*/
     @Operation(summary = "고객이 보험 목록 조회", description = "<완> 고객이 보험 목록 조회하기(클라이언트가 보낸 kind_of_insurance에 따라 LIFE/NON_LIFE 보험을 보여준다.")
     @GetMapping("/insurance/{kind_of_insurance}")
     public Header<List<InsuranceResponse>> getInsuranceList(@PathVariable String kind_of_insurance){
         return insuranceCustomerService.getInsuranceListOf(kind_of_insurance);
     }
 
-    /*1-4*/
+    /*1-5*/
     @Operation(summary = "보험 가입 신청하기", description = "<완> 보험 가입 신청하기: 클라이언트는 가입을 하고자 하는 보험의 id를 보내준다. " +
             "그리고 서버는 Contract를 만들어 저장하는데, 이때 Contract의 상태는 PROGRESS_UW이다. ")
     @PostMapping("/insurance")
@@ -61,7 +60,7 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.requestJoiningInsurance(joinInsuranceRequest, request);
     }
 
-    /*1-7*/
+    /*1-8*/
     @Operation(summary = "가입된 보험 리스트 출력", description = "<완> 가입된 보험 리스트를 출력한다. 가입된 보험이 없다면 예외날림")
     @GetMapping("/insurance")
     public Header<List<InsuranceResponse>> getJoinedInsurances(HttpServletRequest request) {

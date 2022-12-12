@@ -1,11 +1,12 @@
 package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.controller;
 
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic.InsuranceEmployeeService;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
+
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.logic.InsuranceEmployeeService;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.EvaluateRewardRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.InsuranceSaveRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.LectureRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.StartUwRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -121,8 +122,8 @@ public class InsuranceEmployeeController {
     // 고객정보팀
     @Operation(summary = "특정 id의 고객 및 가입된 보험 정보 출력", description = "특정 id의 고객 및 가입된 보험 정보 출력")
     @GetMapping("/customer/{customer_id}")
-    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(@PathVariable ("customer_id") Long id, HttpServletRequest request){
-        return insuranceService.getCustomerandJoinedInsurance(id, request);
+    public Header<CustomerInfoResponse> getCustomerAndJoinedInsurance(@PathVariable ("customer_id") Long id, HttpServletRequest request){
+        return insuranceService.getCustomerAndJoinedInsurance(id, request);
     }
 
     // 손해접수팀

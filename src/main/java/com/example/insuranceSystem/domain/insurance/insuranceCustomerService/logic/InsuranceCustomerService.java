@@ -16,14 +16,13 @@ import com.example.insuranceSystem.domain.customerService.repository.entity.Cust
 import com.example.insuranceSystem.domain.insurance.exception.execute.ConsultNotFoundException;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.exception.execute.NothingJoinedInsuranceException;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.exception.execute.*;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LineUpConsultRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.LineUpConsultRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.*;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
@@ -142,7 +141,7 @@ public class InsuranceCustomerService{
         return Header.OK();
     }
 
-    private boolean isPaymentPossible(Payment payment) {
+    private boolean isPaymentPossible(Payment payment){
         LocalDate createdDate = payment.getCreatedDate().toLocalDate();
         LocalDate now = LocalDateTime.now().toLocalDate();
         Period period = Period.between(createdDate, now);

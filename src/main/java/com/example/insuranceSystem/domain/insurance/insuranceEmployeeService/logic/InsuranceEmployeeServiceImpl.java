@@ -1,4 +1,4 @@
-package com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.logic;
+package com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.logic;
 
 import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.common.entity.IncidentLog;
@@ -18,11 +18,11 @@ import com.example.insuranceSystem.domain.employeeService.repository.entity.Depa
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Lecture;
 import com.example.insuranceSystem.domain.insurance.exception.execute.*;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.EvaluateRewardRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.InsuranceSaveRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LectureRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.StartUwRequest;
-import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.*;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.EvaluateRewardRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.InsuranceSaveRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.LectureRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.StartUwRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response.*;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceConditionRepository;
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly=true)
@@ -65,7 +64,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     // 특정 id의 고객 및 가입된 보험 정보 출력
     @Override
-    public Header<CustomerInfoResponse> getCustomerandJoinedInsurance(Long id, HttpServletRequest request) {
+    public Header<CustomerInfoResponse> getCustomerAndJoinedInsurance(Long id, HttpServletRequest request) {
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         validateRole(employee.getDepartment(),"고객정보팀");
         Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
@@ -200,7 +199,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
     }
 
     @Override
-    public Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request) {
+    public Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request){
         Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
         validateRole(employee.getDepartment(),"영업활동팀");
         return Header.OK(employeeCustomerRepository.findByEmployee(null).get().stream()
