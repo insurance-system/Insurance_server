@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-@ApiModel("고객 회원가입")
+@ApiModel("고객 로그인")
 public class LoginCustomerRequest {
 
     @ApiModelProperty(value = "이메일", example = "mju@mju.ac.kr", required = true)

@@ -25,8 +25,8 @@ public class CustomerController {
     }
 
     //고객 로그인
-    @Operation(summary = "로그인", description = "email, password / 존재하지 않는 이메일 및 불일치하는 비밀번호 예외처리")
-    @GetMapping("/login")
+    @Operation(summary = "고객 로그인", description = "email, password / 존재하지 않는 이메일 및 불일치하는 비밀번호 예외처리")
+    @PostMapping("/login")
     public Header<?> login(@RequestBody @Valid LoginCustomerRequest loginCustomerRequest){
         return customerService.login(loginCustomerRequest);
     }
