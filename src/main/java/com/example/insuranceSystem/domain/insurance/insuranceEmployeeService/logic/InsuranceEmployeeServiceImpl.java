@@ -275,6 +275,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         return Header.OK(allByContractStatus.stream().map(
                         cs -> ContractCustomerResponse.builder()
                                 .insuranceName(cs.getInsurance().getInsuranceName())
+                                .insuranceStatus(cs.getInsurance().getInsuranceStatus())
                                 .customerName(cs.getCustomer().getName())
                                 .address(cs.getCustomer().getAddress())
                                 .fee(cs.getInsurance().getFee())
