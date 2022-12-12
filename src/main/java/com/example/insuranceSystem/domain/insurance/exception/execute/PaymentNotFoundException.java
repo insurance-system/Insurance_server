@@ -6,6 +6,6 @@ import static com.example.insuranceSystem.domain.insurance.exception.InsuranceEx
 
 public class PaymentNotFoundException extends InsuranceException {
     public PaymentNotFoundException() {
-        super(NOT_FOUND_CONTRACT.getCODE(), NOT_FOUND.getHttpStatus(), NOT_FOUND_CONTRACT.getMESSAGE());
+        super(NOT_FOUND_PAYMENT.getCODE(), NOT_FOUND_PAYMENT.getHttpStatus(), NOT_FOUND_PAYMENT.getMESSAGE());
     }
 }

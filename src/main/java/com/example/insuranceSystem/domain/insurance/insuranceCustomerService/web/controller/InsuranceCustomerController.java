@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.controller;
 
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LineUpConsultRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.*;
@@ -24,10 +25,11 @@ public class InsuranceCustomerController {
 
     private final InsuranceCustomerService insuranceCustomerService;
 
+    /*1-1*/
     @Operation(summary = "상담 대기 요청", description = "<완> 상담 대기 요청")
-    @GetMapping("/consults")
-    public Header<Void> lineUpCustomerConsult(HttpServletRequest request){
-        return insuranceCustomerService.lineUpCustomerConsult(request);
+    @GetMapping("/consults") //TODO KindOfInsurance POST로 보내기 --> EmployeeCustomer에 필드 추가
+    public Header<Void> lineUpCustomerConsult(@RequestBody LineUpConsultRequest lineUpConsultRequest, HttpServletRequest request){
+        return insuranceCustomerService.lineUpCustomerConsult(lineUpConsultRequest, request);
     }
 
     @Operation(summary = "상담 내용 리스트", description = "<완> 상담 내용 리스트를 보여준다. 이는 상담 내용을 평가하기 위해 필요하다.")
@@ -43,12 +45,14 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.evaluateSatisfaction(evaluateSatisfactionRequest, request);
     }
 
+    /*1-3*/
     @Operation(summary = "고객이 보험 목록 조회", description = "<완> 고객이 보험 목록 조회하기(클라이언트가 보낸 kind_of_insurance에 따라 LIFE/NON_LIFE 보험을 보여준다.")
     @GetMapping("/insurance/{kind_of_insurance}")
     public Header<List<InsuranceResponse>> getInsuranceList(@PathVariable String kind_of_insurance){
         return insuranceCustomerService.getInsuranceListOf(kind_of_insurance);
     }
 
+    /*1-4*/
     @Operation(summary = "보험 가입 신청하기", description = "<완> 보험 가입 신청하기: 클라이언트는 가입을 하고자 하는 보험의 id를 보내준다. " +
             "그리고 서버는 Contract를 만들어 저장하는데, 이때 Contract의 상태는 PROGRESS_UW이다. ")
     @PostMapping("/insurance")
@@ -57,25 +61,27 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.requestJoiningInsurance(joinInsuranceRequest, request);
     }
 
+    /*1-7*/
     @Operation(summary = "가입된 보험 리스트 출력", description = "<완> 가입된 보험 리스트를 출력한다. 가입된 보험이 없다면 예외날림")
     @GetMapping("/insurance")
     public Header<List<InsuranceResponse>> getJoinedInsurances(HttpServletRequest request) {
         return insuranceCustomerService.getJoinedInsurances(request);
     }
 
-    @Operation(summary = "보험급 납부 내역", description = "<완> 보험급 납부하기")
-    @PostMapping("/payment-history")
+    @Operation(summary = "보험급 납부하기", description = "<완> 보험급 납부하기")
+    @PostMapping("/payment")
     public Header<Void> doPayment(@RequestBody PaymentRequest paymentRequest,
                                                    HttpServletRequest request){
         return insuranceCustomerService.doPayment(paymentRequest, request);
     }
 
-    @Operation(summary = "보험급 납부 내역", description = "<완> 보험급 납부 내역")
+    @Operation(summary = "보험급 납부 내역", description = "<완> 보험급 납부 내역 조회하기")
     @GetMapping("/payment-history")
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request){
         return insuranceCustomerService.getPaymentHistory(request);
     }
 
+    /*2-1*/
     @Operation(summary = "사고 처리 접수", description = "<완> 사고 처리 접수")
     @PostMapping("/incident-accept")
     public Header<Void> acceptIncidentHandling(@RequestBody IncidentRequest incidentRequest, HttpServletRequest request){
