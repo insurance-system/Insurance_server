@@ -3,9 +3,11 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.lo
 import com.example.insuranceSystem.domain.common.entity.EmployeeCustomer;
 import com.example.insuranceSystem.domain.common.entity.IncidentLog;
 import com.example.insuranceSystem.domain.common.entity.InsuranceClaim;
+import com.example.insuranceSystem.domain.common.entity.Payment;
 import com.example.insuranceSystem.domain.common.repository.EmployeeCustomerRepository;
 import com.example.insuranceSystem.domain.common.repository.InsuranceClaimRepository;
 import com.example.insuranceSystem.domain.common.repository.IncidentLogRepository;
+import com.example.insuranceSystem.domain.common.repository.PaymentRepository;
 import com.example.insuranceSystem.domain.contract.repository.ContractRepository;
 import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
@@ -15,10 +17,7 @@ import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceN
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.exception.execute.ConsultNotFoundException;
 import com.example.insuranceSystem.domain.insurance.exception.execute.NothingJoinedInsuranceException;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.*;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.PaymentResponse;
@@ -45,6 +44,7 @@ public class InsuranceCustomerService{
     private final IncidentLogRepository insuranceLogRepository;
     private final InsuranceClaimRepository insuranceClaimRepository;
     private final ContractRepository contractRepository;
+    private final PaymentRepository paymentRepository;
 
     @Transactional
     public Header<Void> lineUpCustomerConsult(HttpServletRequest request){
@@ -109,9 +109,29 @@ public class InsuranceCustomerService{
         return Header.OK();
     }
 
-    //TODO Payment 엔티티 만들고 contract 와 관련해 어떻게 보여줄 것인지
+    @Transactional
+    public Header<Void> doPayment(PaymentRequest paymentRequest, HttpServletRequest request){
+        Customer customer = customerRepository
+                .findById(getUserId(request)).orElseThrow(CustomerNotFoundException::new);
+
+        Contract contract = contractRepository
+                .findById(paymentRequest.getContractId()).orElseThrow(() -> new RuntimeException());//TODO
+
+        Payment payment = new Payment(paymentRequest.getPayCost(), contract, customer);//TODO 로직이 빈약함
+        paymentRepository.save(payment);
+        return Header.OK();
+    }
+
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request){
-        return null;
+        Customer customer = customerRepository
+                .findById(getUserId(request)).orElseThrow(CustomerNotFoundException::new);
+
+        List<Payment> payments = paymentRepository
+                .findAllByCustomer(customer).orElseThrow(RuntimeException::new);//TODO
+
+        ArrayList<PaymentResponse> paymentResponses = new ArrayList<>();
+        payments.forEach((p) -> paymentResponses.add(PaymentResponse.toDto(p)));
+        return Header.OK(paymentResponses);
     }
 
     @Transactional
@@ -140,4 +160,5 @@ public class InsuranceCustomerService{
     public Long getUserId(HttpServletRequest request) {
         return Long.parseLong(request.getHeader("userid"));
     }
+
 }

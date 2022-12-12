@@ -1,5 +1,6 @@
 package com.example.insuranceSystem.domain.contract.repository.entity;
 
+import com.example.insuranceSystem.domain.common.entity.Payment;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
@@ -8,13 +9,17 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @AllArgsConstructor
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 @Getter
 @Setter
 @Entity
-public class Contract {
+public class Contract{
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "contract_id")
@@ -31,6 +36,9 @@ public class Contract {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="insurance_id")
     private Insurance insurance;
+
+    @OneToMany(mappedBy = "contract", cascade = ALL)
+    private List<Payment> payments = new ArrayList<>();
 
     private LocalDateTime expiredDate;
     private LocalDateTime paymentDate;
@@ -59,5 +67,9 @@ public class Contract {
         this.addCustomer(customer);
         this.addInsurance(insurance);
         this.updateContractStatus(ContractStatus.PROGRESS_UW);
+    }
+
+    public void addPayment(Payment payment) {
+        this.payments.add(payment);
     }
 }
