@@ -29,4 +29,7 @@ public interface InsuranceEmployeeService {
 
     Header<List<ContractSoonExpirationResponse>> notifyContractStatus(HttpServletRequest request);
 
+    Header<List<ContractSoonExpirationResponse>> printExpirationContract(HttpServletRequest request);
+
+    Header<List<ContractSoonExpirationResponse>> printDefaultContract(HttpServletRequest request);
 }

@@ -68,14 +68,14 @@ public class InsuranceEmployeeController {
 
     @ApiOperation(value = "보험 만기 고객 조회",notes = "보험 만기 고객 조회//건강정보 테이블에 고객 ID 들어가야함")
     @GetMapping("/followup/expiration")
-    public Header<?> printExpirationContract(){
-        return null;
+    public Header<List<ContractSoonExpirationResponse>> printExpirationContract(HttpServletRequest request){
+        return insuranceService.printExpirationContract(request);
     }
 
     @ApiOperation(value = "미납 고객 조회", notes = "미납 고객 조회")
     @GetMapping("/contract/non-payment")
-    public Header<?> printDefaultContract(){
-        return null;
+    public Header<List<ContractSoonExpirationResponse>> printDefaultContract(HttpServletRequest request){
+        return insuranceService.printDefaultContract(request);
     }
 
     // 영업교육팀
