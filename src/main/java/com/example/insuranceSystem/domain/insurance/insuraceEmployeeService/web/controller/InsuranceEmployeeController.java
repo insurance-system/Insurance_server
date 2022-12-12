@@ -10,12 +10,9 @@ import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web
 import com.example.insuranceSystem.global.web.response.Header;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +52,8 @@ public class InsuranceEmployeeController {
    //영업팀
     //TODO 보험 관심자는 보험 상담 요청에 해당하는건가?
     @Operation(summary = "보험 관심자 배정()", description = "보험 관심자 배정")
-    @PostMapping("/sales/interest")    // insurance-employee/sales
-    public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, @PathVariable("empCusId") Long empCusId){
+    @PostMapping("/sales/interest/{emp_cus_id}")    // insurance-employee/sales
+    public Header<InsuranceInterestedResponse> assignInsuranceInterested(@PathVariable ("emp_cus_id") Long empCusId, HttpServletRequest request){
         return insuranceService.assignInsuranceInterested(request, empCusId);
     }
 
