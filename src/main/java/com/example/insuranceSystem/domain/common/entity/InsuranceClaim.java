@@ -22,7 +22,7 @@ public class InsuranceClaim {
 
     private int claimCost;
 
-    @ColumnDefault("-1")
+    @Column
     private Integer evaluateCost;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,7 +42,7 @@ public class InsuranceClaim {
     public InsuranceClaim(InsuranceClaim insuranceClaim, Customer customer, Insurance insurance) {
         this.claimContent = insuranceClaim.getClaimContent();
         this.claimCost = insuranceClaim.getClaimCost();
-        this.evaluateCost = -1;
+//        this.evaluateCost = -1;
         this.addCustomer(customer);
         this.addInsurance(insurance);
     }
