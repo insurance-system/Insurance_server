@@ -19,8 +19,7 @@ import static javax.persistence.CascadeType.ALL;
 @Setter(AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class
-Insurance extends DateBaseEntity {
+public class Insurance extends DateBaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "insurance_id")
@@ -32,7 +31,7 @@ Insurance extends DateBaseEntity {
     @Enumerated(EnumType.STRING)
     private InsuranceStatus insuranceStatus;
 
-    @OneToOne @JoinColumn(name = "insurance_condition_id")
+    @Embedded
     private InsuranceCondition insuranceCondition;
 
     @OneToMany(mappedBy = "insurance", cascade = ALL)
@@ -57,7 +56,7 @@ Insurance extends DateBaseEntity {
         this.kindOfInsurance = kindOfInsurance;
         this.insuranceStatus = insuranceStatus;
         this.addInsuranceCondition(insuranceCondition);
-        this.insuranceCondition.addInsurance(this);
+        this.insuranceCondition = insuranceCondition;
     }
 
     public void addContract(Contract contract) {
