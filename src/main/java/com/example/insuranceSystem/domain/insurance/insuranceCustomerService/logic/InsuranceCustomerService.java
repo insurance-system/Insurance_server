@@ -14,6 +14,7 @@ import com.example.insuranceSystem.domain.customerService.exception.execute.Cust
 import com.example.insuranceSystem.domain.customerService.repository.CustomerRepository;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.insurance.exception.execute.*;
+import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.request.LineUpConsultRequest;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.*;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
@@ -49,10 +50,13 @@ public class InsuranceCustomerService{
     private final PaymentRepository paymentRepository;
 
     @Transactional
-    public Header<Void> lineUpCustomerConsult(HttpServletRequest request){
+    public Header<Void> lineUpCustomerConsult(LineUpConsultRequest lineUpConsultRequest, HttpServletRequest request){
         Customer customer = customerRepository
                 .findById(getUserId(request)).orElseThrow(CustomerNotFoundException::new);
-        employeeCustomerRepository.save(new EmployeeCustomer(customer));
+        employeeCustomerRepository.save(new EmployeeCustomer(
+                        customer,
+                        KindOfInsurance.getKindOfInsuranceBy(lineUpConsultRequest.getKindOfInsurance())));
+
         return Header.OK();
     }
 

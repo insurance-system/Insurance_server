@@ -3,6 +3,8 @@ package com.example.insuranceSystem.domain.common.entity;
 
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
 import com.example.insuranceSystem.domain.employeeService.repository.entity.Employee;
+import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
+import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +28,9 @@ public class EmployeeCustomer extends DateBaseEntity{
 
     private Integer satisfaction;
 
+    @Enumerated(EnumType.STRING)
+    private KindOfInsurance kindOfInsurance;
+
     public void addEmployee(Employee employee){
         this.employee = employee;
         employee.addEmployeeCustomer(this);
@@ -36,9 +41,10 @@ public class EmployeeCustomer extends DateBaseEntity{
         customer.addEmployeeCustomer(this);
     }
 
-    public EmployeeCustomer(Customer customer) {
+    public EmployeeCustomer(Customer customer, KindOfInsurance kindOfInsurance) {
         EmployeeCustomer employeeCustomer = new EmployeeCustomer();
         employeeCustomer.addCustomer(customer);
+        employeeCustomer.kindOfInsurance = kindOfInsurance;
     }
 
     public void evaluateSatisfaction(int satisfaction) {

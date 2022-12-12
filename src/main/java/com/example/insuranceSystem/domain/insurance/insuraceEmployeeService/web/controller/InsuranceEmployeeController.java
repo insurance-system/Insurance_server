@@ -40,7 +40,7 @@ public class InsuranceEmployeeController {
         return insuranceService.create(insuranceSaveRequest, request);
     }
 
-    //TODO 영업활동팀
+    /*1-2*/
     @Operation(summary = "상담대기 신규고객 명단 조회(완)", description = "상담 대기 신규 고객 명단 조회")
     @GetMapping("/sales/new-customer")
     public Header<List<ContractWaitingCustomerResponse>> doSalesEmployeeService(HttpServletRequest request){
@@ -92,6 +92,7 @@ public class InsuranceEmployeeController {
         return insuranceService.uploadEducationLecture(lectureRequest, request);
     }
 
+    /*1-5*/
     // UW팀
     @Operation(summary = "인수심사 리스트 출력", description = "인수심사를 해야 하는 계약 리스트를 출력한다. 계약 리스트가 없다면 예외처리!")
     @GetMapping("/uw")
@@ -99,6 +100,7 @@ public class InsuranceEmployeeController {
         return insuranceService.getUwList(request);
     }
 
+    /*1-6*/
     @Operation(summary = "인수심사 수행", description = "계약 리스트로 정보를 확인하고 contractId와 & contractStatus:정상/인수심사 거절/인수심사 진행중(보류일 때) 중 하나를 선택해 인수심사를 수행한다.")
     @PatchMapping("/uw")
     public Header<Void> startUw(@RequestBody StartUwRequest startUwRequest, HttpServletRequest request){
@@ -119,6 +121,7 @@ public class InsuranceEmployeeController {
         return insuranceService.getIncidentLogList(request);
     }
 
+    /*2-2*/
     @Operation(summary = "사고 접수 담당자 배정", description = "사고 접수된 리스트 중 하나를 선택해 담당자를 배정한다. header 필요")
     @PatchMapping("/damage/{incident_log_id}")
     public Header<Void> manageIncidentLog(@PathVariable ("incident_log_id") Long id, HttpServletRequest request){
