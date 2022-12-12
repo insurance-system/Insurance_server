@@ -4,7 +4,7 @@ import com.example.insuranceSystem.domain.customerService.repository.entity.Cust
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
+@DynamicInsert
 public class InsuranceClaim {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "insurance_claim_id")
