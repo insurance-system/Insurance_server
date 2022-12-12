@@ -25,7 +25,9 @@ public enum InsuranceExceptionEnum {
     NOT_FOUND_CONSULT("C001", HttpStatus.NO_CONTENT, "등록된 상담내역이 없습니다."),
 
     NOT_FOUND_PAYMENT("P001", HttpStatus.NO_CONTENT, "해당 납입 내역을 찾을 수 없습니다."),
-    CANNOT_DOING_PAYMENT("P002", HttpStatus.FORBIDDEN, "보험비를 납부한 날로부터 얼마 지나지 않아 아직 보험비를 납부할 수 없습니다.");
+    CANNOT_DOING_PAYMENT("P002", HttpStatus.FORBIDDEN, "보험비를 납부한 날로부터 얼마 지나지 않아 아직 보험비를 납부할 수 없습니다."),
+
+    AUTH_FAIL("A0001", HttpStatus.NON_AUTHORITATIVE_INFORMATION, "접근권한이 없습니다.");
 
 
     public final String CODE;

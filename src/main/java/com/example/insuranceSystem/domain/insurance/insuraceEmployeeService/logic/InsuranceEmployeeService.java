@@ -32,4 +32,6 @@ public interface InsuranceEmployeeService {
     Header<List<ContractCustomerResponse>> printExpirationContract(HttpServletRequest request);
 
     Header<List<ContractCustomerResponse>> printNonPaymentContract(HttpServletRequest request);
+
+    Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, Long insuranceNum);
 }

@@ -11,8 +11,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,9 +51,9 @@ public class InsuranceEmployeeController {
 
     //TODO 보험 관심자는 보험 상담 요청에 해당하는건가?
     @ApiOperation(value = "보험 관심자 배정", notes = "보험 관심자 배정")
-    @GetMapping("/sales/interest")    // insurance-employee/sales
-    public Header<?> assignInsuranceInterested(){
-        return null;
+    @PostMapping("/sales/interest")    // insurance-employee/sales
+    public Header<InsuranceInterestedResponse> assignInsuranceInterested(HttpServletRequest request, @PathVariable("insuranceNum") Long insuranceNum){
+        return insuranceService.assignInsuranceInterested(request, insuranceNum);
     }
 
     @ApiOperation(value = "계약 기간 만료 임박 리스트 출력(완)", notes = "계약 기간 만료 임박 리스트 출력")
