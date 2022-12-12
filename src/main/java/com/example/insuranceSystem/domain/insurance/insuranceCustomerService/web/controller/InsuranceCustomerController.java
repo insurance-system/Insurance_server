@@ -26,7 +26,7 @@ public class InsuranceCustomerController {
 
     /*1-1*/
     @Operation(summary = "상담 대기 요청", description = "<완> 상담 대기 요청")
-    @GetMapping("/consults") //TODO KindOfInsurance POST로 보내기 --> EmployeeCustomer에 필드 추가
+    @PostMapping("/consults")
     public Header<Void> lineUpCustomerConsult(@RequestBody LineUpConsultRequest lineUpConsultRequest, HttpServletRequest request){
         return insuranceCustomerService.lineUpCustomerConsult(lineUpConsultRequest, request);
     }
