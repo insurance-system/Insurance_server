@@ -42,6 +42,7 @@ public class InsuranceClaim {
     public InsuranceClaim(InsuranceClaim insuranceClaim, Customer customer, Insurance insurance) {
         this.claimContent = insuranceClaim.getClaimContent();
         this.claimCost = insuranceClaim.getClaimCost();
+        this.evaluateCost = -1;
         this.addCustomer(customer);
         this.addInsurance(insurance);
     }
