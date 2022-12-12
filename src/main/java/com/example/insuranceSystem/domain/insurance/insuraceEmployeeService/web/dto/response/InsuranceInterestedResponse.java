@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 @Getter
 public class InsuranceInterestedResponse {
 
+    private Long empCusId;
     private String customerName;
     private String customerPhone;
     private String customerEmail;
@@ -26,7 +27,8 @@ public class InsuranceInterestedResponse {
     private HealthInformation healthInformation;
 
     @Builder
-    public InsuranceInterestedResponse(String customerName, String customerPhone, String customerEmail, Address address, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, HealthInformation healthInformation) {
+    public InsuranceInterestedResponse(Long empCusId, String customerName, String customerPhone, String customerEmail, Address address, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, HealthInformation healthInformation) {
+        this.empCusId = empCusId;
         this.customerName = customerName;
         this.customerPhone = customerPhone;
         this.customerEmail = customerEmail;
