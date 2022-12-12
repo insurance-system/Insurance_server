@@ -49,6 +49,9 @@ public class Customer extends DateBaseEntity {
     @OneToMany(mappedBy = "customer", cascade = ALL)
     private List<EmployeeCustomer> employeeCustomerList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "customer", cascade = ALL)
+    private List<Payment> payments = new ArrayList<>();
+
 
     @OneToOne
     @JoinColumn(name = "health_information_id")
@@ -88,6 +91,10 @@ public class Customer extends DateBaseEntity {
 
     public void addInsuranceClaim(InsuranceClaim insuranceClaim) {
         this.insuranceClaims.add(insuranceClaim);
+    }
+
+    public void addPayment(Payment payment) {
+        this.payments.add(payment);
     }
 }
 

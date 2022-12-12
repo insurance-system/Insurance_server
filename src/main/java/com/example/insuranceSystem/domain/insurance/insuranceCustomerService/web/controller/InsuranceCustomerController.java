@@ -2,10 +2,7 @@ package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.we
 
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerService;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.IncidentRequest;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.JoinInsuranceRequest;
+import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.*;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.PaymentResponse;
@@ -66,7 +63,14 @@ public class InsuranceCustomerController {
         return insuranceCustomerService.getJoinedInsurances(request);
     }
 
-    @Operation(summary = "보험급 납부 내역", description = "보험급 납부 내역")
+    @Operation(summary = "보험급 납부 내역", description = "<완> 보험급 납부하기")
+    @PostMapping("/payment-history")
+    public Header<Void> doPayment(@RequestBody PaymentRequest paymentRequest,
+                                                   HttpServletRequest request){
+        return insuranceCustomerService.doPayment(paymentRequest, request);
+    }
+
+    @Operation(summary = "보험급 납부 내역", description = "<완> 보험급 납부 내역")
     @GetMapping("/payment-history")
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request){
         return insuranceCustomerService.getPaymentHistory(request);
