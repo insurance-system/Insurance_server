@@ -13,10 +13,8 @@ import com.example.insuranceSystem.domain.contract.repository.entity.Contract;
 import com.example.insuranceSystem.domain.customerService.exception.execute.CustomerNotFoundException;
 import com.example.insuranceSystem.domain.customerService.repository.CustomerRepository;
 import com.example.insuranceSystem.domain.customerService.repository.entity.Customer;
-import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
+import com.example.insuranceSystem.domain.insurance.exception.execute.*;
 import com.example.insuranceSystem.domain.insurance.insuraceEmployeeService.web.dto.response.InsuranceResponse;
-import com.example.insuranceSystem.domain.insurance.exception.execute.ConsultNotFoundException;
-import com.example.insuranceSystem.domain.insurance.exception.execute.NothingJoinedInsuranceException;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.*;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ConsultInfoResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.JoinInsuranceResponse;
@@ -24,12 +22,16 @@ import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web
 import com.example.insuranceSystem.domain.insurance.repository.InsuranceRepository;
 import com.example.insuranceSystem.domain.insurance.repository.entity.Insurance;
 import com.example.insuranceSystem.domain.insurance.repository.entity.enumeration.KindOfInsurance;
+import com.example.insuranceSystem.global.enumerations.ContractStatus;
 import com.example.insuranceSystem.global.web.response.Header;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,11 +117,24 @@ public class InsuranceCustomerService{
                 .findById(getUserId(request)).orElseThrow(CustomerNotFoundException::new);
 
         Contract contract = contractRepository
-                .findById(paymentRequest.getContractId()).orElseThrow(() -> new RuntimeException());//TODO
+                .findById(paymentRequest.getContractId()).orElseThrow(NotFoundContractException::new);
+        if(!contract.getContractStatus().equals(ContractStatus.CLEAR)) throw new ContractStatusIsNotClearException();
 
-        Payment payment = new Payment(paymentRequest.getPayCost(), contract, customer);//TODO 로직이 빈약함
-        paymentRepository.save(payment);
+        List<Payment> paymentHistory = paymentRepository.findAllByCustomerAndContractOrderByCreatedDate(customer, contract);
+        if(paymentHistory.isEmpty() || isPaymentPossible(paymentHistory.get(0))){
+            Payment payment = new Payment(paymentRequest.getPayCost(), contract, customer);
+            paymentRepository.save(payment);
+        }
+        else throw new CanNotDoingPaymentException();
+
         return Header.OK();
+    }
+
+    private boolean isPaymentPossible(Payment payment) {
+        LocalDate createdDate = payment.getCreatedDate().toLocalDate();
+        LocalDate now = LocalDateTime.now().toLocalDate();
+        Period period = Period.between(createdDate, now);
+        return period.getDays() >= 27;
     }
 
     public Header<List<PaymentResponse>> getPaymentHistory(HttpServletRequest request){
@@ -127,7 +142,7 @@ public class InsuranceCustomerService{
                 .findById(getUserId(request)).orElseThrow(CustomerNotFoundException::new);
 
         List<Payment> payments = paymentRepository
-                .findAllByCustomer(customer).orElseThrow(RuntimeException::new);//TODO
+                .findAllByCustomer(customer).orElseThrow(PaymentNotFoundException::new);
 
         ArrayList<PaymentResponse> paymentResponses = new ArrayList<>();
         payments.forEach((p) -> paymentResponses.add(PaymentResponse.toDto(p)));

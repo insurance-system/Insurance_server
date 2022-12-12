@@ -26,7 +26,7 @@ public class Payment extends DateBaseEntity{
     private Contract contract;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="contract_id")
+    @JoinColumn(name="customer_id")
     private Customer customer;
 
     public Payment(int payCost, Contract contract, Customer customer) {
