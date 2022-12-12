@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 
 @Getter
-public class ContractSoonExpirationResponse {
+public class ContractCustomerResponse {
     private String customerName;
     private String phoneNum;
     private Address address;
@@ -23,7 +23,7 @@ public class ContractSoonExpirationResponse {
     private KindOfInsurance kindOfInsurance;
 
     @Builder
-    public ContractSoonExpirationResponse(String customerName, String phoneNum, Address address, KindOfJob kindOfJob, HealthInformation healthInformation, String insuranceName, int fee, KindOfInsurance kindOfInsurance) {
+    public ContractCustomerResponse(String customerName, String phoneNum, Address address, KindOfJob kindOfJob, HealthInformation healthInformation, String insuranceName, int fee, KindOfInsurance kindOfInsurance) {
         this.customerName = customerName;
         this.phoneNum = phoneNum;
         this.address = address;
