@@ -15,4 +15,5 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     List<Contract> findAllByContractStatus(ContractStatus progressUw);
     List<Contract> findByExpiredDateBetween(LocalDateTime now,LocalDateTime month);
     List<Contract> findByPaymentDateBetween(LocalDateTime now,LocalDateTime week);
+    List<Contract> findByContractStatus(ContractStatus contractStatus);
 }

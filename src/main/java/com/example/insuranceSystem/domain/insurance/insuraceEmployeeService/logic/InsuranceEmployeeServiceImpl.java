@@ -239,6 +239,28 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                 .collect(Collectors.toList()));
     }
 
+    @Override
+    public Header<List<ContractSoonExpirationResponse>> printExpirationContract(HttpServletRequest request) {
+        employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        List<Contract> allByContractStatus = contractRepository.findAllByContractStatus(ContractStatus.EXPIRATION);
+        return Header.OK(allByContractStatus.stream().map(
+                        cs -> ContractSoonExpirationResponse.builder()
+                                .insuranceName(cs.getInsurance().getInsuranceName())
+                                .customerName(cs.getCustomer().getName())
+                                .address(cs.getCustomer().getAddress())
+                                .fee(cs.getInsurance().getFee())
+                                .healthInformation(cs.getCustomer().getHealthInformation())
+                                .kindOfJob(cs.getCustomer().getKindOfJob())
+                                .phoneNum(cs.getCustomer().getPhoneNumber())
+                                .build())
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Header<List<ContractSoonExpirationResponse>> printDefaultContract(HttpServletRequest request) {
+        return null;
+    }
+
     @Transactional
     @Override
     public Header<InsuranceResponse> create(InsuranceSaveRequest insuranceSaveRequest, HttpServletRequest request){
