@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 public class ContractWaitingCustomerResponse {
+    private Long empCusId;
     private String customerName;
     private String ssn;
     private KindOfJob job;
@@ -20,7 +21,8 @@ public class ContractWaitingCustomerResponse {
     private HealthInformation healthInformation;
 
     @Builder
-    public ContractWaitingCustomerResponse(String customerName, String ssn, KindOfJob job, String phoneNum, String email, Address address, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, HealthInformation healthInformation) {
+    public ContractWaitingCustomerResponse(Long empCusId, String customerName, String ssn, KindOfJob job, String phoneNum, String email, Address address, KindOfInsurance kindOfInsurance, KindOfJob kindOfJob, HealthInformation healthInformation) {
+        this.empCusId = empCusId;
         this.customerName = customerName;
         this.ssn = ssn;
         this.job = job;
