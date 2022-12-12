@@ -261,6 +261,7 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
         EmployeeCustomer employeeCustomer = employeeCustomerRepository.findById(insuranceNum).get();
         employeeCustomer.addEmployee(employee);
         return Header.OK(InsuranceInterestedResponse.builder()
+                .empCusId(employeeCustomer.getEmpCusId())
                 .customerName(employeeCustomer.getCustomer().getName())
                 .customerEmail(employeeCustomer.getCustomer().getEmail())
                 .customerPhone(employeeCustomer.getCustomer().getPhoneNumber())
