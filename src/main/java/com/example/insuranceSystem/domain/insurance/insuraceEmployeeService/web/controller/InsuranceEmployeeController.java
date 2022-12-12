@@ -54,16 +54,16 @@ public class InsuranceEmployeeController {
         return null;
     }
 
-    @ApiOperation(value = "계약 기간 만료 임박 리스트 출력", notes = "계약 기간 만료 임박 리스트 출력")
+    @ApiOperation(value = "계약 기간 만료 임박 리스트 출력(완)", notes = "계약 기간 만료 임박 리스트 출력")
     @GetMapping("/contract/soon-expiration") // 계약 기간 만료 임박
     public Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request){
         return insuranceService.getNearExpireContractList(request);
     }
 
-    @ApiOperation(value = "보험 납부 기간 만료 임박", notes = "보험 납부 기간 만료 임박")
+    @ApiOperation(value = "보험 납부 기간 만료 임박 조회(완)", notes = "보험 납부 기간 만료 임박")
     @GetMapping("/contract/payment-soon-expiration") //보험 납부 기간 만료 임박
-    public Header<?> notifyContractStatus(){
-        return null;
+    public Header<List<ContractSoonExpirationResponse>> notifyContractStatus(HttpServletRequest request){
+        return insuranceService.notifyContractStatus(request);
     }
 
     @ApiOperation(value = "보험 만기 고객 조회",notes = "보험 만기 고객 조회//건강정보 테이블에 고객 ID 들어가야함")

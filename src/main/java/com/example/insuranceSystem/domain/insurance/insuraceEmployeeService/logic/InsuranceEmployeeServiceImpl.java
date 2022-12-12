@@ -207,9 +207,9 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
 
     @Override
     public Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request) {
-        Employee employee = employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
-        List<Contract> byExpiredDateAfter = contractRepository.findByExpiredDateLessThan(LocalDateTime.now().plusMonths(2));
-        List<ContractSoonExpirationResponse> collect = byExpiredDateAfter.stream().map(
+        employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        List<Contract> byExpiredDateAfter = contractRepository.findByExpiredDateBetween(LocalDateTime.now(),LocalDateTime.now().plusMonths(2));
+        return Header.OK(byExpiredDateAfter.stream().map(
                         cs -> ContractSoonExpirationResponse.builder()
                                 .insuranceName(cs.getInsurance().getInsuranceName())
                                 .customerName(cs.getCustomer().getName())
@@ -219,8 +219,24 @@ public class InsuranceEmployeeServiceImpl implements InsuranceEmployeeService {
                                 .kindOfJob(cs.getCustomer().getKindOfJob())
                                 .phoneNum(cs.getCustomer().getPhoneNumber())
                                 .build())
-                .collect(Collectors.toList());
-        return Header.OK(collect);
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Header<List<ContractSoonExpirationResponse>> notifyContractStatus(HttpServletRequest request) {
+        employeeRepository.findById(getEmployeeId(request)).orElseThrow(EmployeeNotFoundException::new);
+        List<Contract> byExpiredDateAfter = contractRepository.findByPaymentDateBetween(LocalDateTime.now(),LocalDateTime.now().plusWeeks(1));
+        return Header.OK(byExpiredDateAfter.stream().map(
+                        cs -> ContractSoonExpirationResponse.builder()
+                                .insuranceName(cs.getInsurance().getInsuranceName())
+                                .customerName(cs.getCustomer().getName())
+                                .address(cs.getCustomer().getAddress())
+                                .fee(cs.getInsurance().getFee())
+                                .healthInformation(cs.getCustomer().getHealthInformation())
+                                .kindOfJob(cs.getCustomer().getKindOfJob())
+                                .phoneNum(cs.getCustomer().getPhoneNumber())
+                                .build())
+                .collect(Collectors.toList()));
     }
 
     @Transactional

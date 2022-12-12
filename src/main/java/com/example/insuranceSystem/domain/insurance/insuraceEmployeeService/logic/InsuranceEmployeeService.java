@@ -26,4 +26,7 @@ public interface InsuranceEmployeeService {
     Header<List<ContractWaitingCustomerResponse>> getContractCustomer(HttpServletRequest request);
 
     Header<List<ContractSoonExpirationResponse>> getNearExpireContractList(HttpServletRequest request);
+
+    Header<List<ContractSoonExpirationResponse>> notifyContractStatus(HttpServletRequest request);
+
 }
