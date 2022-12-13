@@ -41,7 +41,7 @@ public class InsuranceSaveRequest {
         return Insurance.builder()
                 .insuranceName(this.insuranceName)
                 .fee(this.fee)
-                .kindOfInsurance(KindOfInsurance.getKindOfInsuranceBy(this.kindOfInsurance))
+//                .kindOfInsurance(KindOfInsurance.getKindOfInsuranceBy(this.kindOfInsurance))
                 .insuranceStatus(InsuranceStatus.UNDER_EXAMINATION)
                 .insuranceCondition(insuranceCondition).build();
     }

@@ -7,7 +7,12 @@ import com.example.insuranceSystem.global.util.date.DateFormatter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
@@ -54,7 +59,13 @@ public class IncidentLog extends DateBaseEntity {
                        String incidentSite,
                        String incidentPhoneNumber,
                        IncidentCategory incidentCategory){
-        this.incidentDate = DateFormatter.strToDate(incidentDate);
+        Date startDate = null;
+        try {
+            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(incidentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.incidentDate = new java.sql.Timestamp(startDate.getTime()).toLocalDateTime();
         this.carNumber = carNumber;
         this.incidentSite = incidentSite;
         this.incidentPhoneNumber = incidentPhoneNumber;

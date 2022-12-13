@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "사고 발생 정보 요청 DTO")
 public class IncidentRequest {
 
-    @ApiModelProperty(value="사고 발생 시간", example = "2022-12-15 17:09")
+    @ApiModelProperty(value="사고 발생 시간", example = "2022-12-15")
     private String incidentDate;
 
     @ApiModelProperty(value="차 번호.", example = "42하-3023")
@@ -21,7 +21,7 @@ public class IncidentRequest {
     @ApiModelProperty(value="사고 발생 장소.", example = "서울 마포구 합정동 양화대로")
     private String incidentSite;
 
-    @ApiModelProperty(value="사고 발생자 통화 가능 번호.", example = "01012345678")
+    @ApiModelProperty(value="사고 발생자 통화 가능 번호.", example = "010-1234-5678")
     private String incidentPhoneNumber;
 
     @ApiModelProperty(value="carToCar(차대차), carToMan(차대인), solo(단독사고)", example = "solo")

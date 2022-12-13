@@ -32,7 +32,6 @@ public class InsuranceResponse{
         insuranceResponse.smoke = insurance.getInsuranceCondition().getSmoke().getName();
         insuranceResponse.alcohol = insurance.getInsuranceCondition().getAlcohol().getName();
         insuranceResponse.cancer = insurance.getInsuranceCondition().getCancer().getName();
-        insuranceResponse.kindOfInsurance = insurance.getKindOfInsurance().getName();
         return insuranceResponse;
     }
 }
