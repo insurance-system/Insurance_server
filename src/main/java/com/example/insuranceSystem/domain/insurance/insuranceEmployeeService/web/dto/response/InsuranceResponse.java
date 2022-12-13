@@ -26,12 +26,13 @@ public class InsuranceResponse{
         InsuranceResponse insuranceResponse = new InsuranceResponse();
         insuranceResponse.insuranceId = insurance.getInsuranceId();
         insuranceResponse.insuranceName = insurance.getInsuranceName();
+        insuranceResponse.cancer = insurance.getInsuranceCondition().getCancer().getName();
         insuranceResponse.fee = insurance.getFee();
         insuranceResponse.maxAge = insurance.getInsuranceCondition().getMaxAge();
         insuranceResponse.minAge = insurance.getInsuranceCondition().getMinAge();
         insuranceResponse.smoke = insurance.getInsuranceCondition().getSmoke().getName();
         insuranceResponse.alcohol = insurance.getInsuranceCondition().getAlcohol().getName();
-        insuranceResponse.cancer = insurance.getInsuranceCondition().getCancer().getName();
+        insuranceResponse.kindOfInsurance = insurance.getKindOfInsurance().getName();
         return insuranceResponse;
     }
 }

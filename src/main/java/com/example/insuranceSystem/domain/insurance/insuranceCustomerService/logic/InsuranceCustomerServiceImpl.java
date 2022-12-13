@@ -72,6 +72,7 @@ public class InsuranceCustomerServiceImpl implements InsuranceCustomerService{
 
     @Override
     public Header<List<InsuranceResponse>> getInsuranceListOf(String kindOfInsurance){
+        System.out.println("asd");
         List<Insurance> insuranceList = insuranceRepository
                 .findAllByKindOfInsurance(KindOfInsurance.getKindOfInsuranceByName(kindOfInsurance));
         List<InsuranceResponse> insuranceResponseList = new ArrayList<>();
