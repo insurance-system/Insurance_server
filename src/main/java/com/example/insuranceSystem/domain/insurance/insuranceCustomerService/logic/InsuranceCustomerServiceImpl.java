@@ -16,7 +16,6 @@ import com.example.insuranceSystem.domain.customerService.repository.entity.Cust
 import com.example.insuranceSystem.domain.insurance.exception.execute.ConsultNotFoundException;
 import com.example.insuranceSystem.domain.insurance.exception.execute.InsuranceNotFoundException;
 import com.example.insuranceSystem.domain.insurance.exception.execute.NothingJoinedInsuranceException;
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ContractCustomerEmployeeResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.ClaimInsuranceRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.request.EvaluateSatisfactionRequest;
@@ -43,7 +42,6 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -200,17 +198,4 @@ public class InsuranceCustomerServiceImpl implements InsuranceCustomerService{
         return Long.parseLong(request.getHeader("userid"));
     }
 
-    public Header<List<ContractCustomerEmployeeResponse>> getCompleteIncident(HttpServletRequest request) {
-        Customer customer = customerRepository.findById(getUserId(request)).orElseThrow(CustomerNotFoundException::new);
-        return Header.OK(customer.getIncidentLog().stream().map(
-                cs -> ContractCustomerEmployeeResponse.builder()
-                        .customerName(customer.getName())
-                        .address(customer.getAddress())
-                        .empName(cs.getEmployee().getName())
-                        .empPhoneNum(cs.getEmployee().getPhoneNumber())
-                        .phoneNum(customer.getPhoneNumber())
-                        .address(customer.getAddress())
-                        .build()
-        ).collect(Collectors.toList()));
-    }
 }

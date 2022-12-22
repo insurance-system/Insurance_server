@@ -1,6 +1,5 @@
 package com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.controller;
 
-import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.web.dto.response.ContractCustomerEmployeeResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.request.LineUpConsultRequest;
 import com.example.insuranceSystem.domain.insurance.insuranceEmployeeService.web.dto.response.InsuranceResponse;
 import com.example.insuranceSystem.domain.insurance.insuranceCustomerService.logic.InsuranceCustomerServiceImpl;
@@ -92,11 +91,5 @@ public class InsuranceCustomerController {
     @PostMapping("/insurance-claim")
     public Header<Void> claimInsurance(@RequestBody ClaimInsuranceRequest claimInsuranceRequest, HttpServletRequest request){
         return insuranceCustomerServiceImpl.claimInsurance(claimInsuranceRequest, request);
-    }
-
-    @Operation(summary = "사고처리 접수 완료 리스트", description = "사고처리 접수 완료 리스트를 출력한다.")
-    @GetMapping("/damage/incident")
-    public Header<List<ContractCustomerEmployeeResponse>> getCompleteIncident(HttpServletRequest request){
-        return insuranceCustomerServiceImpl.getCompleteIncident(request);
     }
 }
