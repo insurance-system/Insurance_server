@@ -66,7 +66,6 @@ public class InsuranceCustomerServiceImpl implements InsuranceCustomerService{
         employeeCustomerRepository.save(new EmployeeCustomer(
                         customer,
                         KindOfInsurance.getKindOfInsuranceBy(lineUpConsultRequest.getKindOfInsurance())));
-
         return Header.OK();
     }
 
