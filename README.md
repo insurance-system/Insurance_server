@@ -7,7 +7,6 @@ Architecture 역량을 기르고자 UML, Use Case, Actor List, Use Case Ssenario
 이를 기반으로 Spring Framework를 사용하여 보험 시스템을 구축한다.
 <br>
 <br>
-
 ## 향상 역량 기대
 1. 보험사에 대한 관련 지식(보험에 대한 정의, 보험의 종류, 보험 비즈니스)
 2. 소프트웨어에 대한 이해(모델링, 프로세스) 
@@ -15,7 +14,8 @@ Architecture 역량을 기르고자 UML, Use Case, Actor List, Use Case Ssenario
 4. EA(Enterprise Architect)를 활용한 모델링 역량
 5. 비기능 요구사항 작성 역량
 5. UseCase 기반으로 개발하는 역량
-
+<br>
+<br>
 
 ## UML
 <details>
@@ -33,5 +33,19 @@ Architecture 역량을 기르고자 UML, Use Case, Actor List, Use Case Ssenario
 <img width="397" alt="image" src="https://user-images.githubusercontent.com/53048655/210252401-0d824fc9-cf6e-48cf-a029-9e7934c58bcd.png">
 </details>
 
+<br><br>
+
+## 비기능 요구사항(Non-Functional Requirements)
+<img width="409" alt="image" src="https://user-images.githubusercontent.com/53048655/210253492-bc7b277e-f827-423f-b720-a4b273cbe171.png">
+
+
+<br><br>
+
+## CICD View
+![image](https://user-images.githubusercontent.com/53048655/210252908-17c85707-3c99-4451-8274-2c2e51b892ed.png)
+
+<br><br>
+## Server View
+<img width="953" alt="스크린샷 2023-01-03 오전 12 44 07" src="https://user-images.githubusercontent.com/53048655/210253332-6ab01849-071e-4c01-9f92-1bf618740cb0.png">
 
 
