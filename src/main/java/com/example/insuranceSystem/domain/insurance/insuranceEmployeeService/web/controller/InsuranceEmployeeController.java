@@ -145,18 +145,10 @@ public class InsuranceEmployeeController {
         return insuranceService.getInsuranceClaimList(request);
     }
 
-    //보상ㅇ가팀
+    //보상평가팀
     @Operation(summary = "보상금 심사", description = "보상금 리스트 중 심사할 내역을 선택해 심사 비용을 등록한다.")
     @PatchMapping("/reward")
     public Header<Void> evaluateReward(@RequestBody EvaluateRewardRequest evaluateRewardRequest, HttpServletRequest request){
         return insuranceService.evaluateReward(evaluateRewardRequest, request);
     }
 }
-//
-//사후관리팀(보험 정보 안내)
-//영업교육팀(),
-//uw팀(),
-//상품개발팀(),
-//고객정보팀(),
-//손해접수팀(사고접수),
-//보상평가팀(보상금을 심사한다.),
