@@ -41,11 +41,11 @@ Architecture 역량을 기르고자 UML, Use Case, Actor List, Use Case Ssenario
 
 <br><br>
 
-## CICD View
+## CICD Architecture
 ![image](https://user-images.githubusercontent.com/53048655/210252908-17c85707-3c99-4451-8274-2c2e51b892ed.png)
 
 <br><br>
-## Server View
+## Server Architecture
 <img width="953" alt="스크린샷 2023-01-03 오전 12 44 07" src="https://user-images.githubusercontent.com/53048655/210253332-6ab01849-071e-4c01-9f92-1bf618740cb0.png">
 
 
