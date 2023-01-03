@@ -31,6 +31,7 @@ Architecture 역량을 기르고자 UML, Use Case, Actor List, Use Case Ssenario
 <details>
   <summary>Use Case Senario</summary>
   예시) 보험금 지급 시나리오
+  <br>
 <img width="397" alt="image" src="https://user-images.githubusercontent.com/53048655/210252401-0d824fc9-cf6e-48cf-a029-9e7934c58bcd.png">
 </details>
 
